@@ -8,9 +8,9 @@ export default function StudentsToolbar() {
   return (
     <div className="flex flex-wrap items-center justify-between space-x-5 border rounded-lg p-5 mb-2 ">
       <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-        <Card className="p-2 bg-blue-100 text-blue-900 font-semibold">
+        <div className="p-2  text-blue-500 font-semibold">
           Total Students <span className="font-bold">15</span>
-        </Card>
+        </div>
         <Input placeholder="Search" className="w-full md:w-40" />
       </div>
       <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">

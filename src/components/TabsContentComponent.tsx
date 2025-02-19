@@ -70,7 +70,8 @@ const TabsContentComponent = () => {
       <TabsContent value="exams">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
-          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
+          <div className="max-h-[600px] border rounded-lg shadow-md overflow-auto">
+         
             <Table>
               <TableHeader className="bg-gray-100">
                 <TableRow>
@@ -83,7 +84,7 @@ const TabsContentComponent = () => {
                   <TableHead>Attachments</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody   >
                 {Array.from({ length: 100 }, (_, index) => ({
                   name: `Exam ${index + 1}`,
                   subject: "Mathematics",

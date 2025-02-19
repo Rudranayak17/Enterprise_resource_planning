@@ -71,7 +71,7 @@ export default function AddStudentForm() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+    <div className="max-w-6xl mx-auto p-8 shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-8">Add Student</h2>
 
       <div className="flex flex-col items-center mb-8">
