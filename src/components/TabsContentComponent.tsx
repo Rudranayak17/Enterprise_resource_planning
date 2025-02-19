@@ -70,52 +70,61 @@ const TabsContentComponent = () => {
       <TabsContent value="exams">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
-          <Table>
-            <TableHeader className="bg-gray-100">
-              <TableRow>
-                <TableHead>Exam Name</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Marks</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Show Parents</TableHead>
-                <TableHead>Attachments</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {examData.map((exam, index) => (
-                <TableRow key={index}>
-                  <TableCell>{exam.name}</TableCell>
-                  <TableCell>{exam.subject}</TableCell>
-                  <TableCell>{exam.marks}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        exam.status === "Pass"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {exam.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>{exam.date}</TableCell>
-                  <TableCell>
-                    <Switch />
-                  </TableCell>
-                  <TableCell>
-                    <FileText className="w-4 h-4" />
-                  </TableCell>
+          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
+            <Table>
+              <TableHeader className="bg-gray-100">
+                <TableRow>
+                  <TableHead>Exam Name</TableHead>
+                  <TableHead>Subject</TableHead>
+                  <TableHead>Marks</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Show Parents</TableHead>
+                  <TableHead>Attachments</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 100 }, (_, index) => ({
+                  name: `Exam ${index + 1}`,
+                  subject: "Mathematics",
+                  marks: Math.floor(Math.random() * 100), // Random marks
+                  status: Math.random() > 0.5 ? "Pass" : "Fail",
+                  date: new Date().toLocaleDateString(),
+                })).map((exam, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{exam.name}</TableCell>
+                    <TableCell>{exam.subject}</TableCell>
+                    <TableCell>{exam.marks}</TableCell>
+                    <TableCell>
+                      <span
+                        className={`px-2 py-1 rounded-full text-sm ${
+                          exam.status === "Pass"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {exam.status}
+                      </span>
+                    </TableCell>
+                    <TableCell>{exam.date}</TableCell>
+                    <TableCell>
+                      <Switch />
+                    </TableCell>
+                    <TableCell>
+                      <FileText className="w-4 h-4" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </TabsContent>
 
       <TabsContent value="invoices">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
+          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
             <TableHeader className="bg-gray-100">
               <TableRow>
@@ -165,12 +174,14 @@ const TabsContentComponent = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </div>
       </TabsContent>
 
       <TabsContent value="fees">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
+          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
             <TableHeader className="bg-gray-100">
               <TableRow>
@@ -211,12 +222,14 @@ const TabsContentComponent = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </div>
       </TabsContent>
 
       <TabsContent value="payment">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
+          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
             <TableHeader className="bg-gray-100">
               <TableRow>
@@ -250,12 +263,14 @@ const TabsContentComponent = () => {
               ))}
             </TableBody>
           </Table>
+          </div>
         </div>
       </TabsContent>
 
       <TabsContent value="documents">
         <div className="grid grid-cols-[30%_70%] gap-6">
           <StudentInfoCard />
+          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <div className="grid grid-cols-5 gap-4">
             {[1, 2, 3, 4, 5].map((doc) => (
               <Card key={doc} className="p-4">
@@ -285,6 +300,7 @@ const TabsContentComponent = () => {
                 <span>Add Document</span>
               </Button>
             </Card>
+          </div>
           </div>
         </div>
       </TabsContent>

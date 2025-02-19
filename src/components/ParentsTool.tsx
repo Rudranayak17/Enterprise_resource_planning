@@ -12,7 +12,7 @@ import { Download, FileText, Plus } from "lucide-react";
 
 export default function ParentToolBar() {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 border rounded-lg p-5 mb-2 mx-2">
+    <div className="flex flex-wrap items-center justify-between gap-4 border rounded-lg p-5 mb-2 ">
       <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <Card className="p-2 bg-blue-100 text-blue-900 font-semibold">
           Total Parents <span className="font-bold">50</span>
@@ -51,9 +51,9 @@ export default function ParentToolBar() {
           </SelectContent>
         </Select>
 
-        <Button className="bg-blue-700 hover:bg-blue-800"> 
-            <Plus/>
-            add Parents
+        <Button className="bg-blue-700 hover:bg-blue-800">
+          <Plus />
+          add Parents
         </Button>
       </div>
     </div>

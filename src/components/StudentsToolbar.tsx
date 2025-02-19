@@ -6,7 +6,7 @@ import { Download, FileText } from "lucide-react";
 
 export default function StudentsToolbar() {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 border rounded-lg p-5 mb-2 mx-2">
+    <div className="flex flex-wrap items-center justify-between space-x-5 border rounded-lg p-5 mb-2 ">
       <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <Card className="p-2 bg-blue-100 text-blue-900 font-semibold">
           Total Students <span className="font-bold">15</span>

@@ -1,4 +1,3 @@
-
 import ParentComponent from "@/components/ParentComponent";
 import ParentToolBar from "@/components/ParentsTool";
 
@@ -9,8 +8,9 @@ const page = () => {
   return (
     <div>
       <ParentToolBar />
-
-      <ParentComponent users={parent} />
+      <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
+        <ParentComponent users={parent} />
+      </div>
     </div>
   );
 };

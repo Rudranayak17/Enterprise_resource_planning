@@ -13,7 +13,7 @@ import type { AllStudent } from "@/types/utils";
   
 const AllStudent=({ users }: { users: AllStudent })=> {
     return (
-      <div className="mx-3">
+      <div >
         <Table className="w-full">
           <TableHeader className="bg-gray-100">
             <TableRow>
