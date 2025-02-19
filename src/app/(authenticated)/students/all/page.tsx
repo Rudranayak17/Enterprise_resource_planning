@@ -8,7 +8,7 @@ const page = () => {
     <div>
       <StudentsToolbar />
       <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
-        <AllStudent users={allStudent} />
+        <AllStudent users={[allStudent]} />
       </div>
     </div>
   );

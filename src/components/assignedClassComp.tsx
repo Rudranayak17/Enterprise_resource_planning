@@ -14,7 +14,7 @@ import {
     return (
       <div className="mx-3">
         <Table className="w-full">
-          <TableHeader className="bg-gray-100">
+          <TableHeader >
             <TableRow>
               <TableHead className="text-xs">Photo</TableHead>
               <TableHead className="text-xs">Name</TableHead>

@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { useRouter } from "next/navigation";
 
 // Types
 type Role = "school" | "principal" | "user";
@@ -28,31 +29,36 @@ interface LoginFormProps {
 const ROLE_DESCRIPTIONS: Record<Role, string> = {
   school: "School Management Portal",
   principal: "Principal Administration Portal",
-  user: "User Portal"
+  user: "User Portal",
 };
 
 const DASHBOARD_ROUTES: Record<Role, string> = {
   school: "/dashboard/school",
   principal: "/dashboard/user",
-  user: "/dashboard/user"
+  user: "/dashboard/user",
 };
 
 // Components
-const LoginForm: React.FC<LoginFormProps> = ({ role, isInitialLogin = false, onSubmit }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  role,
+  isInitialLogin = false,
+
+}) => {
+  const router = useRouter();
   const [formData, setFormData] = React.useState<LoginFormData>({
     phoneNumber: "",
     password: "",
-    schoolId: ""
+    schoolId: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-console.log(formData)
+    console.log(formData);
   };
 
   return (
@@ -129,12 +135,8 @@ const LoginHeader: React.FC<{ role: Role }> = ({ role }) => (
       </div>
     </div>
     <div className="text-center space-y-2">
-      <h1 className="text-2xl font-semibold text-blue-600">
-        School-EG Portal
-      </h1>
-      <p className="text-sm text-gray-500">
-        {ROLE_DESCRIPTIONS[role]}
-      </p>
+      <h1 className="text-2xl font-semibold text-blue-600">School-EG Portal</h1>
+      <p className="text-sm text-gray-500">{ROLE_DESCRIPTIONS[role]}</p>
     </div>
   </CardHeader>
 );
@@ -150,7 +152,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center">
       <Card className="w-[400px] shadow-lg">
         <Tabs
           value={selectedRole}
@@ -173,10 +175,10 @@ const LoginPage: React.FC = () => {
               <LoginForm role="principal" onSubmit={handleLoginSubmit} />
             </TabsContent>
             <TabsContent value="user">
-              <LoginForm 
-                role="user" 
-                isInitialLogin={true} 
-                onSubmit={handleLoginSubmit} 
+              <LoginForm
+                role="user"
+                isInitialLogin={true}
+                onSubmit={handleLoginSubmit}
               />
             </TabsContent>
           </CardContent>

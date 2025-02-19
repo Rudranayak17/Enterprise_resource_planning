@@ -16,15 +16,15 @@ import { Download, Eye, FileText, PlusCircle, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 
 const TabsContentComponent = () => {
-  const examData = [
-    {
-      name: "Half-Yearly Exam",
-      subject: "Maths",
-      marks: "80/100",
-      status: "Pass",
-      date: "14/02/2024",
-    },
-  ];
+  // const examData = [
+  //   {
+  //     name: "Half-Yearly Exam",
+  //     subject: "Maths",
+  //     marks: "80/100",
+  //     status: "Pass",
+  //     date: "14/02/2024",
+  //   },
+  // ];
 
   const feeData = [
     {
@@ -73,7 +73,7 @@ const TabsContentComponent = () => {
           <div className="max-h-[600px] border rounded-lg shadow-md overflow-auto">
          
             <Table>
-              <TableHeader className="bg-gray-100">
+              <TableHeader className="">
                 <TableRow>
                   <TableHead>Exam Name</TableHead>
                   <TableHead>Subject</TableHead>
@@ -127,7 +127,7 @@ const TabsContentComponent = () => {
           <StudentInfoCard />
           <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
-            <TableHeader className="bg-gray-100">
+          <TableHeader className="">
               <TableRow>
                 <TableHead>Invoice ID</TableHead>
                 <TableHead>Fee Type</TableHead>
@@ -184,7 +184,7 @@ const TabsContentComponent = () => {
           <StudentInfoCard />
           <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
-            <TableHeader className="bg-gray-100">
+          <TableHeader className="">
               <TableRow>
                 <TableHead>Category</TableHead>
                 <TableHead>Fee Type</TableHead>
@@ -232,7 +232,7 @@ const TabsContentComponent = () => {
           <StudentInfoCard />
           <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
           <Table>
-            <TableHeader className="bg-gray-100">
+          <TableHeader className="">
               <TableRow>
                 <TableHead>Invoice ID</TableHead>
                 <TableHead>Payment ID</TableHead>

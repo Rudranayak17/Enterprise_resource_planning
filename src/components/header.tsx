@@ -8,10 +8,10 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "./themeMode";
-import { useTheme } from "next-themes";
+
 import { cn } from "@/lib/utils";
 
 const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
