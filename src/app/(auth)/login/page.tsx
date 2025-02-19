@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,14 +8,16 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/provider/api/auth";
 
 // Types
-type Role = "school" | "principal" | "user";
+type Role = "school" | "branch" | "user";
 
 interface LoginFormData {
   phoneNumber: string;
   password?: string;
   schoolId?: string;
+  role: Role;
 }
 
 interface LoginFormProps {
@@ -28,13 +29,13 @@ interface LoginFormProps {
 // Constants
 const ROLE_DESCRIPTIONS: Record<Role, string> = {
   school: "School Management Portal",
-  principal: "Principal Administration Portal",
+  branch: "Branch Administration Portal",
   user: "User Portal",
 };
 
 const DASHBOARD_ROUTES: Record<Role, string> = {
   school: "/dashboard/school",
-  principal: "/dashboard/user",
+  branch: "/dashboard/branch",
   user: "/dashboard/user",
 };
 
@@ -42,13 +43,14 @@ const DASHBOARD_ROUTES: Record<Role, string> = {
 const LoginForm: React.FC<LoginFormProps> = ({
   role,
   isInitialLogin = false,
-
+  onSubmit,
 }) => {
   const router = useRouter();
   const [formData, setFormData] = React.useState<LoginFormData>({
     phoneNumber: "",
     password: "",
     schoolId: "",
+    role,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    onSubmit(formData);
   };
 
   return (
@@ -143,12 +145,27 @@ const LoginHeader: React.FC<{ role: Role }> = ({ role }) => (
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
+  const [login] = useLoginMutation();
   const [selectedRole, setSelectedRole] = React.useState<Role>("school");
 
-  const handleLoginSubmit = (data: LoginFormData) => {
-    // Add your authentication logic here
-    console.log("Login data:", data);
-    router.push(DASHBOARD_ROUTES[selectedRole]);
+  const handleLoginSubmit = async (data: LoginFormData) => {
+    // console.log("hello ", {
+    //   phone: data.phoneNumber,
+    //   role: data.role,
+    //   password: data.password,
+    // });
+    // try {
+    //   const resp = await login({
+    //     phone: data.phoneNumber,
+    //     role: data.role,
+    //     password: data.password,
+    //   }).unwrap();
+
+     
+    // } catch (err) {
+    //   console.log("err", err);
+    // }
+    router.push("/dashboard/student");
   };
 
   return (
@@ -161,7 +178,7 @@ const LoginPage: React.FC = () => {
         >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="school">School</TabsTrigger>
-            <TabsTrigger value="principal">Principal</TabsTrigger>
+            <TabsTrigger value="branch">Branch</TabsTrigger>
             <TabsTrigger value="user">User</TabsTrigger>
           </TabsList>
 
@@ -171,8 +188,8 @@ const LoginPage: React.FC = () => {
             <TabsContent value="school">
               <LoginForm role="school" onSubmit={handleLoginSubmit} />
             </TabsContent>
-            <TabsContent value="principal">
-              <LoginForm role="principal" onSubmit={handleLoginSubmit} />
+            <TabsContent value="branch">
+              <LoginForm role="branch" onSubmit={handleLoginSubmit} />
             </TabsContent>
             <TabsContent value="user">
               <LoginForm
