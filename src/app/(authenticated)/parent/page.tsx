@@ -8,7 +8,7 @@ const page = () => {
   return (
     <div>
       <ParentToolBar />
-      <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
+      <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md mx-2">
         <ParentComponent users={parent} />
       </div>
     </div>

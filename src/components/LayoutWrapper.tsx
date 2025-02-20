@@ -18,7 +18,7 @@ export default function LayoutWrapper({
       </div>
       <div className="flex flex-col flex-1 w-full h-full">
         <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="flex-1 px-2 overflow-auto">{children}</main>
+        <main className="flex-1  overflow-auto">{children}</main>
       </div>
     </div>
   );

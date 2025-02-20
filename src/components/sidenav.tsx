@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   ChevronUp,
   School,
   LogOut,
+  PanelRight,
+  PanelLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -36,7 +36,12 @@ interface NavItemProps {
   isDarkTheme: boolean;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ item, isExpanded, isHovered, isDarkTheme }) => {
+const NavItem: React.FC<NavItemProps> = ({
+  item,
+  isExpanded,
+  isHovered,
+  isDarkTheme,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!item.subItems) {
@@ -45,8 +50,8 @@ const NavItem: React.FC<NavItemProps> = ({ item, isExpanded, isHovered, isDarkTh
         href={item.href || "#"}
         className={cn(
           "flex items-center space-x-3 px-3 py-2 rounded-md",
-          isDarkTheme 
-            ? "hover:bg-gray-800 hover:text-primary-light" 
+          isDarkTheme
+            ? "hover:bg-gray-800 hover:text-primary-light"
             : "hover:bg-gray-100 hover:text-primary",
           "transition-colors duration-200"
         )}
@@ -66,8 +71,8 @@ const NavItem: React.FC<NavItemProps> = ({ item, isExpanded, isHovered, isDarkTh
           variant="ghost"
           className={cn(
             "w-full justify-between",
-            isDarkTheme 
-              ? "hover:bg-gray-800 hover:text-primary-light" 
+            isDarkTheme
+              ? "hover:bg-gray-800 hover:text-primary-light"
               : "hover:bg-gray-100 hover:text-primary",
             "transition-colors duration-200"
           )}
@@ -98,8 +103,8 @@ const NavItem: React.FC<NavItemProps> = ({ item, isExpanded, isHovered, isDarkTh
               className={cn(
                 "flex items-center space-x-3 rounded-md px-2 py-1.5",
                 "text-sm",
-                isDarkTheme 
-                  ? "text-gray-300 hover:text-primary-light hover:bg-gray-800" 
+                isDarkTheme
+                  ? "text-gray-300 hover:text-primary-light hover:bg-gray-800"
                   : "text-gray-600 hover:text-primary hover:bg-gray-100",
                 "transition-colors duration-200"
               )}
@@ -130,7 +135,9 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
   }, []);
 
   // Determine if dark theme should be used
-  const isDarkTheme = mounted && (theme === 'dark' || (theme === 'system' && systemTheme === 'dark'));
+  const isDarkTheme =
+    mounted &&
+    (theme === "dark" || (theme === "system" && systemTheme === "dark"));
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => !isExpanded && setIsHovered(false);
@@ -141,9 +148,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
 
   // Return a blank div if not mounted to prevent hydration issues
   if (!mounted) {
-    return (
-      <div className="hidden md:block w-16 h-screen" />
-    );
+    return <div className="hidden md:block w-16 h-screen" />;
   }
 
   const NavContent = () => (
@@ -156,14 +161,18 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
       <div className="p-4 border-b flex justify-between items-center">
         {(isExpanded || isHovered) && (
           <div className="flex items-center space-x-3">
-            <div className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center",
-              isDarkTheme ? "bg-primary-dark/10" : "bg-primary/10"
-            )}>
-              <School className={cn(
-                "h-5 w-5",
-                isDarkTheme ? "text-primary-light" : "text-primary"
-              )} />
+            <div
+              className={cn(
+                "w-8 h-8 rounded-lg flex items-center justify-center",
+                isDarkTheme ? "bg-primary-dark/10" : "bg-primary/10"
+              )}
+            >
+              <School
+                className={cn(
+                  "h-5 w-5",
+                  isDarkTheme ? "text-primary-light" : "text-primary"
+                )}
+              />
             </div>
             <span className="font-semibold">School Portal</span>
           </div>
@@ -178,9 +187,9 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
           onClick={toggleExpand}
         >
           {isExpanded || isHovered ? (
-            <ChevronLeft className="h-4 w-4" />
+            <PanelLeft className="h-4 w-4" />
           ) : (
-            <ChevronRight className="h-4 w-4" />
+            <PanelRight className="h-4 w-4" />
           )}
         </Button>
       </div>
@@ -199,16 +208,18 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         </div>
       </ScrollArea>
 
-      <div className={cn(
-        "border-t p-4",
-        isDarkTheme ? "border-gray-800" : "border-gray-200"
-      )}>
+      <div
+        className={cn(
+          "border-t p-4",
+          isDarkTheme ? "border-gray-800" : "border-gray-200"
+        )}
+      >
         <Button
           variant="ghost"
           className={cn(
             "w-full justify-start space-x-3",
-            isDarkTheme 
-              ? "hover:bg-gray-800 hover:text-primary-light" 
+            isDarkTheme
+              ? "hover:bg-gray-800 hover:text-primary-light"
               : "hover:bg-gray-100 hover:text-primary"
           )}
           onClick={() => {
@@ -227,7 +238,9 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
       <nav
         className={cn(
           "hidden md:flex flex-col border-r h-screen",
-          isDarkTheme ? "bg-black text-white border-gray-800" : "bg-white text-black border-gray-200",
+          isDarkTheme
+            ? "bg-black text-white border-gray-800"
+            : "bg-white text-black border-gray-200",
           "transition-all duration-300 ease-in-out",
           isExpanded || isHovered ? "w-64" : "w-16"
         )}
@@ -238,11 +251,13 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
       </nav>
 
       <Sheet open={isOpen} onOpenChange={onClose}>
-        <SheetContent 
-          side="left" 
+        <SheetContent
+          side="left"
           className={cn(
             "p-0 w-64",
-            isDarkTheme ? "bg-black text-white border-gray-800" : "bg-white text-black border-gray-200"
+            isDarkTheme
+              ? "bg-black text-white border-gray-800"
+              : "bg-white text-black border-gray-200"
           )}
         >
           <NavContent />

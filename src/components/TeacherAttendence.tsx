@@ -17,7 +17,7 @@ const TeacherAttendance: React.FC<AttendanceProps> = ({
   ];
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 m-4 border rounded-lg p-3 max-w-full">
+    <div className="flex flex-wrap items-center justify-center gap-2 mb-2 border rounded-lg p-3 max-w-full">
       {attendanceData.map(({ label, count, color }) => (
         <p
           key={label}

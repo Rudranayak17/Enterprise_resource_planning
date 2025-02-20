@@ -26,7 +26,7 @@ import {
     };
   
     return (
-      <div className="mx-3">
+      <div className="">
         <Table className="w-full">
           <TableHeader className="bg-gray-100">
             <TableRow>

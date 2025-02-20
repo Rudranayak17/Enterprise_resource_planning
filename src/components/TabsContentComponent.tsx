@@ -58,250 +58,285 @@ const TabsContentComponent = () => {
       method: "Bank Transfer",
     },
   ];
+
   return (
     <>
       <TabsContent value="attendance">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <StudentInfoCard />
+        <div className="flex gap-6">
+          {/* <StudentInfoCard /> */}
           <AttendanceOverview />
         </div>
       </TabsContent>
 
+      {/* Exams */}
       <TabsContent value="exams">
-        <div className="grid grid-cols-[30%_70%] gap-6">
-          <StudentInfoCard />
-          <div className="max-h-[600px] border rounded-lg shadow-md overflow-auto">
-         
-            <Table>
-              <TableHeader className="">
-                <TableRow>
-                  <TableHead>Exam Name</TableHead>
-                  <TableHead>Subject</TableHead>
-                  <TableHead>Marks</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Show Parents</TableHead>
-                  <TableHead>Attachments</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody   >
-                {Array.from({ length: 100 }, (_, index) => ({
-                  name: `Exam ${index + 1}`,
-                  subject: "Mathematics",
-                  marks: Math.floor(Math.random() * 100), // Random marks
-                  status: Math.random() > 0.5 ? "Pass" : "Fail",
-                  date: new Date().toLocaleDateString(),
-                })).map((exam, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{exam.name}</TableCell>
-                    <TableCell>{exam.subject}</TableCell>
-                    <TableCell>{exam.marks}</TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded-full text-sm ${
-                          exam.status === "Pass"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {exam.status}
-                      </span>
-                    </TableCell>
-                    <TableCell>{exam.date}</TableCell>
-                    <TableCell>
-                      <Switch />
-                    </TableCell>
-                    <TableCell>
-                      <FileText className="w-4 h-4" />
-                    </TableCell>
+        <div className="grid grid-cols-1 gap-6">
+          <div className="border rounded-lg shadow-md overflow-hidden">
+            {/* Table Header */}
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader className="bg-gray-100">
+                  <TableRow>
+                    <TableHead>Exam Name</TableHead>
+                    <TableHead>Subject</TableHead>
+                    <TableHead>Marks</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Show Parents</TableHead>
+                    <TableHead>Attachments</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+              </Table>
+            </div>
+
+            {/* Scrollable Table Body */}
+            <div className="max-h-[500px] overflow-y-auto overflow-x-auto">
+              <Table className="w-full">
+                <TableBody>
+                  {Array.from({ length: 100 }, (_, index) => ({
+                    name: `Exam ${index + 1}`,
+                    subject: "Mathematics",
+                    marks: Math.floor(Math.random() * 100),
+                    status: Math.random() > 0.5 ? "Pass" : "Fail",
+                    date: new Date().toLocaleDateString(),
+                  })).map((exam, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{exam.name}</TableCell>
+                      <TableCell>{exam.subject}</TableCell>
+                      <TableCell>{exam.marks}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-sm ${
+                            exam.status === "Pass"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {exam.status}
+                        </span>
+                      </TableCell>
+                      <TableCell>{exam.date}</TableCell>
+                      <TableCell>
+                        <Switch />
+                      </TableCell>
+                      <TableCell>
+                        <FileText className="w-4 h-4" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </TabsContent>
 
+      {/* Invoices */}
       <TabsContent value="invoices">
-        <div className="grid grid-cols-[30%_70%] gap-6">
-          <StudentInfoCard />
-          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
-          <Table>
-          <TableHeader className="">
-              <TableRow>
-                <TableHead>Invoice ID</TableHead>
-                <TableHead>Fee Type</TableHead>
-                <TableHead>Month</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Fee Details</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {feeData.map((fee, index) => (
-                <TableRow key={index}>
-                  <TableCell>{fee.id}</TableCell>
-                  <TableCell>{fee.type}</TableCell>
-                  <TableCell>{fee.month}</TableCell>
-                  <TableCell>{fee.amount}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        fee.status === "Completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {fee.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="link" className="text-blue-600">
-                      View Details
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    {fee.status === "Pending" ? (
-                      <Button variant="default">Pay Now</Button>
-                    ) : (
-                      <Button variant="outline">
-                        <Download className="w-4 h-4 mr-2" />
-                        Fees Slip
-                      </Button>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="grid grid-cols-1 gap-6">
+          <div className="border rounded-lg shadow-md overflow-hidden">
+            {/* Table Header */}
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader className="bg-gray-100">
+                  <TableRow>
+                    <TableHead>Invoice ID</TableHead>
+                    <TableHead>Fee Type</TableHead>
+                    <TableHead>Month</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Fee Details</TableHead>
+                    <TableHead>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+              </Table>
+            </div>
+
+            {/* Scrollable Table Body */}
+            <div className="max-h-[500px] overflow-y-auto overflow-x-auto">
+              <Table className="w-full">
+                <TableBody>
+                  {feeData.map((fee, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{fee.id}</TableCell>
+                      <TableCell>{fee.type}</TableCell>
+                      <TableCell>{fee.month}</TableCell>
+                      <TableCell>{fee.amount}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-sm ${
+                            fee.status === "Completed"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {fee.status}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="link" className="text-blue-600">
+                          View Details
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        {fee.status === "Pending" ? (
+                          <Button variant="default">Pay Now</Button>
+                        ) : (
+                          <Button variant="outline">
+                            <Download className="w-4 h-4 mr-2" />
+                            Fees Slip
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </TabsContent>
 
+      {/* Fees */}
       <TabsContent value="fees">
-        <div className="grid grid-cols-[30%_70%] gap-6">
-          <StudentInfoCard />
-          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
-          <Table>
-          <TableHeader className="">
-              <TableRow>
-                <TableHead>Category</TableHead>
-                <TableHead>Fee Type</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Discount</TableHead>
-                <TableHead>Payble Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Remarks</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tuitionData.map((fee, index) => (
-                <TableRow key={index}>
-                  <TableCell>{fee.category}</TableCell>
-                  <TableCell>{fee.type}</TableCell>
-                  <TableCell>{fee.amount}</TableCell>
-                  <TableCell>{fee.discount}</TableCell>
-                  <TableCell>{fee.payable}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        fee.status === "Completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {fee.status}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="link" className="text-blue-600">
-                      View Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="grid grid-cols-1 gap-6">
+          <div className="border rounded-lg shadow-md overflow-hidden">
+            {/* Table Header */}
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader className="bg-gray-100">
+                  <TableRow>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Fee Type</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Discount</TableHead>
+                    <TableHead>Payble Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Remarks</TableHead>
+                  </TableRow>
+                </TableHeader>
+              </Table>
+            </div>
+
+            {/* Scrollable Table Body */}
+            <div className="max-h-[500px] overflow-y-auto overflow-x-auto">
+              <Table className="w-full">
+                <TableBody>
+                  {tuitionData.map((fee, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{fee.category}</TableCell>
+                      <TableCell>{fee.type}</TableCell>
+                      <TableCell>{fee.amount}</TableCell>
+                      <TableCell>{fee.discount}</TableCell>
+                      <TableCell>{fee.payable}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-sm ${
+                            fee.status === "Completed"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {fee.status}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="link" className="text-blue-600">
+                          View Details
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </TabsContent>
 
+      {/* Payment */}
       <TabsContent value="payment">
-        <div className="grid grid-cols-[30%_70%] gap-6">
-          <StudentInfoCard />
-          <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
-          <Table>
-          <TableHeader className="">
-              <TableRow>
-                <TableHead>Invoice ID</TableHead>
-                <TableHead>Payment ID</TableHead>
-                <TableHead>Transaction ID</TableHead>
-                <TableHead>Payment Date</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Mode</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead>Details</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {paymentData.map((fee, index) => (
-                <TableRow key={index}>
-                  <TableCell>{fee.invoiceId}</TableCell>
-                  <TableCell>{fee.paymentId}</TableCell>
-                  <TableCell>{fee.transactionId}</TableCell>
-                  <TableCell>{fee.date}</TableCell>
-                  <TableCell>{fee.amount}</TableCell>
-                  <TableCell>{fee.mode}</TableCell>
-                  <TableCell>{fee.method}</TableCell>
+        <div className="grid grid-cols-1 gap-6">
+          <div className="border rounded-lg shadow-md overflow-hidden">
+            {/* Table Header */}
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader className="bg-gray-100">
+                  <TableRow>
+                    <TableHead>Invoice ID</TableHead>
+                    <TableHead>Payment ID</TableHead>
+                    <TableHead>Transaction ID</TableHead>
+                    <TableHead>Payment Date</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Mode</TableHead>
+                    <TableHead>Method</TableHead>
+                    <TableHead>Details</TableHead>
+                  </TableRow>
+                </TableHeader>
+              </Table>
+            </div>
 
-                  <TableCell>
-                    <Button variant="link" className="text-blue-600">
-                      View Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+            {/* Scrollable Table Body */}
+            <div className="max-h-[500px] overflow-y-auto overflow-x-auto">
+              <Table className="w-full">
+                <TableBody>
+                  {paymentData.map((fee, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{fee.invoiceId}</TableCell>
+                      <TableCell>{fee.paymentId}</TableCell>
+                      <TableCell>{fee.transactionId}</TableCell>
+                      <TableCell>{fee.date}</TableCell>
+                      <TableCell>{fee.amount}</TableCell>
+                      <TableCell>{fee.mode}</TableCell>
+                      <TableCell>{fee.method}</TableCell>
+                      <TableCell>
+                        <Button variant="link" className="text-blue-600">
+                          View Details
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </TabsContent>
 
+      {/* Documents */}
       <TabsContent value="documents">
-        <div className="grid grid-cols-[30%_70%] gap-6">
-          <StudentInfoCard />
+        <div className="gap-6">
           <div className="max-h-[600px] overflow-auto border rounded-lg shadow-md">
-          <div className="grid grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((doc) => (
-              <Card key={doc} className="p-4">
-                <div className="flex  flex-col items-center space-y-2">
-                  <FileText className="w-8 h-8 text-gray-400" />
-                  <span className="text-sm">Document Name</span>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="icon">
-                      <Trash2 className="w-4 h-4 text-red-500" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Eye className="w-4 h-4 text-blue-500" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Download className="w-4 h-4 text-green-500" />
-                    </Button>
+            <div className="grid grid-cols-5 gap-4 p-5">
+              {Array.from({ length: 100 }).map((_, index) => (
+                <Card key={index} className="p-4">
+                  <div className="flex flex-col items-center space-y-2">
+                    <FileText className="w-8 h-8 text-gray-400" />
+                    <span className="text-sm">Document Name</span>
+                    <div className="flex space-x-2">
+                      <Button variant="ghost" size="icon">
+                        <Trash2 className="w-4 h-4 text-red-500" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Eye className="w-4 h-4 text-blue-500" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Download className="w-4 h-4 text-green-500" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </Card>
+              ))}
+              <Card className="p-4 border-dashed">
+                <Button
+                  variant="ghost"
+                  className="w-full h-full flex flex-col items-center justify-center"
+                >
+                  <PlusCircle className="w-8 h-8 mb-2" />
+                  <span>Add Document</span>
+                </Button>
               </Card>
-            ))}
-            <Card className="p-4 border-dashed">
-              <Button
-                variant="ghost"
-                className="w-full h-full flex flex-col items-center justify-center"
-              >
-                <PlusCircle className="w-8 h-8 mb-2" />
-                <span>Add Document</span>
-              </Button>
-            </Card>
-          </div>
+            </div>
           </div>
         </div>
       </TabsContent>

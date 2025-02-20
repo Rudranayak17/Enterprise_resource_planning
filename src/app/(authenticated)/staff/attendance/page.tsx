@@ -1,7 +1,9 @@
 
+import { TeacherCrumb } from "@/components/breadCrumb/dashBoard/BreadCrumb";
 import { DatePickerDemo } from "@/components/DatePicker";
 
 import TeacherAttendance from "@/components/TeacherAttendence";
+import TeacherTable from "@/components/TeacherTable";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import UserTable from "@/components/UserTable";
-import { userData } from "@/constant/userData";
+import { teacherData, userData } from "@/constant/userData";
 
 import React from "react";
 
@@ -20,6 +22,7 @@ const Page = () => {
   return (
     <div className="">
       {/* Attendance and Actions */}
+      <TeacherCrumb/>
       <div className="flex flex-col md:flex-row items-center justify-between  md:space-y-0 ">
         <TeacherAttendance
           halfDay={5}
@@ -56,7 +59,7 @@ const Page = () => {
 
       {/* User Table */}
       <div className="">
-        <UserTable users={userData} />
+        <TeacherTable users={teacherData} />
       </div>
     </div>
   );

@@ -4,9 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const StudentInfoCard = () => {
   return (
-    <Card className="md:col-span-1">
-      <CardContent className="pt-6">
-        <div className=" flex items-center space-x-4 mb-10">
+    <Card className="flex flex-col h-auto min-h-[70vh] md:min-h-[75vh] w-full items-center">
+      <CardContent className="pt-6 w-full max-w-md">
+        <div className="flex items-center space-x-4 mb-10">
           <Avatar className="w-16 h-16">
             <AvatarImage src="/api/placeholder/150/150" alt="Student" />
             <AvatarFallback>RP</AvatarFallback>

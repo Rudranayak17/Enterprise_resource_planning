@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import {
   AreaChart,
@@ -48,7 +49,7 @@ const AttendanceOverview = () => {
   }, []);
 
   return (
-    <Card className="md:col-span-2">
+    <Card className="md:col-span-2 w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>Attendance Overview</CardTitle>

@@ -58,3 +58,22 @@ export const teacher: Teacher = {
   Type: "PGT",
   Status: "Present",
 };
+
+export interface TeacherData {
+  photo: string;
+  name: string;
+  role: string;
+  type: string;
+  date: string;
+  status: string;
+}
+
+// Sample data array with a few user objects
+export const teacherData: TeacherData = {
+  photo: "https://randomuser.me/api/portraits/men/1.jpg",
+  name: "Ravi Dubey",
+  role: "Teacher",
+  type: "PGT",
+  date: "14/01/25",
+  status: "Present",
+};
