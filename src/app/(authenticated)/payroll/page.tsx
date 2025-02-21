@@ -36,7 +36,7 @@ const PayrollInterface = () => {
   });
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="p-4 ">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold">Payroll</h1>

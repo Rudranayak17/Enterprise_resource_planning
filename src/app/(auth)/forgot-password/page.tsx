@@ -36,7 +36,7 @@ const ForgotPasswordPage = () => {
             <Button 
               className="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white"
             >
-              Send Reset Link
+              Send Resend OTP
             </Button>
 
             <Button
@@ -51,7 +51,7 @@ const ForgotPasswordPage = () => {
 
           <div className="text-center">
             <p className="text-sm text-gray-500">
-              We will send you a link to reset your password
+              We will send you a OTP to reset your password
             </p>
           </div>
         </CardContent>

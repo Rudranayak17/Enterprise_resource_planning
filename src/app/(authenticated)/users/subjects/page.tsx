@@ -31,12 +31,12 @@ const UserManagementDashboard = () => {
   });
 
   return (
-    <div className="p-4 bg-white rounded-lg">
+    <div className="p-4  rounded-lg">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-4">
-          <div className="text-sm font-medium">
-            Total Staff: <span className="bg-blue-100 px-2 py-1 rounded">15</span>
+          <div className="text-sm font-medium bg-blue-500 p-3 rounded-sm">
+            Total Staff: <span className=" px-2 py-1 rounded">15</span>
           </div>
           <div className="relative">
             <Input

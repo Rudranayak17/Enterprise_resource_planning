@@ -15,24 +15,24 @@ const AttendanceManagement = () => {
   });
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6">
       {/* Attendance Stats */}
       <div className="flex space-x-3 mb-6">
-        <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-50 rounded">
+        <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-400 rounded">
           <span className="text-sm">Total Students</span>
           <span className="font-medium">15</span>
         </div>
-        <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-50 rounded">
+        <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-400 rounded">
           <span className="text-sm">Present</span>
-          <span className="font-medium text-green-600">15</span>
+          <span className="font-medium text-green-400">15</span>
         </div>
-        <div className="flex items-center space-x-2 px-3 py-1.5 bg-red-50 rounded">
+        <div className="flex items-center space-x-2 px-3 py-1.5 bg-red-400 rounded">
           <span className="text-sm">Absent</span>
-          <span className="font-medium text-red-600">15</span>
+          <span className="font-medium text-red-400">15</span>
         </div>
-        <div className="flex items-center space-x-2 px-3 py-1.5 bg-yellow-50 rounded">
+        <div className="flex items-center space-x-2 px-3 py-1.5 bg-yellow-400 rounded">
           <span className="text-sm">On Leave</span>
-          <span className="font-medium text-yellow-600">15</span>
+          <span className="font-medium">15</span>
         </div>
       </div>
 

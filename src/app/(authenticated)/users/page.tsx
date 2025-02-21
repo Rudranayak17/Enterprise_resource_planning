@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,8 +24,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Download, MoreVertical, UserCircle2 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const StaffDashboard = () => {
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
+
+  // Wait until the component is mounted on the client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Render null or a placeholder until hydration is complete
+  if (!mounted) return null;
+  const isDarkTheme = resolvedTheme === "dark";
   const staffList = Array(8).fill({
     name: "Ravi Dubey",
     gender: "Male",
@@ -36,11 +49,11 @@ const StaffDashboard = () => {
   });
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6">
       {/* Header Controls */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
-          <div className="bg-blue-50 px-3 py-1 rounded text-sm">
+          <div className="bg-blue-500 px-3 py-1 rounded text-sm">
             Total Staff <span className="font-medium">15</span>
           </div>
 

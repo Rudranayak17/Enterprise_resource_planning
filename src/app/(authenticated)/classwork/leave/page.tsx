@@ -16,7 +16,7 @@ const LeaveRequestManagement = () => {
   });
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6 ">
       <div className="text-lg font-semibold mb-4">Student Leave Request</div>
       
       {/* Header Controls */}
