@@ -101,12 +101,13 @@ const TabsContentComponent = () => {
                     date: new Date().toLocaleDateString(),
                   })).map((exam, index) => (
                     <TableRow key={index}>
-                      <TableCell>{exam.name}</TableCell>
-                      <TableCell>{exam.subject}</TableCell>
-                      <TableCell>{exam.marks}</TableCell>
+                      <TableCell className="self-center">{exam.name}</TableCell>
+                      <TableCell className="self-center">{exam.subject}</TableCell>
+                      <TableCell className="self-center">{exam.marks}</TableCell>
                       <TableCell>
                         <span
-                          className={`px-2 py-1 rounded-full text-sm ${
+                          className={`px-2 py-1 rounded-full 
+                            self-center text-sm ${
                             exam.status === "Pass"
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
@@ -116,6 +117,7 @@ const TabsContentComponent = () => {
                         </span>
                       </TableCell>
                       <TableCell>{exam.date}</TableCell>
+                      <TableCell>Ravi dubey</TableCell>
                       <TableCell>
                         <Switch />
                       </TableCell>

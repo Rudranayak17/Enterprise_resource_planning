@@ -13,12 +13,12 @@ export default function LayoutWrapper({
 
   return (
     <div className="flex h-screen w-full ">
-      <div className={`h-full ${sidebarOpen ? 'block' : 'hidden sm:block'}`}>
+      <div className={`h-full ${sidebarOpen ? "block" : "hidden sm:block"}`}>
         <SideNav isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
       <div className="flex flex-col flex-1 w-full h-full">
         <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="flex-1  overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto scrollbar-hide">{children}</main>
       </div>
     </div>
   );

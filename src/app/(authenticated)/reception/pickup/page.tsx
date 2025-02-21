@@ -1,8 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -12,200 +8,145 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  Download,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-  MessageSquare,
-  Phone,
-  LayoutDashboard,
-  Paperclip,
-} from "lucide-react";
-import { useTheme } from "next-themes";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Download, Plus, Check, Edit } from "lucide-react";
 
-const StudentTable = () => {
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme } = useTheme();
+interface PickupAuthorization {
+  photo: string;
+  studentName: string;
+  studentClass: string;
+  parentName: string;
+  parentPhone: string;
+  personType: string;
+  address: string;
+  dateTime: string;
+  status: string;
+}
 
-  // Wait until the component is mounted on the client
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Render null or a placeholder until hydration is complete
-  if (!mounted) return null;
-  const isDarkTheme = resolvedTheme === "dark";
-  const students = Array(7)
-    .fill(null)
-    .map(() => ({
-      studentName: {
-        name: "Rahul Dhavad",
-        dob: "11/02/2007",
-        label: "Male",
-      },
-      parentName: {
-        name: "Amit Verma",
-        phone: "8523694512",
-        email: "xyz@gmail.com",
-      },
-      preferredClass: {
-        class: "Class XII",
-        ref: "Ref: Sunil Mistry",
-      },
-      previousDetails: {
-        class: "Class XII",
-        school: "School: St. Francis Convent School",
-        reason: "Reason: Relocation",
-      },
-      testDetail: {
-        text: "Test Day Time",
-        date: "Date: 14/02/2023",
-        status: "Status: Fail",
-      },
-      status: "Pending",
-    }));
+const StudentPickupTable = () => {
+  // Generate sample data
+  const authorizationData: PickupAuthorization[] = Array(25).fill({
+    photo: "/api/placeholder/40/40",
+    studentName: "Rahul David",
+    studentClass: "Class - 10th C",
+    parentName: "Mohit David",
+    parentPhone: "8992549852",
+    personType: "Parent",
+    address: "Bishanpura, Sector 58, Noida",
+    dateTime: "15/02/2025\n11:00 AM",
+    status: "Approved"
+  });
 
   return (
-    <div className="p-4 w-full ">
-      {/* Header Section */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">Total Visitors:</span>
-          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-            50
-          </span>
+    <div className="space-y-4">
+      {/* Controls Header */}
+      <div className="flex items-center justify-between">
+        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md">
+          Total Authorizer: 50
         </div>
-
+        
         <div className="flex items-center gap-3">
-          <Input type="date" className="w-40" />
+          <Select>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="14/02/25" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="14">14/02/25</SelectItem>
+              <SelectItem value="15">15/02/25</SelectItem>
+            </SelectContent>
+          </Select>
 
           <Button variant="outline" className="flex items-center gap-2">
             <Download className="h-4 w-4" />
             Download
           </Button>
 
-          <Select defaultValue="10">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
+          <Select>
+            <SelectTrigger className="w-20">
+              <SelectValue placeholder="10" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="25">25</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
           </Select>
 
           <Button className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
-            Add Visitor
+            Add Student Pickup
           </Button>
         </div>
       </div>
 
-      {/* Table Section */}
-      <Table>
-        <TableHeader
-          className={
-            isDarkTheme
-              ? "[&_tr]:border-b bg-gray-900 text-white"
-              : "[&_tr]:border-b bg-gray-100 text-black"
-          }
-        >
-          <TableRow className="bg-gray-50">
-            <TableHead>Student Name</TableHead>
-            <TableHead>Parent Name</TableHead>
-            <TableHead>Preferred Class</TableHead>
-            <TableHead>Previous Details</TableHead>
-            <TableHead>Test Detail</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {students.map((student, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <div className="space-y-1">
-                  <div className="font-medium">{student.studentName.name}</div>
-                  <div className="text-sm text-gray-500">
-                    DOB: {student.studentName.dob}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {student.studentName.label}
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="space-y-1">
-                  <div className="font-medium">{student.parentName.name}</div>
-                  <div className="text-sm text-gray-500">
-                    {student.parentName.phone}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {student.parentName.email}
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="space-y-1">
-                  <div>{student.preferredClass.class}</div>
-                  <div className="text-sm text-gray-500">
-                    {student.preferredClass.ref}
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="space-y-1">
-                  <div>{student.previousDetails.class}</div>
-                  <div className="text-sm text-gray-500">
-                    {student.previousDetails.school}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {student.previousDetails.reason}
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="space-y-1">
-                  <div>{student.testDetail.text}</div>
-                  <div className="text-sm text-gray-500">
-                    {student.testDetail.date}
-                  </div>
-                  <div className="text-sm text-red-500">
-                    {student.testDetail.status}
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">
-                  {student.status}
-                </span>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <LayoutDashboard className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <LayoutDashboard className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Paperclip className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-red-500"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {/* Table */}
+      <div className="border rounded-lg">
+        <div className="min-h-[600px] flex flex-col">
+          <Table>
+            <TableHeader className="bg-white sticky top-0">
+              <TableRow>
+                <TableHead>Photo</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Parent Details</TableHead>
+                <TableHead>Person Details</TableHead>
+                <TableHead>Address</TableHead>
+                <TableHead>Date & Time</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+          
+          <div className="flex-1 overflow-auto">
+            <Table>
+              <TableBody>
+                {authorizationData.map((auth, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <img
+                        src={auth.photo}
+                        alt={auth.studentName}
+                        className="w-10 h-10 rounded-full"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div>{auth.studentName}</div>
+                      <div className="text-sm text-gray-500">{auth.studentClass}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div>{auth.parentName}</div>
+                      <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div>{auth.personType}</div>
+                      <div>{auth.parentName}</div>
+                      <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                    </TableCell>
+                    <TableCell>{auth.address}</TableCell>
+                    <TableCell className="whitespace-pre-line">{auth.dateTime}</TableCell>
+                    <TableCell>
+                      <span className="text-green-600 font-medium">{auth.status}</span>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default StudentTable;
+export default StudentPickupTable;
