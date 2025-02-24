@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+
 import {
   ChevronDown,
   ChevronUp,
@@ -19,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { navItems } from "@/constant/sideNav";
+import { useRouter } from "next/navigation";
 
 interface NavItemProps {
   item: {
@@ -34,6 +36,10 @@ interface NavItemProps {
   isExpanded: boolean;
   isHovered: boolean;
   isDarkTheme: boolean;
+  activeItem: string;
+  openDropdowns: string[];
+  onDropdownChange: (label: string) => void;
+  onActiveChange: (label: string) => void;
 }
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -41,8 +47,20 @@ const NavItem: React.FC<NavItemProps> = ({
   isExpanded,
   isHovered,
   isDarkTheme,
+  activeItem,
+  openDropdowns,
+  onDropdownChange,
+  onActiveChange,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const router = useRouter();
+  const isActive = activeItem === item.label;
+  const isOpen = openDropdowns.includes(item.label);
+
+  const activeStyles = cn(
+    isDarkTheme
+      ? "bg-gray-800 text-primary-light"
+      : "bg-gray-100 text-primary"
+  );
 
   if (!item.subItems) {
     return (
@@ -53,19 +71,24 @@ const NavItem: React.FC<NavItemProps> = ({
           isDarkTheme
             ? "hover:bg-gray-800 hover:text-primary-light"
             : "hover:bg-gray-100 hover:text-primary",
-          "transition-colors duration-200"
+          "transition-colors duration-200",
+          isActive && activeStyles
         )}
+        onClick={() => onActiveChange(item.label)}
       >
         <item.icon className="h-5 w-5" />
         {(isExpanded || isHovered) && (
-          <span className="text-lg">{item.label}</span>
+          <span className="text-sm">{item.label}</span>
         )}
       </Link>
     );
   }
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+    <Collapsible
+      open={isOpen}
+      onOpenChange={() => onDropdownChange(item.label)}
+    >
       <CollapsibleTrigger asChild>
         <Button
           variant="ghost"
@@ -74,7 +97,8 @@ const NavItem: React.FC<NavItemProps> = ({
             isDarkTheme
               ? "hover:bg-gray-800 hover:text-primary-light"
               : "hover:bg-gray-100 hover:text-primary",
-            "transition-colors duration-200"
+            "transition-colors duration-200",
+            isActive && activeStyles
           )}
         >
           <div className="flex items-center space-x-3">
@@ -96,23 +120,28 @@ const NavItem: React.FC<NavItemProps> = ({
       </CollapsibleTrigger>
       <CollapsibleContent className="pl-8">
         {(isExpanded || isHovered) &&
-          item.subItems?.map((subItem, index) => (
-            <Link
-              key={index}
-              href={subItem.href}
-              className={cn(
-                "flex items-center space-x-3 rounded-md px-2 py-1.5",
-                "text-sm",
-                isDarkTheme
-                  ? "text-gray-300 hover:text-primary-light hover:bg-gray-800"
-                  : "text-gray-600 hover:text-primary hover:bg-gray-100",
-                "transition-colors duration-200"
-              )}
-            >
-              {subItem.icon && <subItem.icon className="h-4 w-4" />}
-              <span>{subItem.label}</span>
-            </Link>
-          ))}
+          item.subItems?.map((subItem, index) => {
+            const isSubItemActive = activeItem === subItem.label;
+            return (
+              <Link
+                key={index}
+                href={subItem.href}
+                className={cn(
+                  "flex items-center space-x-3 rounded-md px-2 py-1.5",
+                  "text-sm",
+                  isDarkTheme
+                    ? "text-gray-300 hover:text-primary-light hover:bg-gray-800"
+                    : "text-gray-600 hover:text-primary hover:bg-gray-100",
+                  "transition-colors duration-200",
+                  isSubItemActive && activeStyles
+                )}
+                onClick={() => onActiveChange(subItem.label)}
+              >
+                {subItem.icon && <subItem.icon className="h-4 w-4" />}
+                <span>{subItem.label}</span>
+              </Link>
+            );
+          })}
       </CollapsibleContent>
     </Collapsible>
   );
@@ -127,14 +156,36 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeItem, setActiveItem] = useState("");
+  const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const { theme, systemTheme } = useTheme();
+  const router = useRouter();
 
-  // Handle mounting
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Find and set initial active item based on current route
+    const currentPath = router.pathname;
+    const findActiveItem = () => {
+      for (const item of navItems) {
+        if (item.href === currentPath) {
+          setActiveItem(item.label);
+          return;
+        }
+        if (item.subItems) {
+          const activeSubItem = item.subItems.find(
+            (subItem) => subItem.href === currentPath
+          );
+          if (activeSubItem) {
+            setActiveItem(activeSubItem.label);
+            setOpenDropdowns((prev) => [...prev, item.label]);
+            return;
+          }
+        }
+      }
+    };
+    findActiveItem();
+  }, [router.pathname]);
 
-  // Determine if dark theme should be used
   const isDarkTheme =
     mounted &&
     (theme === "dark" || (theme === "system" && systemTheme === "dark"));
@@ -146,7 +197,14 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
     setIsHovered(!isExpanded);
   };
 
-  // Return a blank div if not mounted to prevent hydration issues
+  const handleDropdownChange = (label: string) => {
+    setOpenDropdowns((prev) =>
+      prev.includes(label)
+        ? prev.filter((item) => item !== label)
+        : [...prev, label]
+    );
+  };
+
   if (!mounted) {
     return <div className="hidden md:block w-16 h-screen" />;
   }
@@ -158,6 +216,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         isDarkTheme ? "bg-black text-white" : "bg-white text-black"
       )}
     >
+      {/* Header section remains the same */}
       <div className="p-4 border-b flex justify-between items-center">
         {(isExpanded || isHovered) && (
           <div className="flex items-center space-x-3">
@@ -203,6 +262,10 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
               isExpanded={isExpanded}
               isHovered={isHovered}
               isDarkTheme={isDarkTheme}
+              activeItem={activeItem}
+              openDropdowns={openDropdowns}
+              onDropdownChange={handleDropdownChange}
+              onActiveChange={setActiveItem}
             />
           ))}
         </div>
