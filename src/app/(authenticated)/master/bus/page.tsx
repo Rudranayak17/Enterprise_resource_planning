@@ -1,15 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreVertical, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
 
-const busData = Array.from({ length: 10 }, (_, index) => ({
+const busData = Array.from({ length: 100 }, (_, index) => ({
   id: index + 1,
   busNo: "HR CHNJH2",
   driver: "Rajesh Pal",
@@ -27,7 +52,10 @@ export default function BusTable() {
   // Pagination logic
   const totalItems = busData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = busData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = busData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
@@ -35,10 +63,19 @@ export default function BusTable() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-lg font-semibold">Bus: {totalItems}</h1>
         <div className="flex gap-2">
-          <Input type="text" placeholder="Search Bus" className="w-64" />
-          <Button variant="outline">Download</Button>
+          <Input type="text" placeholder="Search User" className="w-64" />
+
+          <Select>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2024-25">Excel</SelectItem>
+              <SelectItem value="2023-24">Pdf</SelectItem>
+            </SelectContent>
+          </Select>
           <select
-            className="border rounded p-2"
+            className="border rounded p-1"
             value={itemsPerPage}
             onChange={(e) => {
               setItemsPerPage(parseInt(e.target.value, 10));
@@ -49,25 +86,32 @@ export default function BusTable() {
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            <Plus />
+            Add Bus
+          </Button>
         </div>
+   
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow>
+              <TableHead className="w-[100px] text-xs">Bus No.</TableHead>
+              <TableHead className="w-[120px] text-xs">Driver</TableHead>
+              <TableHead className="w-[120px] text-xs">Helper</TableHead>
+              <TableHead className="w-[100px] text-xs">Bus Type</TableHead>
+              <TableHead className="w-[120px] text-xs">GPS Installed</TableHead>
+              <TableHead className="w-[130px] text-xs">Camera Installed</TableHead>
+              <TableHead className="w-[140px] text-xs">Document Expiry</TableHead>
+              <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
-            <TableHeader className="bg-gray-50 sticky top-0 z-10">
-              <TableRow>
-                <TableHead className="w-[100px] text-xs">Bus No.</TableHead>
-                <TableHead className="w-[120px] text-xs">Driver</TableHead>
-                <TableHead className="w-[120px] text-xs">Helper</TableHead>
-                <TableHead className="w-[100px] text-xs">Bus Type</TableHead>
-                <TableHead className="w-[120px] text-xs">GPS Installed</TableHead>
-                <TableHead className="w-[130px] text-xs">Camera Installed</TableHead>
-                <TableHead className="w-[140px] text-xs">Document Expiry</TableHead>
-                <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
             <TableBody>
               {paginatedData.map((bus) => (
                 <TableRow key={bus.id} className="hover:bg-gray-50">
@@ -75,8 +119,16 @@ export default function BusTable() {
                   <TableCell className="w-[120px] p-4 text-sm">{bus.driver}</TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">{bus.helper}</TableCell>
                   <TableCell className="w-[100px] p-4 text-sm">{bus.busType}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{bus.gpsInstalled.toString()}</TableCell>
-                  <TableCell className="w-[130px] p-4 text-sm">{bus.cameraInstalled.toString()}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className={bus.gpsInstalled ? "text-green-600" : "text-red-600"}>
+                      {bus.gpsInstalled.toString()}
+                    </span>
+                  </TableCell>
+                  <TableCell className="w-[130px] p-4 text-sm">
+                    <span className={bus.cameraInstalled ? "text-green-600" : "text-red-600"}>
+                      {bus.cameraInstalled.toString()}
+                    </span>
+                  </TableCell>
                   <TableCell className="w-[140px] p-4 text-sm">
                     <a href="#" className="text-blue-600 hover:underline">
                       {bus.documentExpiry}
@@ -110,7 +162,7 @@ export default function BusTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
@@ -120,7 +172,6 @@ export default function BusTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-             
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -136,7 +187,6 @@ export default function BusTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-             
               />
             </PaginationItem>
           </PaginationContent>

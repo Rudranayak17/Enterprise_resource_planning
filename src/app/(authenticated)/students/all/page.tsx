@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,7 +21,6 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -31,15 +32,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Info,
-  Download,
-  Grid,
-  PenSquare,
-  Trash2,
-  MoreHorizontal,
-  Slash,
-} from "lucide-react";
+import { MoreVertical, Info, Grid, PenSquare, Trash2 } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -50,6 +43,7 @@ import {
 import Image from "next/image";
 
 interface Student {
+  id: number;
   photo: string;
   name: string;
   gender: string;
@@ -62,163 +56,152 @@ interface Student {
   address: string;
 }
 
-const StudentManagementDashboard = () => {
-  const students: Student[] = Array(18).fill({
-    photo: "/api/placeholder/40/40",
-    name: "Ravi Dubey",
-    gender: "Male",
-    admissionNo: "20EE093",
-    dob: "05/02/2008",
-    class: "10th C",
-    rollNo: "89",
-    guardianName: "Ruhi Dubey/Manish Dubey",
-    phone: "9852365896",
-    address: "Ramgaarh, Sector 50, Gurgaon, Haryana",
-  });
+const studentData: Student[] = Array.from({ length: 18 }, (_, index) => ({
+  id: index + 1,
+  photo: "/placeholder-avatar.jpg",
+  name: "Ravi Dubey",
+  gender: "Male",
+  admissionNo: "20EE093",
+  dob: "05/02/2008",
+  class: "10th C",
+  rollNo: "89",
+  guardianName: "Ruhi Dubey/Manish Dubey",
+  phone: "9852365896",
+  address: "Ramgaarh, Sector 50, Gurgaon, Haryana",
+}));
+
+export default function StudentManagementDashboard() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // Pagination logic
+  const totalItems = studentData.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const paginatedData = studentData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Previous breadcrumb and header sections remain the same */}
-      <div className="p-4">
-        <div className="mb-6">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/students">students</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator>
-                <Slash />
-              </BreadcrumbSeparator>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/students/all">all</BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-          <div className="bg-blue-50 px-4 py-2 rounded">Total Students: 15</div>
-
-          <div className="flex flex-wrap gap-4">
-            <Input
-              type="text"
-              placeholder="Search"
-              className="w-full md:w-48"
-            />
-
-            <Select>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Select Class" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="10c">10th C</SelectItem>
-                <SelectItem value="10b">10th B</SelectItem>
-                <SelectItem value="10a">10th A</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="flex gap-2 w-full md:w-auto">
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 flex-1 md:flex-none"
-              >
-                <Download size={16} />
-                <span className="hidden md:inline">PDF Download</span>
-                <span className="md:hidden">PDF</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 flex-1 md:flex-none"
-              >
-                <Download size={16} />
-                <span className="hidden md:inline">Excel Download</span>
-                <span className="md:hidden">Excel</span>
-              </Button>
-            </div>
-
-            <Select defaultValue="10">
-              <SelectTrigger className="w-24">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="25">25</SelectItem>
-                <SelectItem value="50">50</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+    <div className="mx-4 p-3 space-y-6 min-h-screen flex flex-col">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/students">Students</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/students/all">All</BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className="text-lg font-semibold">Total Students: {totalItems}</h1>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Input
+            type="text"
+            placeholder="Search Students"
+            className="w-full sm:w-64"
+          />
+          <Select>
+            <SelectTrigger className="w-full sm:w-40">
+              <SelectValue placeholder="Select Class" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10c">10th C</SelectItem>
+              <SelectItem value="10b">10th B</SelectItem>
+              <SelectItem value="10a">10th A</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select>
+            <SelectTrigger className="w-full sm:w-40">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="excel">Excel</SelectItem>
+              <SelectItem value="pdf">PDF</SelectItem>
+            </SelectContent>
+          </Select>
+          <select
+            className="border rounded p-1 w-full sm:w-auto"
+            value={itemsPerPage}
+            onChange={(e) => {
+              setItemsPerPage(parseInt(e.target.value, 10));
+              setCurrentPage(1);
+            }}
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
         </div>
       </div>
 
-      <div className="border rounded-md mx-4">
-        <div className="w-full">
-          <Table className="min-w-[1200px]">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[5%] min-w-[60px]">Photo</TableHead>
-                <TableHead className="w-[15%] min-w-[180px]">Name</TableHead>
-                <TableHead className="w-[15%] min-w-[180px]">
-                  Admission No.
-                </TableHead>
-                <TableHead className="w-[15%] min-w-[180px]">Class</TableHead>
-                <TableHead className="w-[20%] min-w-[200px]">
-                  Guardian Name
-                </TableHead>
-                <TableHead className="w-[25%] min-w-[250px]">Address</TableHead>
-                <TableHead className="w-[5%] min-w-[100px] text-right">
-                  Action
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-          </Table>
-        </div>
+      {/* Table Section */}
+      <div className="border rounded-lg flex-grow">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow>
+              <TableHead className="w-[80px] text-xs">Photo</TableHead>
+              <TableHead className="w-[180px] text-xs">Name</TableHead>
+              <TableHead className="w-[180px] text-xs">Admission No.</TableHead>
+              <TableHead className="w-[180px] text-xs">Class</TableHead>
+              <TableHead className="w-[200px] text-xs">Guardian Name</TableHead>
+              <TableHead className="w-[250px] text-xs">Address</TableHead>
+              <TableHead className="w-[120px] text-xs text-right">
+                Action
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
             <TableBody>
-              {students.map((student, index) => (
-                <TableRow key={index}>
-                  <TableCell className="w-[5%] min-w-[60px]">
+              {paginatedData.map((student) => (
+                <TableRow key={student.id} className="hover:bg-gray-50">
+                  <TableCell className="w-[80px] p-4 text-sm">
                     <Image
                       src={student.photo}
-                      alt={student.name}
-                      width={55}
+                      alt={`${student.name}'s photo`}
+                      width={70}
                       height={55}
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[15%] min-w-[180px]">
-                    <div className="font-medium">{student.name}</div>
-                    <div className="text-gray-500 text-sm">
+                  <TableCell className="w-[180px] p-4 text-sm font-medium">
+                    <div>{student.name}</div>
+                    <div className="text-gray-500 text-xs">
                       {student.gender}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[15%] min-w-[180px]">
+                  <TableCell className="w-[180px] p-4 text-sm">
                     <div>{student.admissionNo}</div>
-                    <div className="text-blue-600 text-sm">{student.dob}</div>
+                    <div className="text-blue-600 text-xs">{student.dob}</div>
                   </TableCell>
-                  <TableCell className="w-[15%] min-w-[180px]">
+                  <TableCell className="w-[180px] p-4 text-sm">
                     <div>{student.class}</div>
-                    <div className="text-gray-500 text-sm">
+                    <div className="text-gray-500 text-xs">
                       Roll no. {student.rollNo}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[20%] min-w-[200px]">
+                  <TableCell className="w-[200px] p-4 text-sm">
                     <div className="truncate">{student.guardianName}</div>
-                    <div className="text-blue-600 text-sm">{student.phone}</div>
+                    <div className="text-blue-600 text-xs">{student.phone}</div>
                   </TableCell>
-                  <TableCell className="w-[25%] min-w-[250px]">
+                  <TableCell className="w-[250px] p-4 text-sm">
                     <div className="truncate">{student.address}</div>
                   </TableCell>
-                  <TableCell className="w-[5%] min-w-[100px] text-right">
+                  <TableCell className="w-[120px] p-4 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreHorizontal className="h-4 w-4" />
+                        <Button variant="ghost" size="sm">
+                          <MoreVertical className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => console.log(`View ${student.id}`)}
+                        >
                           <Info className="h-4 w-4 mr-2" /> View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem>
@@ -230,10 +213,15 @@ const StudentManagementDashboard = () => {
                         <DropdownMenuItem>
                           <Grid className="h-4 w-4 mr-2" /> Schedule
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => console.log(`Edit ${student.id}`)}
+                        >
                           <PenSquare className="h-4 w-4 mr-2" /> Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem
+                          onClick={() => console.log(`Delete ${student.id}`)}
+                          className="text-red-600"
+                        >
                           <Trash2 className="h-4 w-4 mr-2" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -246,40 +234,40 @@ const StudentManagementDashboard = () => {
         </div>
       </div>
 
-      {/* Pagination section remains the same */}
-      <div className="sticky bottom-0 bg-white border-t p-4 mt-auto">
-        <div className="flex justify-between items-center">
-          <div className="text-sm text-gray-500">
-            Showing 1-10 of 100 entries
-          </div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
+        <div className="text-sm text-gray-500">
+          Showing {(currentPage - 1) * itemsPerPage + 1}-
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          entries
+        </div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              />
+            </PaginationItem>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <PaginationItem key={i + 1}>
+                <PaginationLink
+                  onClick={() => setCurrentPage(i + 1)}
+                  isActive={currentPage === i + 1}
+                >
+                  {i + 1}
                 </PaginationLink>
               </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
-};
-
-export default StudentManagementDashboard;
+}

@@ -57,9 +57,7 @@ const NavItem: React.FC<NavItemProps> = ({
   const isOpen = openDropdowns.includes(item.label);
 
   const activeStyles = cn(
-    isDarkTheme
-      ? "bg-gray-800 text-primary-light"
-      : "bg-gray-100 text-primary"
+    isDarkTheme ? "bg-gray-800 text-primary-light" : "bg-gray-100 text-primary"
   );
 
   if (!item.subItems) {
@@ -217,7 +215,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
       )}
     >
       {/* Header section remains the same */}
-      <div className="p-4 border-b flex justify-between items-center">
+      <div className="px-4 py-[1.45rem] border-b flex justify-between items-center">
         {(isExpanded || isHovered) && (
           <div className="flex items-center space-x-3">
             <div
@@ -273,7 +271,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
 
       <div
         className={cn(
-          "border-t p-4",
+          "border-t p-4 pt-5",
           isDarkTheme ? "border-gray-800" : "border-gray-200"
         )}
       >

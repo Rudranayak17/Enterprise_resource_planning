@@ -1,13 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreVertical } from "lucide-react";
 
 const subjectData = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
@@ -22,7 +46,10 @@ export default function SubjectTable() {
   // Pagination logic
   const totalItems = subjectData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = subjectData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = subjectData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
@@ -30,13 +57,15 @@ export default function SubjectTable() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-lg font-semibold">All Subject: {totalItems}</h1>
         <div className="flex gap-2">
+    
+
           <Select>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Subject Type" />
+              <SelectValue placeholder="Subject" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="PGT">PGT</SelectItem>
-              <SelectItem value="TGT">TGT</SelectItem>
+              <SelectItem value="maths">Maths</SelectItem>
+              <SelectItem value="science">Science</SelectItem>
             </SelectContent>
           </Select>
           <Button variant="outline">Download</Button>
@@ -52,7 +81,6 @@ export default function SubjectTable() {
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
-          <Button className="bg-blue-500 text-white">+ Add Subject</Button>
         </div>
       </div>
 
@@ -82,8 +110,8 @@ export default function SubjectTable() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => console.log(`Edit ${subject.id}`)}>
-                          Edit
+                        <DropdownMenuItem onClick={() => console.log(`View ${subject.id}`)}>
+                          View
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => console.log(`Delete ${subject.id}`)}
@@ -102,7 +130,7 @@ export default function SubjectTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
@@ -112,7 +140,6 @@ export default function SubjectTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -128,7 +155,6 @@ export default function SubjectTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
- 
               />
             </PaginationItem>
           </PaginationContent>

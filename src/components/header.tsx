@@ -64,7 +64,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   };
 
   return (
-    <nav className={cn("flex items-center justify-between px-6 py-4 border-b shadow-sm relative z-20")}>
+    <nav className={cn("flex items-center justify-between px-4 py-5 border-b shadow-sm relative z-20")}>
       {/* Left Section with Logo and Menu */}
       <div className="flex items-center space-x-4">
         <button className="md:hidden" onClick={toggleSidebar}>
@@ -80,8 +80,22 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-      <div className="flex space-x-3 items-center">
-        <div className="hidden md:flex space-x-6">
+ 
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-16 left-0 w-full shadow-md md:hidden flex flex-col space-y-4 z-30"
+          ></motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* User Section */}
+      <div className="md:flex items-center space-x-4">
+      <div className="hidden md:flex space-x-6">
           <Input placeholder="Select School" />
         </div>
         <DropdownMenu>
@@ -96,21 +110,6 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-16 left-0 w-full shadow-md md:hidden flex flex-col space-y-4 p-4 z-30"
-          ></motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* User Section */}
-      <div className="md:flex items-center space-x-4">
         <Maximize className="size-5 cursor-pointer" onClick={toggleFullScreen} />
         
         {/* Notification with Tooltip and Card */}
@@ -155,7 +154,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className="p-2 border-b last:border-b-0 hover:bg-gray-100"
+                        className=" border-b last:border-b-0 hover:bg-gray-100"
                       >
                         <h4 className="text-sm font-semibold">{notification.title}</h4>
                         <p className="text-sm text-gray-600">{notification.message}</p>

@@ -1,13 +1,38 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreVertical, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
 
 const sessionData = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
@@ -25,7 +50,10 @@ export default function SessionTable() {
   // Pagination logic
   const totalItems = sessionData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = sessionData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = sessionData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
@@ -33,8 +61,33 @@ export default function SessionTable() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-lg font-semibold">All Session: {totalItems}</h1>
         <div className="flex gap-2">
-          <Input type="text" placeholder="Search Session" className="w-64" />
-          <Button className="bg-blue-500 text-white">+ Current Session</Button>
+          <Input type="text" placeholder="Search User" className="w-64" />
+
+          <Select>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2024-25">Excel</SelectItem>
+              <SelectItem value="2023-24">Pdf</SelectItem>
+            </SelectContent>
+          </Select>
+          <select
+            className="border rounded p-1"
+            value={itemsPerPage}
+            onChange={(e) => {
+              setItemsPerPage(parseInt(e.target.value, 10));
+              setCurrentPage(1);
+            }}
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            <Plus />
+             Current Session
+          </Button>
         </div>
       </div>
 
@@ -63,7 +116,6 @@ export default function SessionTable() {
                   <TableCell className="w-[120px] p-4 text-sm">{session.feeDueDate}</TableCell>
                   <TableCell className="w-[150px] p-4 text-sm">
                     <span className="text-green-600">{session.status}</span>
-          
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-right">
                     <DropdownMenu>
@@ -93,7 +145,7 @@ export default function SessionTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
@@ -103,7 +155,6 @@ export default function SessionTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -119,7 +170,6 @@ export default function SessionTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-  
               />
             </PaginationItem>
           </PaginationContent>

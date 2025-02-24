@@ -18,10 +18,9 @@ const Page = () => {
 
   return (
     <div>
-      <ParentToolBar />
-      <div className=" border rounded-lg shadow-md mx-2">
+  
         <ParentComponent isDarkTheme={isDarkTheme} users={parent} />
-      </div>
+  
     </div>
   );
 };

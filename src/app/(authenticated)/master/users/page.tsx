@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -32,10 +31,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
+import { MoreVertical } from "lucide-react";
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
 
-// Sample data (70 entries as per your code)
+// Sample data (70 entries)
 const staffData = Array.from({ length: 70 }, (_, index) => ({
   id: index + 1,
   photo: "/placeholder-avatar.jpg",
@@ -66,18 +66,29 @@ export default function StaffTable() {
         <h1 className="text-lg font-semibold">Total Staff: {totalItems}</h1>
         <div className="flex gap-2">
           <Input type="text" placeholder="Search User" className="w-64" />
+
           <Select>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Select Role" />
+              <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="teacher">Teacher</SelectItem>
               <SelectItem value="pgt">PGT</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">Download</Button>
+
+          <Select>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2024-25">Excel</SelectItem>
+              <SelectItem value="2023-24">Pdf</SelectItem>
+            </SelectContent>
+          </Select>
+
           <select
-            className="border rounded p-2"
+            className="border rounded p-1"
             value={itemsPerPage}
             onChange={(e) => {
               setItemsPerPage(parseInt(e.target.value, 10));
@@ -88,29 +99,30 @@ export default function StaffTable() {
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
-          <Button className="bg-blue-500 text-white">+ Add User</Button>
         </div>
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader className="bg-gray-50">
+            <TableRow>
+              <TableHead className="w-[80px] text-xs">Photo</TableHead>
+              <TableHead className="w-[180px] text-xs">Name</TableHead>
+              <TableHead className="w-[180px] text-xs">Role/Type</TableHead>
+              <TableHead className="w-[180px] text-xs">
+                Email/Phone No.
+              </TableHead>
+              <TableHead className="w-[180px] text-xs">Address</TableHead>
+              <TableHead className="w-[120px] text-xs">Status</TableHead>
+              <TableHead className="w-[120px] text-xs text-right">
+                Action
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
-            <TableHeader className="bg-gray-50 sticky top-0 z-10">
-              <TableRow>
-                <TableHead className="w-[80px] text-xs">Photo</TableHead>
-                <TableHead className="w-[180px] text-xs">Name</TableHead>
-                <TableHead className="w-[180px] text-xs">Role/Type</TableHead>
-                <TableHead className="w-[180px] text-xs">
-                  Email/Phone No.
-                </TableHead>
-                <TableHead className="w-[180px] text-xs">Address</TableHead>
-                <TableHead className="w-[120px] text-xs">Status</TableHead>
-                <TableHead className="w-[120px] text-xs text-right">
-                  Action
-                </TableHead>
-              </TableRow>
-            </TableHeader>
             <TableBody>
               {paginatedData.map((staff) => (
                 <TableRow key={staff.id} className="hover:bg-gray-50">
@@ -118,7 +130,7 @@ export default function StaffTable() {
                     <Image
                       src={staff.photo}
                       alt={`${staff.name}'s photo`}
-                      width={55}
+                      width={70} // Adjusted to match StudentFeeTable
                       height={55}
                       className="rounded-full bg-gray-200"
                     />
@@ -137,9 +149,8 @@ export default function StaffTable() {
                     {staff.address}
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      {staff.status}
-                    </span>
+                    <span className="text-green-600">{staff.status}</span>{" "}
+                    {/* Simplified, no badge */}
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-right">
                     <DropdownMenu>
@@ -153,11 +164,6 @@ export default function StaffTable() {
                           onClick={() => console.log(`View ${staff.id}`)}
                         >
                           View
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => console.log(`Edit ${staff.id}`)}
-                        >
-                          Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => console.log(`Delete ${staff.id}`)}
@@ -176,7 +182,7 @@ export default function StaffTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
@@ -187,7 +193,6 @@ export default function StaffTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-             
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -205,7 +210,6 @@ export default function StaffTable() {
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
-           
               />
             </PaginationItem>
           </PaginationContent>

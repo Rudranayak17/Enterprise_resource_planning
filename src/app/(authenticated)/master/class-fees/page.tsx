@@ -1,13 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreVertical } from "lucide-react";
 
 const classFeeData = Array.from({ length: 59 }, (_, index) => ({
   id: index + 1,
@@ -26,7 +50,10 @@ export default function ClassFeeTable() {
   // Pagination logic
   const totalItems = classFeeData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = classFeeData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = classFeeData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
@@ -52,6 +79,15 @@ export default function ClassFeeTable() {
               <SelectItem value="10th">10th</SelectItem>
             </SelectContent>
           </Select>
+          <Select>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Section" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="c">C</SelectItem>
+              <SelectItem value="d">D</SelectItem>
+            </SelectContent>
+          </Select>
           <Button variant="outline">Download</Button>
           <select
             className="border rounded p-2"
@@ -65,7 +101,6 @@ export default function ClassFeeTable() {
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
-          <Button className="bg-blue-500 text-white">+ Add Class Fee</Button>
         </div>
       </div>
 
@@ -123,7 +158,7 @@ export default function ClassFeeTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
@@ -133,7 +168,6 @@ export default function ClassFeeTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-     
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -149,7 +183,6 @@ export default function ClassFeeTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-         
               />
             </PaginationItem>
           </PaginationContent>

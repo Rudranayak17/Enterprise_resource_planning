@@ -140,15 +140,7 @@ export default function StudentFeeTable() {
                     <Image
                       src={fee.photo}
                       alt={`${fee.studentName}'s photo`}
-                      width={55}
-                      height={55}
-                      className="rounded-full bg-gray-200"
-                    />
-
-                    <Image
-                      src={fee.photo}
-                      alt={`${fee.studentName}'s photo`}
-                      width={55}
+                      width={70}
                       height={55}
                       className="rounded-full bg-gray-200"
                     />
@@ -209,7 +201,7 @@ export default function StudentFeeTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
@@ -220,7 +212,6 @@ export default function StudentFeeTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-           
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -238,7 +229,6 @@ export default function StudentFeeTable() {
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
-          
               />
             </PaginationItem>
           </PaginationContent>
