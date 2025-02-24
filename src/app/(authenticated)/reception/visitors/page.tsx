@@ -2,7 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -13,6 +19,15 @@ import {
 } from "@/components/ui/table";
 import { Download, Plus } from "lucide-react";
 import { useTheme } from "next-themes";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const VisitorsTable = () => {
   const [mounted, setMounted] = useState(false);
@@ -23,10 +38,10 @@ const VisitorsTable = () => {
     setMounted(true);
   }, []);
 
-  // Render null or a placeholder until hydration is complete
+  // Render null until hydration is complete
   if (!mounted) return null;
 
-  const visitors = Array(10)
+  const visitors = Array(25)
     .fill(null)
     .map(() => ({
       name: "Rahul Dhavad",
@@ -42,17 +57,17 @@ const VisitorsTable = () => {
   const isDarkTheme = resolvedTheme === "dark";
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4  space-y-6">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <span className="font-medium">Total Visitors:</span>
-          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+          <span className="bg-blue-50 px-4 py-2 rounded-md text-sm">
             50
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Input type="date" className="w-40" />
 
           <Button variant="outline" className="flex items-center gap-2">
@@ -61,9 +76,14 @@ const VisitorsTable = () => {
           </Button>
 
           <Select defaultValue="10">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
+            <SelectTrigger className="w-20">
+              <SelectValue placeholder="10" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
           </Select>
 
           <Button className="flex items-center gap-2">
@@ -74,38 +94,77 @@ const VisitorsTable = () => {
       </div>
 
       {/* Table Section */}
-      <Table>
-        <TableHeader
-          className={
-            isDarkTheme ? "[&_tr]:border-b bg-gray-900 text-white" : "[&_tr]:border-b bg-gray-100 text-black"
-          }
-        >
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Phone No.</TableHead>
-            <TableHead>Aadhar</TableHead>
-            <TableHead>Address</TableHead>
-            <TableHead>Purpose</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Entry Time</TableHead>
-            <TableHead>Exit Time</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {visitors.map((visitor, index) => (
-            <TableRow key={index}>
-              <TableCell>{visitor.name}</TableCell>
-              <TableCell>{visitor.phoneNo}</TableCell>
-              <TableCell>{visitor.aadhar}</TableCell>
-              <TableCell>{visitor.address}</TableCell>
-              <TableCell>{visitor.purpose}</TableCell>
-              <TableCell>{visitor.date}</TableCell>
-              <TableCell>{visitor.entryTime}</TableCell>
-              <TableCell>{visitor.exitTime}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="border rounded-lg">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className={isDarkTheme ? "bg-gray-900" : "bg-gray-50"}>
+              <TableRow className={isDarkTheme ? "text-white border-b-gray-700" : "text-black border-b-gray-200"}>
+                <TableHead className="w-[150px] text-xs">Name</TableHead>
+                <TableHead className="w-[150px] text-xs">Phone No.</TableHead>
+                <TableHead className="w-[150px] text-xs">Aadhar</TableHead>
+                <TableHead className="w-[250px] text-xs">Address</TableHead>
+                <TableHead className="w-[150px] text-xs">Purpose</TableHead>
+                <TableHead className="w-[120px] text-xs">Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Entry Time</TableHead>
+                <TableHead className="w-[120px] text-xs">Exit Time</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {visitors.map((visitor, index) => (
+                <TableRow 
+                  key={index} 
+                  className={isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}
+                >
+                  <TableCell className="w-[150px] p-4 text-sm">{visitor.name}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{visitor.phoneNo}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{visitor.aadhar}</TableCell>
+                  <TableCell className="w-[250px] p-4 text-sm">{visitor.address}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{visitor.purpose}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{visitor.date}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{visitor.entryTime}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{visitor.exitTime}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500 dark:text-gray-400">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

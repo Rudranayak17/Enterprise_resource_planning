@@ -77,8 +77,8 @@ const StudentManagementDashboard = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Previous breadcrumb and header sections remain the same */}
       <div className="p-4">
-        {/* Breadcrumb */}
         <div className="mb-6">
           <Breadcrumb>
             <BreadcrumbList>
@@ -95,11 +95,8 @@ const StudentManagementDashboard = () => {
           </Breadcrumb>
         </div>
 
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-          <div className="bg-blue-50  px-4 py-2 rounded">
-            Total Students: 15
-          </div>
+          <div className="bg-blue-50 px-4 py-2 rounded">Total Students: 15</div>
 
           <div className="flex flex-wrap gap-4">
             <Input
@@ -153,61 +150,65 @@ const StudentManagementDashboard = () => {
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="flex-1 px-4 overflow-auto">
-        <div className="rounded-md border">
-          <Table>
+  
+      <div className="border rounded-md mx-4">
+        <div className="w-full">
+          <Table className="min-w-[1200px]">
             <TableHeader>
               <TableRow>
-                <TableHead>Photo</TableHead>
-                <TableHead className="w-[150px]">Name</TableHead>
-                <TableHead className="w-[150px]">Admission No.</TableHead>
-                <TableHead className="w-[120px]">Class</TableHead>
-                <TableHead className="w-[200px]">Guardian Name</TableHead>
-                <TableHead>Address</TableHead>
-                <TableHead className="w-[100px] text-right">Action</TableHead>
+                <TableHead className="w-[5%] min-w-[60px]">Photo</TableHead>
+                <TableHead className="w-[15%] min-w-[180px]">Name</TableHead>
+                <TableHead className="w-[15%] min-w-[180px]">
+                  Admission No.
+                </TableHead>
+                <TableHead className="w-[15%] min-w-[180px]">Class</TableHead>
+                <TableHead className="w-[20%] min-w-[200px]">
+                  Guardian Name
+                </TableHead>
+                <TableHead className="w-[25%] min-w-[250px]">Address</TableHead>
+                <TableHead className="w-[5%] min-w-[100px] text-right">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
+          </Table>
+        </div>
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
             <TableBody>
               {students.map((student, index) => (
                 <TableRow key={index}>
-                  <TableCell>
+                  <TableCell className="w-[5%] min-w-[60px]">
                     <img
                       src={student.photo}
                       alt={student.name}
                       className="w-10 h-10 rounded-full"
                     />
                   </TableCell>
-                  <TableCell className="w-[150px]">
-                    <div>{student.name}</div>
+                  <TableCell className="w-[15%] min-w-[180px]">
+                    <div className="font-medium">{student.name}</div>
                     <div className="text-gray-500 text-sm">
                       {student.gender}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px]">
+                  <TableCell className="w-[15%] min-w-[180px]">
                     <div>{student.admissionNo}</div>
                     <div className="text-blue-600 text-sm">{student.dob}</div>
                   </TableCell>
-                  <TableCell className="w-[120px]">
+                  <TableCell className="w-[15%] min-w-[180px]">
                     <div>{student.class}</div>
                     <div className="text-gray-500 text-sm">
                       Roll no. {student.rollNo}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px]">
-                    <div className="truncate max-w-[200px]">
-                      {student.guardianName}
-                    </div>
-                    <div className="text-blue-600 text-sm">
-                      {student.phone}
-                    </div>
+                  <TableCell className="w-[20%] min-w-[200px]">
+                    <div className="truncate">{student.guardianName}</div>
+                    <div className="text-blue-600 text-sm">{student.phone}</div>
                   </TableCell>
-                  <TableCell>
-                    <div className="truncate max-w-[200px]">
-                      {student.address}
-                    </div>
+                  <TableCell className="w-[25%] min-w-[250px]">
+                    <div className="truncate">{student.address}</div>
                   </TableCell>
-                  <TableCell className="text-right w-[100px]">
+                  <TableCell className="w-[5%] min-w-[100px] text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -243,7 +244,7 @@ const StudentManagementDashboard = () => {
         </div>
       </div>
 
-      {/* Pagination - Now sticky at the bottom */}
+      {/* Pagination section remains the same */}
       <div className="sticky bottom-0 bg-white border-t p-4 mt-auto">
         <div className="flex justify-between items-center">
           <div className="text-sm text-gray-500">

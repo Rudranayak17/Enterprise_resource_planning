@@ -17,9 +17,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Download, FileText, Search } from 'lucide-react';
 import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const LeaveRequestSimple = () => {
-  const requests = Array(8).fill({
+  const requests = Array(28).fill({
     photo: "/api/placeholder/32/32",
     name: "Ravi Singh",
     roleType: "Teacher/PRT",
@@ -33,7 +42,6 @@ const LeaveRequestSimple = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="text-base font-medium">User Leave Request</span>
-     
         </div>
 
         <div className="flex items-center gap-3">
@@ -66,27 +74,25 @@ const LeaveRequestSimple = () => {
             </SelectContent>
           </Select>
 
-       
           <Select>
-          <SelectTrigger className="w-full md:w-40">
-            <SelectValue placeholder="Download" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem  value="pdf">
-              <div className="flex items-center">
-              <FileText className="w-4 h-4 mr-2" /> 
-              <p>PDF</p>
-              </div>
-             </SelectItem>
-            <SelectItem value="excel">
-            <div className="flex items-center">
-              <Download className="w-4 h-4 mr-2" /> 
-              <p>Excel</p>
-              </div>
-              
+            <SelectTrigger className="w-full md:w-40">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="pdf">
+                <div className="flex items-center">
+                  <FileText className="w-4 h-4 mr-2" />
+                  <p>PDF</p>
+                </div>
               </SelectItem>
-          </SelectContent>
-        </Select>
+              <SelectItem value="excel">
+                <div className="flex items-center">
+                  <Download className="w-4 h-4 mr-2" />
+                  <p>Excel</p>
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
           <Select>
             <SelectTrigger className="w-16">
@@ -102,34 +108,82 @@ const LeaveRequestSimple = () => {
       </div>
 
       {/* Table */}
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-gray-50">
-            <TableHead className="font-medium">Photo</TableHead>
-            <TableHead className="font-medium">Name</TableHead>
-            <TableHead className="font-medium">Role/Type</TableHead>
-            <TableHead className="font-medium">Date</TableHead>
-            <TableHead className="font-medium">Leave Type</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {requests.map((request, index) => (
-            <TableRow key={index} className="border-b">
-              <TableCell>
-                <img
-                  src={request.photo}
-                  alt="User"
-                  className="w-8 h-8 rounded-full"
-                />
-              </TableCell>
-              <TableCell>{request.name}</TableCell>
-              <TableCell className="text-blue-600">{request.roleType}</TableCell>
-              <TableCell>{request.date}</TableCell>
-              <TableCell>{request.leaveType}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="border rounded-md">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-gray-50">
+                <TableHead className="w-[80px] text-xs font-medium">Photo</TableHead>
+                <TableHead className="w-[200px] text-xs font-medium">Name</TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">Role/Type</TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">Date</TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">Leave Type</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {requests.map((request, index) => (
+                <TableRow key={index} className="border-b">
+                  <TableCell className="w-[80px] p-4">
+                    <img
+                      src={request.photo}
+                      alt="User"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                    {request.name}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm text-blue-600">
+                    {request.roleType}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {request.date}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {request.leaveType}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 28 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

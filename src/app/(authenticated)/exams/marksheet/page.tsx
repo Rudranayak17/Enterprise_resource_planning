@@ -17,6 +17,15 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Download, Eye, Pencil, FileText } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface StudentResult {
   photo: string;
@@ -47,14 +56,14 @@ const StudentResultsTable = () => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="p-4 max-w-7xl mx-auto">
       {/* Controls Header */}
-      <div className="flex items-center justify-between">
-        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md">
-          Total Results: 50
+      <div className="flex items-center justify-between mb-6">
+        <div className="bg-blue-50 px-4 py-2 rounded-md">
+          <span className="text-sm">Total Results: 50</span>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Class" />
@@ -90,7 +99,7 @@ const StudentResultsTable = () => {
             Download
           </Button>
 
-          <Select>
+          <Select defaultValue="10">
             <SelectTrigger className="w-20">
               <SelectValue placeholder="10" />
             </SelectTrigger>
@@ -103,75 +112,106 @@ const StudentResultsTable = () => {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table Section */}
       <div className="border rounded-lg">
-        <div className="min-h-[600px] flex flex-col">
+        {/* Fixed Header */}
+        <div className="w-full">
           <Table>
-            <TableHeader className="bg-white sticky top-0">
+            <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead>Photo</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Class</TableHead>
-                <TableHead>Exam Details</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Marks Received</TableHead>
-                <TableHead>Total Marks</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Show Parents</TableHead>
-                <TableHead>Attachments</TableHead>
+                <TableHead className="w-[80px] text-xs">Photo</TableHead>
+                <TableHead className="w-[200px] text-xs">Name</TableHead>
+                <TableHead className="w-[120px] text-xs">Class</TableHead>
+                <TableHead className="w-[200px] text-xs">Exam Details</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject</TableHead>
+                <TableHead className="w-[120px] text-xs">Marks Received</TableHead>
+                <TableHead className="w-[120px] text-xs">Total Marks</TableHead>
+                <TableHead className="w-[120px] text-xs">Status</TableHead>
+                <TableHead className="w-[120px] text-xs">Show Parents</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Attachments</TableHead>
               </TableRow>
             </TableHeader>
           </Table>
-          
-          <div className="flex-1 overflow-auto">
-            <Table>
-              <TableBody>
-                {studentData.map((student, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <img
-                        src={student.photo}
-                        alt={student.name}
-                        className="w-10 h-10 rounded-full"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div>{student.name}</div>
-                      <div className="text-sm text-gray-500">{student.rollNo}</div>
-                    </TableCell>
-                    <TableCell>{student.class}</TableCell>
-                    <TableCell>
-                      <div>{student.examType}</div>
-                      <div className="text-sm text-gray-500">{student.examDate}</div>
-                    </TableCell>
-                    <TableCell>{student.subject}</TableCell>
-                    <TableCell>{student.marksReceived}</TableCell>
-                    <TableCell>{student.totalMarks}</TableCell>
-                    <TableCell>
-                      <span className="text-red-600 font-medium">{student.status}</span>
-                    </TableCell>
-                    <TableCell>
-                      <Switch />
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                          <FileText className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {studentData.map((student, index) => (
+                <TableRow key={index} className="hover:bg-gray-50">
+                  <TableCell className="w-[80px] p-4 text-sm">
+                    <img
+                      src={student.photo}
+                      alt={student.name}
+                      className="w-10 h-10 rounded-full"
+                    />
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>{student.name}</div>
+                    <div className="text-sm text-gray-500">{student.rollNo}</div>
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{student.class}</TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>{student.examType}</div>
+                    <div className="text-sm text-gray-500">{student.examDate}</div>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{student.subject}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{student.marksReceived}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{student.totalMarks}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-red-600 font-medium">{student.status}</span>
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <Switch />
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

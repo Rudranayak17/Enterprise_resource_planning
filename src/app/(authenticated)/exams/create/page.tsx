@@ -16,6 +16,15 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, Eye, Download, Plus } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface ExamSchedule {
   class: string;
@@ -46,14 +55,14 @@ const ExamScheduleTable = () => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="p-4 max-w-7xl mx-auto">
       {/* Controls Header */}
-      <div className="flex items-center justify-between">
-        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md">
-          Total Exams: 50
+      <div className="flex items-center justify-between mb-6">
+        <div className="bg-blue-50 px-4 py-2 rounded-md">
+          <span className="text-sm">Total Exams: 50</span>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Class" />
@@ -79,7 +88,7 @@ const ExamScheduleTable = () => {
             Download
           </Button>
 
-          <Select>
+          <Select defaultValue="10">
             <SelectTrigger className="w-20">
               <SelectValue placeholder="10" />
             </SelectTrigger>
@@ -97,64 +106,95 @@ const ExamScheduleTable = () => {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table Section */}
       <div className="border rounded-lg">
-        <div className="min-h-[600px] flex flex-col">
+        {/* Fixed Header */}
+        <div className="w-full">
           <Table>
-            <TableHeader className="bg-white sticky top-0">
+            <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead>Class</TableHead>
-                <TableHead>Exam Type</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Evaluator</TableHead>
-                <TableHead>Max Mark</TableHead>
-                <TableHead>Grading Method</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Action</TableHead>
+                <TableHead className="w-[120px] text-xs">Class</TableHead>
+                <TableHead className="w-[150px] text-xs">Exam Type</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject</TableHead>
+                <TableHead className="w-[150px] text-xs">Time</TableHead>
+                <TableHead className="w-[120px] text-xs">Evaluator</TableHead>
+                <TableHead className="w-[150px] text-xs">Max Mark</TableHead>
+                <TableHead className="w-[200px] text-xs">Grading Method</TableHead>
+                <TableHead className="w-[120px] text-xs">Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Status</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
           </Table>
-          
-          <div className="flex-1 overflow-auto">
-            <Table>
-              <TableBody>
-                {examData.map((exam, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{exam.class}</TableCell>
-                    <TableCell className="whitespace-pre-line">{exam.examType}</TableCell>
-                    <TableCell>{exam.subject}</TableCell>
-                    <TableCell>
-                      Start: {exam.startTime}<br/>
-                      End: {exam.endTime}
-                    </TableCell>
-                    <TableCell className="whitespace-pre-line">{exam.evaluator}</TableCell>
-                    <TableCell>{exam.maxMarks}</TableCell>
-                    <TableCell>{exam.gradingMethod}</TableCell>
-                    <TableCell>{exam.date}</TableCell>
-                    <TableCell>
-                      <span className="text-green-600">{exam.status}</span>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {examData.map((exam, index) => (
+                <TableRow key={index} className="hover:bg-gray-50">
+                  <TableCell className="w-[120px] p-4 text-sm">{exam.class}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm whitespace-pre-line">{exam.examType}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{exam.subject}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    Start: {exam.startTime}<br/>
+                    End: {exam.endTime}
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm whitespace-pre-line">{exam.evaluator}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{exam.maxMarks}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{exam.gradingMethod}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">{exam.date}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-green-600">{exam.status}</span>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

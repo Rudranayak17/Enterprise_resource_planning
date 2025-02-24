@@ -17,6 +17,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Download, Plus, Edit, Trash } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const HomeworkManagement = () => {
   const homeworkList = Array(9).fill({
@@ -93,68 +102,111 @@ const HomeworkManagement = () => {
       </div>
 
       {/* Homework Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Class</TableHead>
-            <TableHead>Subject</TableHead>
-            <TableHead>Teacher</TableHead>
-            <TableHead>Period</TableHead>
-            <TableHead>Student</TableHead>
-            <TableHead>Homework</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {homeworkList.map((homework, index) => (
-            <TableRow key={index}>
-              <TableCell>{homework.date}</TableCell>
-              <TableCell>{homework.class}</TableCell>
-              <TableCell>{homework.subject}</TableCell>
-              <TableCell>{homework.teacher}</TableCell>
-              <TableCell>{homework.period}</TableCell>
-              <TableCell>
-                <span className="text-blue-600 hover:underline cursor-pointer">
-                  {homework.student}
-                </span>
-              </TableCell>
-              <TableCell>{homework.homework}</TableCell>
-              <TableCell>
-                <div className="flex space-x-1">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-blue-600"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                    </svg>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-green-600"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-red-600"
-                  >
-                    <Trash className="h-4 w-4" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="border rounded-md">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[120px] text-xs">Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Class</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject</TableHead>
+                <TableHead className="w-[200px] text-xs">Teacher</TableHead>
+                <TableHead className="w-[100px] text-xs">Period</TableHead>
+                <TableHead className="w-[120px] text-xs">Student</TableHead>
+                <TableHead className="w-[250px] text-xs">Homework</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {homeworkList.map((homework, index) => (
+                <TableRow key={index}>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {homework.date}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {homework.class}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {homework.subject}
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                    {homework.teacher}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm">
+                    {homework.period}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-blue-600 hover:underline cursor-pointer">
+                      {homework.student}
+                    </span>
+                  </TableCell>
+                  <TableCell className="w-[250px] p-4 text-sm">
+                    {homework.homework}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex justify-end space-x-1">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-blue-600"
+                      >
+                        <svg
+                          className="h-4 w-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-green-600"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-red-600"
+                      >
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-9 of 9 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

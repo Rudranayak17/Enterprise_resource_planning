@@ -4,6 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { FileDown } from 'lucide-react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const SubjectsDashboard = () => {
   // Generate sample data
@@ -54,47 +63,91 @@ const SubjectsDashboard = () => {
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead>Class Name</TableHead>
-              <TableHead>Section</TableHead>
-              <TableHead>Subject Name</TableHead>
-              <TableHead>Subject type</TableHead>
-              <TableHead>Syllabus</TableHead>
-              <TableHead>Notes</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {subjects.map((subject) => (
-              <TableRow key={subject.id} className="hover:bg-gray-50">
-                <TableCell className="font-medium text-blue-600">
-                  {subject.className}
-                </TableCell>
-                <TableCell className="text-blue-600">{subject.section}</TableCell>
-                <TableCell>{subject.subjectName}</TableCell>
-                <TableCell>{subject.subjectType}</TableCell>
-                <TableCell>
-                  <Button 
-                    variant="link" 
-                    className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
-                  >
-                    View Syllabus
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button 
-                    variant="link" 
-                    className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
-                  >
-                    View Notes
-                  </Button>
-                </TableCell>
+      <div className="border rounded-lg">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              <TableRow>
+                <TableHead className="w-[150px] text-xs">Class Name</TableHead>
+                <TableHead className="w-[100px] text-xs">Section</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject Name</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject Type</TableHead>
+                <TableHead className="w-[150px] text-xs">Syllabus</TableHead>
+                <TableHead className="w-[150px] text-xs">Notes</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {subjects.map((subject) => (
+                <TableRow key={subject.id} className="hover:bg-gray-50">
+                  <TableCell className="w-[150px] p-4 text-sm font-medium text-blue-600">
+                    {subject.className}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm text-blue-600">
+                    {subject.section}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {subject.subjectName}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {subject.subjectType}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <Button 
+                      variant="link" 
+                      className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
+                    >
+                      View Syllabus
+                    </Button>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <Button 
+                      variant="link" 
+                      className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
+                    >
+                      View Notes
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

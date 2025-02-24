@@ -1,9 +1,31 @@
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { Download, UserCircle2 } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const LeaveRequestManagement = () => {
   const leaveRequests = Array(10).fill({
@@ -16,11 +38,13 @@ const LeaveRequestManagement = () => {
   });
 
   return (
-    <div className="p-6 ">
-      <div className="text-lg font-semibold mb-4">Student Leave Request</div>
+    <div className="p-6">
+  
       
-      {/* Header Controls */}
+  
       <div className="flex items-center justify-between mb-6">
+      <div className="text-lg font-semibold mb-4">Student Leave Request</div>
+      <div className="flex items-center space-x-3">
         <div className="flex items-center space-x-3">
           <div className="relative">
             <Input
@@ -61,16 +85,16 @@ const LeaveRequestManagement = () => {
           </Select>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
-            <Download className="h-4 w-4 text-red-500" />
-            <span>Download</span>
-          </Button>
-          
-          <Button variant="outline" className="flex items-center space-x-2">
-            <Download className="h-4 w-4 text-green-600" />
-            <span>Download</span>
-          </Button>
+   
+        <Select>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Download" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="11">Excel </SelectItem>
+              <SelectItem value="12">pdf</SelectItem>
+            </SelectContent>
+          </Select>
 
           <Select>
             <SelectTrigger className="w-16">
@@ -86,56 +110,93 @@ const LeaveRequestManagement = () => {
       </div>
 
       {/* Leave Requests Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Photo</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Duration</TableHead>
-            <TableHead>Leave Type</TableHead>
-            <TableHead>Reason</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {leaveRequests.map((request, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <UserCircle2 className="h-10 w-10 text-gray-400" />
-              </TableCell>
-              <TableCell>
-                <div>{request.name}</div>
-                <div className="text-sm text-gray-500">{request.class}</div>
-              </TableCell>
-              <TableCell>{request.duration}</TableCell>
-              <TableCell>{request.leaveType}</TableCell>
-              <TableCell>{request.reason}</TableCell>
-              <TableCell>
-                <span className="text-yellow-500 font-medium">{request.status}</span>
-              </TableCell>
-              <TableCell>
-                <div className="flex space-x-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="text-green-600 border-green-600 hover:bg-green-50"
-                  >
-                    Approve
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="text-red-600 border-red-600 hover:bg-red-50"
-                  >
-                    Reject
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="border rounded-md">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[80px] text-xs">Photo</TableHead>
+                <TableHead className="w-[200px] text-xs">Name</TableHead>
+                <TableHead className="w-[200px] text-xs">Duration</TableHead>
+                <TableHead className="w-[150px] text-xs">Leave Type</TableHead>
+                <TableHead className="w-[200px] text-xs">Reason</TableHead>
+                <TableHead className="w-[120px] text-xs">Status</TableHead>
+                <TableHead className="w-[200px] text-xs text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {leaveRequests.map((request, index) => (
+                <TableRow key={index}>
+                  <TableCell className="w-[80px] p-4">
+                    <UserCircle2 className="h-10 w-10 text-gray-400" />
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 font-medium">
+                    <div>{request.name}</div>
+                    <div className="text-sm text-gray-500">{request.class}</div>
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    {request.duration}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {request.leaveType}
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    {request.reason}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-yellow-500 font-medium">{request.status}</span>
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-right">
+                    <div className="flex justify-end space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="text-green-600 border-green-600 hover:bg-green-50"
+                      >
+                        Approve
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="text-red-600 border-red-600 hover:bg-red-50"
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 10 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

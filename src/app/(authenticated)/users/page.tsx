@@ -15,6 +15,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Download, MoreVertical, UserCircle2 } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -54,11 +62,17 @@ const StaffDashboard = () => {
       <div className="p-6 flex-none">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <div className="bg-blue-500 px-3 py-1 rounded text-sm">
+            <div className=" px-3 py-1 rounded text-lg">
               Total Staff <span className="font-medium">15</span>
             </div>
 
-            <div className="relative">
+       
+
+       
+          </div>
+
+          <div className="flex items-center space-x-2">
+          <div className="relative">
               <Input
                 type="text"
                 placeholder="Search User"
@@ -78,7 +92,6 @@ const StaffDashboard = () => {
                 />
               </svg>
             </div>
-
             <Select>
               <SelectTrigger className="w-32">
                 <SelectValue placeholder="Select Rule" />
@@ -89,9 +102,6 @@ const StaffDashboard = () => {
                 <SelectItem value="staff">Staff</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="flex items-center space-x-2">
             <Button variant="outline" className="flex items-center space-x-2">
               <Download className="h-4 w-4 text-red-500" />
               <span>Download</span>
@@ -116,126 +126,125 @@ const StaffDashboard = () => {
 
       {/* Table Section */}
       <div className="flex-grow overflow-hidden px-6">
-        <div className="relative rounded-md border h-full">
-          <div className="overflow-auto max-h-[calc(100vh-180px)]">
-            <table className="w-full min-w-[800px] border-collapse">
-              <thead className="sticky top-0 [&_tr]:border-b bg-gray-100 text-black z-10">
-                <tr className="border-b">
-                  <th className="h-12 px-4 text-left align-middle font-medium w-[80px]">
-                    Photo
-                  </th>
-                  <th className="h-12 px-4 text-left align-middle font-medium w-[180px]">
-                    Name
-                  </th>
-                  <th className="h-12 px-4 text-left align-middle font-medium w-[150px]">
-                    Role/Type
-                  </th>
-                  <th className="h-12 px-4 text-left align-middle font-medium w-[200px]">
+        <div className="border rounded-md h-full">
+          {/* Fixed Header */}
+          <div className="w-full">
+            <Table>
+              <TableHeader
+                className={`${
+                  isDarkTheme ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
+                }`}
+              >
+                <TableRow>
+                  <TableHead className="w-[80px] text-xs">Photo</TableHead>
+                  <TableHead className="w-[180px] text-xs">Name</TableHead>
+                  <TableHead className="w-[150px] text-xs">Role/Type</TableHead>
+                  <TableHead className="w-[200px] text-xs">
                     Email/Phone No.
-                  </th>
-                  <th className="h-12 px-4 text-left align-middle font-medium">
-                    Address
-                  </th>
-                  <th className="h-12 px-4 text-left align-middle font-medium w-[100px]">
+                  </TableHead>
+                  <TableHead className="text-xs">Address</TableHead>
+                  <TableHead className="w-[100px] text-xs text-right">
                     Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+            </Table>
+          </div>
+
+          {/* Scrollable Body */}
+          <div className="max-h-[calc(100vh-300px)] overflow-auto">
+            <Table>
+              <TableBody>
                 {staffList.map((staff, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="p-4 w-[80px]">
+                  <TableRow key={index}>
+                    <TableCell className="w-[80px] p-4">
                       <UserCircle2 className="h-10 w-10 text-gray-400" />
-                    </td>
-                    <td className="p-4 w-[180px]">
-                      <div className="font-medium">{staff.name}</div>
-                      <div className="text-sm text-gray-500">
-                        {staff.gender}
-                      </div>
-                    </td>
-                    <td className="p-4 w-[150px]">
+                    </TableCell>
+                    <TableCell className="w-[180px] p-4 font-medium">
+                      <div>{staff.name}</div>
+                      <div className="text-sm text-gray-500">{staff.gender}</div>
+                    </TableCell>
+                    <TableCell className="w-[150px] p-4">
                       <div>{staff.role}</div>
                       <div className="text-sm text-blue-600">{staff.type}</div>
-                    </td>
-                    <td className="p-4 w-[200px]">
+                    </TableCell>
+                    <TableCell className="w-[200px] p-4">
                       <div className="text-blue-600">{staff.email}</div>
                       <div>{staff.phone}</div>
-                    </td>
-                    <td className="p-4">
-                      <div className="text-sm">{staff.address}</div>
-                    </td>
-                    <td className="p-4 w-[100px]">
-                      <div className="flex space-x-1">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 w-8 p-0"
-                            >
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <span className="flex items-center">
-                                <svg
-                                  className="h-4 w-4 mr-2"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                                </svg>
-                                Email
-                              </span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <span className="flex items-center">
-                                <svg
-                                  className="h-4 w-4 mr-2"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
-                                </svg>
-                                Copy Link
-                              </span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                              <span className="flex items-center">
-                                <svg
-                                  className="h-4 w-4 mr-2"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                </svg>
-                                Edit
-                              </span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <span className="flex items-center">
-                                <svg
-                                  className="h-4 w-4 mr-2"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                </svg>
-                                Delete
-                              </span>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell className="p-4 text-sm">{staff.address}</TableCell>
+                    <TableCell className="w-[100px] p-4 text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <span className="flex items-center">
+                              <svg
+                                className="h-4 w-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                              </svg>
+                              Email
+                            </span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <span className="flex items-center">
+                              <svg
+                                className="h-4 w-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+                              </svg>
+                              Copy Link
+                            </span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <span className="flex items-center">
+                              <svg
+                                className="h-4 w-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                              </svg>
+                              Edit
+                            </span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <span className="flex items-center">
+                              <svg
+                                className="h-4 w-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                              </svg>
+                              Delete
+                            </span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>
+
+      {/* Pagination */}
       <div className="p-4 flex-none">
         <div className="flex justify-end">
           <Pagination>

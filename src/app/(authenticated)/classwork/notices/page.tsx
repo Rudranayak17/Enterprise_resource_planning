@@ -4,9 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Download, Check, X } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const NoticeManagement = () => {
-  const notices = Array(9).fill({
+  const notices = Array(25).fill({
     date: '14/09/24',
     class: '11th-c',
     subject: 'Chemistry',
@@ -16,7 +25,7 @@ const NoticeManagement = () => {
   });
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6 bg-white max-w-7xl mx-auto">
       {/* Header Controls */}
       <div className="flex items-center justify-between mb-6">
         <div className="bg-blue-50 px-3 py-1 rounded text-sm">
@@ -74,67 +83,107 @@ const NoticeManagement = () => {
         </div>
       </div>
 
-      {/* Notices Table */}
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-gray-50">
-            <TableHead>Date</TableHead>
-            <TableHead>Class</TableHead>
-            <TableHead>Subject</TableHead>
-            <TableHead>Teacher</TableHead>
-            <TableHead>Student</TableHead>
-            <TableHead>Notice</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {notices.map((notice, index) => (
-            <TableRow key={index}>
-              <TableCell>{notice.date}</TableCell>
-              <TableCell>
-                <span className="text-blue-600 hover:underline cursor-pointer">
-                  {notice.class}
-                </span>
-              </TableCell>
-              <TableCell>{notice.subject}</TableCell>
-              <TableCell>{notice.teacher}</TableCell>
-              <TableCell>
-                <span className="text-blue-600 hover:underline cursor-pointer">
-                  {notice.student}
-                </span>
-              </TableCell>
-              <TableCell>{notice.notice}</TableCell>
-              <TableCell>
-                <div className="flex space-x-1">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 w-8 p-0 text-blue-600"
-                  >
-                    <Check className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 w-8 p-0 text-green-600"
-                  >
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                    </svg>
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 w-8 p-0 text-red-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {/* Table Section */}
+      <div className="border rounded-lg">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              <TableRow>
+                <TableHead className="w-[120px] text-xs">Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Class</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject</TableHead>
+                <TableHead className="w-[200px] text-xs">Teacher</TableHead>
+                <TableHead className="w-[150px] text-xs">Student</TableHead>
+                <TableHead className="w-[300px] text-xs">Notice</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {notices.map((notice, index) => (
+                <TableRow key={index} className="hover:bg-gray-50">
+                  <TableCell className="w-[120px] p-4 text-sm">{notice.date}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-blue-600 hover:underline cursor-pointer">
+                      {notice.class}
+                    </span>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">{notice.subject}</TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">{notice.teacher}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <span className="text-blue-600 hover:underline cursor-pointer">
+                      {notice.student}
+                    </span>
+                  </TableCell>
+                  <TableCell className="w-[300px] p-4 text-sm max-w-xs truncate">{notice.notice}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex items-center justify-end space-x-1">
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 text-blue-600"
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 text-green-600"
+                      >
+                        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 text-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };

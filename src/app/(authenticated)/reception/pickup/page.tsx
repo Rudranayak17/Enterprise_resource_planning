@@ -15,7 +15,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download, Plus, Check, Edit } from "lucide-react";
+import { Download, Plus, Edit } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface PickupAuthorization {
   photo: string;
@@ -44,14 +53,14 @@ const StudentPickupTable = () => {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="p-4  space-y-6">
       {/* Controls Header */}
-      <div className="flex items-center justify-between">
-        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md">
-          Total Authorizer: 50
+      <div className="flex items-center justify-between mb-6">
+        <div className="bg-blue-50 px-4 py-2 rounded-md">
+          <span className="text-sm">Total Authorizer: 50</span>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="14/02/25" />
@@ -67,7 +76,7 @@ const StudentPickupTable = () => {
             Download
           </Button>
 
-          <Select>
+          <Select defaultValue="10">
             <SelectTrigger className="w-20">
               <SelectValue placeholder="10" />
             </SelectTrigger>
@@ -85,65 +94,96 @@ const StudentPickupTable = () => {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table Section */}
       <div className="border rounded-lg">
-        <div className="min-h-[600px] flex flex-col">
+        {/* Fixed Header */}
+        <div className="w-full">
           <Table>
-            <TableHeader className="bg-white sticky top-0">
+            <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead>Photo</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Parent Details</TableHead>
-                <TableHead>Person Details</TableHead>
-                <TableHead>Address</TableHead>
-                <TableHead>Date & Time</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Action</TableHead>
+                <TableHead className="w-[80px] text-xs">Photo</TableHead>
+                <TableHead className="w-[200px] text-xs">Name</TableHead>
+                <TableHead className="w-[200px] text-xs">Parent Details</TableHead>
+                <TableHead className="w-[200px] text-xs">Person Details</TableHead>
+                <TableHead className="w-[250px] text-xs">Address</TableHead>
+                <TableHead className="w-[150px] text-xs">Date & Time</TableHead>
+                <TableHead className="w-[120px] text-xs">Status</TableHead>
+                <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
           </Table>
-          
-          <div className="flex-1 overflow-auto">
-            <Table>
-              <TableBody>
-                {authorizationData.map((auth, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <img
-                        src={auth.photo}
-                        alt={auth.studentName}
-                        className="w-10 h-10 rounded-full"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div>{auth.studentName}</div>
-                      <div className="text-sm text-gray-500">{auth.studentClass}</div>
-                    </TableCell>
-                    <TableCell>
-                      <div>{auth.parentName}</div>
-                      <div className="text-sm text-gray-500">{auth.parentPhone}</div>
-                    </TableCell>
-                    <TableCell>
-                      <div>{auth.personType}</div>
-                      <div>{auth.parentName}</div>
-                      <div className="text-sm text-gray-500">{auth.parentPhone}</div>
-                    </TableCell>
-                    <TableCell>{auth.address}</TableCell>
-                    <TableCell className="whitespace-pre-line">{auth.dateTime}</TableCell>
-                    <TableCell>
-                      <span className="text-green-600 font-medium">{auth.status}</span>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {authorizationData.map((auth, index) => (
+                <TableRow key={index} className="hover:bg-gray-50">
+                  <TableCell className="w-[80px] p-4 text-sm">
+                    <img
+                      src={auth.photo}
+                      alt={auth.studentName}
+                      className="w-10 h-10 rounded-full"
+                    />
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>{auth.studentName}</div>
+                    <div className="text-sm text-gray-500">{auth.studentClass}</div>
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>{auth.parentName}</div>
+                    <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>{auth.personType}</div>
+                    <div>{auth.parentName}</div>
+                    <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                  </TableCell>
+                  <TableCell className="w-[250px] p-4 text-sm">{auth.address}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm whitespace-pre-line">{auth.dateTime}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-green-600 font-medium">{auth.status}</span>
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-right">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

@@ -4,14 +4,23 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { FileDown, Pencil, Trash2, Plus } from 'lucide-react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const ChapterDashboard = () => {
-  // Sample data for chapters
-  const chapters = Array.from({ length: 10 }, (_, i) => ({
+  // Sample data for chapters (increased to 25 for scrolling demo)
+  const chapters = Array.from({ length: 25 }, (_, i) => ({
     id: i + 1,
     subjectName: 'Maths',
     subjectType: 'Compulsory',
-    chapterNumber: '1',
+    chapterNumber: `${i + 1}`,
     chapterName: 'Colligative Property',
     status: {
       completed: true,
@@ -67,67 +76,105 @@ const ChapterDashboard = () => {
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader className="bg-gray-100">
-            <TableRow>
-              <TableHead>Subject Name</TableHead>
-              <TableHead>Chapter /Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Revision</TableHead>
-              <TableHead>Notes</TableHead>
-              <TableHead>Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {chapters.map((chapter) => (
-              <TableRow key={chapter.id} className="hover:bg-gray-50">
-                <TableCell>
-                  <div>
-                    <div className="font-medium">{chapter.subjectName}</div>
-                    <div className="text-sm text-gray-500">{chapter.subjectType}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div>
-                    <div className="font-medium">{chapter.chapterNumber}</div>
-                    <div className="text-sm text-gray-500">{chapter.chapterName}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div>
-                    <div className="text-green-600">Completed</div>
-                    <div className="text-sm text-gray-500">{chapter.status.date}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div>
-                    <div className="text-green-600">Completed</div>
-                    <div className="text-sm text-gray-500">{chapter.revision.date}</div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Button 
-                    variant="link" 
-                    className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
-                  >
-                    View Notes
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Pencil size={16} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-700">
-                      <Trash2 size={16} />
-                    </Button>
-                  </div>
-                </TableCell>
+      <div className="border rounded-lg">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              <TableRow>
+                <TableHead className="w-[200px] text-xs">Subject Name</TableHead>
+                <TableHead className="w-[200px] text-xs">Chapter /Name</TableHead>
+                <TableHead className="w-[150px] text-xs">Status</TableHead>
+                <TableHead className="w-[150px] text-xs">Revision</TableHead>
+                <TableHead className="w-[150px] text-xs">Notes</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {chapters.map((chapter) => (
+                <TableRow key={chapter.id} className="hover:bg-gray-50">
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>
+                      <div className="font-medium">{chapter.subjectName}</div>
+                      <div className="text-sm text-gray-500">{chapter.subjectType}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    <div>
+                      <div className="font-medium">{chapter.chapterNumber}</div>
+                      <div className="text-sm text-gray-500">{chapter.chapterName}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <div>
+                      <div className="text-green-600">Completed</div>
+                      <div className="text-sm text-gray-500">{chapter.status.date}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <div>
+                      <div className="text-green-600">Completed</div>
+                      <div className="text-sm text-gray-500">{chapter.revision.date}</div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    <Button 
+                      variant="link" 
+                      className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
+                    >
+                      View Notes
+                    </Button>
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Pencil size={16} />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-700">
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

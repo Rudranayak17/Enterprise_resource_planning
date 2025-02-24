@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <div>
       <ParentToolBar />
-      <div className="max-h-[600px] border rounded-lg shadow-md mx-2">
+      <div className=" border rounded-lg shadow-md mx-2">
         <ParentComponent isDarkTheme={isDarkTheme} users={parent} />
       </div>
     </div>

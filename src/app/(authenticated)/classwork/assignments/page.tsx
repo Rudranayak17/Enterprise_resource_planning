@@ -1,9 +1,31 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 import { Download, Plus, Eye, Pencil, Trash2 } from 'lucide-react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const AssignmentDashboard = () => {
   // Generate 25 rows of sample data
@@ -81,55 +103,105 @@ const AssignmentDashboard = () => {
       </div>
 
       {/* Table Section */}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead>Class</TableHead>
-              <TableHead>Subject</TableHead>
-              <TableHead>Teacher</TableHead>
-              <TableHead>Period</TableHead>
-              <TableHead>Month</TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>Student</TableHead>
-              <TableHead>Assignment</TableHead>
-              <TableHead className="text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {assignments.map((assignment) => (
-              <TableRow key={assignment.id} className="hover:bg-gray-50">
-                <TableCell className="font-medium">{assignment.class}</TableCell>
-                <TableCell>{assignment.subject}</TableCell>
-                <TableCell>{assignment.teacher}</TableCell>
-                <TableCell>{assignment.period}</TableCell>
-                <TableCell>{assignment.month}</TableCell>
-                <TableCell>{assignment.dueDate}</TableCell>
-                <TableCell>
-                  <span className="text-blue-600 cursor-pointer hover:underline">
-                    {assignment.student}
-                  </span>
-                </TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {assignment.assignment}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center justify-end gap-2">
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Eye size={16} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Pencil size={16} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-700">
-                      <Trash2 size={16} />
-                    </Button>
-                  </div>
-                </TableCell>
+      <div className="border rounded-lg">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className="bg-gray-50">
+              <TableRow>
+                <TableHead className="w-[120px] text-xs">Class</TableHead>
+                <TableHead className="w-[150px] text-xs">Subject</TableHead>
+                <TableHead className="w-[200px] text-xs">Teacher</TableHead>
+                <TableHead className="w-[100px] text-xs">Period</TableHead>
+                <TableHead className="w-[120px] text-xs">Month</TableHead>
+                <TableHead className="w-[120px] text-xs">Due Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Student</TableHead>
+                <TableHead className="w-[250px] text-xs">Assignment</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {assignments.map((assignment) => (
+                <TableRow key={assignment.id} className="hover:bg-gray-50">
+                  <TableCell className="w-[120px] p-4 text-sm font-medium">
+                    {assignment.class}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {assignment.subject}
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm">
+                    {assignment.teacher}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm">
+                    {assignment.period}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {assignment.month}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {assignment.dueDate}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-blue-600 cursor-pointer hover:underline">
+                      {assignment.student}
+                    </span>
+                  </TableCell>
+                  <TableCell className="w-[250px] p-4 text-sm max-w-xs truncate">
+                    {assignment.assignment}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Eye size={16} />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Pencil size={16} />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-700">
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 25 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

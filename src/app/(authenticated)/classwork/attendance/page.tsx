@@ -1,9 +1,31 @@
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, UserCircle2, Check, Edit } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { Download, UserCircle2, Edit } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const AttendanceManagement = () => {
   const students = Array(11).fill({
@@ -81,44 +103,86 @@ const AttendanceManagement = () => {
       </div>
 
       {/* Attendance Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Photo</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Class</TableHead>
-            <TableHead>Roll No.</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {students.map((student, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <UserCircle2 className="h-10 w-10 text-gray-400" />
-              </TableCell>
-              <TableCell>{student.name}</TableCell>
-              <TableCell>{student.class}</TableCell>
-              <TableCell>{student.rollNo}</TableCell>
-              <TableCell>{student.date}</TableCell>
-              <TableCell>
-                <span className="text-green-600">{student.status}</span>
-              </TableCell>
-              <TableCell>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-8 w-8 p-0 text-blue-600"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="border rounded-md">
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[80px] text-xs">Photo</TableHead>
+                <TableHead className="w-[200px] text-xs">Name</TableHead>
+                <TableHead className="w-[150px] text-xs">Class</TableHead>
+                <TableHead className="w-[120px] text-xs">Roll No.</TableHead>
+                <TableHead className="w-[150px] text-xs">Date</TableHead>
+                <TableHead className="w-[120px] text-xs">Status</TableHead>
+                <TableHead className="w-[100px] text-xs text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+          <Table>
+            <TableBody>
+              {students.map((student, index) => (
+                <TableRow key={index}>
+                  <TableCell className="w-[80px] p-4">
+                    <UserCircle2 className="h-10 w-10 text-gray-400" />
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                    {student.name}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {student.class}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {student.rollNo}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {student.date}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-green-600">{student.status}</span>
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-right">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-8 w-8 p-0 text-blue-600"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500">Showing 1-10 of 11 entries</div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };
