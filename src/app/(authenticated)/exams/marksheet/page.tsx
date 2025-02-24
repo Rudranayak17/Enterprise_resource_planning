@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -26,6 +26,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 interface StudentResult {
   photo: string;
@@ -52,7 +53,7 @@ const StudentResultsTable = () => {
     subject: "Chemistry",
     marksReceived: 25,
     totalMarks: 100,
-    status: "Fail"
+    status: "Fail",
   });
 
   return (
@@ -62,7 +63,7 @@ const StudentResultsTable = () => {
         <div className="bg-blue-50 px-4 py-2 rounded-md">
           <span className="text-sm">Total Results: 50</span>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-32">
@@ -122,13 +123,21 @@ const StudentResultsTable = () => {
                 <TableHead className="w-[80px] text-xs">Photo</TableHead>
                 <TableHead className="w-[200px] text-xs">Name</TableHead>
                 <TableHead className="w-[120px] text-xs">Class</TableHead>
-                <TableHead className="w-[200px] text-xs">Exam Details</TableHead>
+                <TableHead className="w-[200px] text-xs">
+                  Exam Details
+                </TableHead>
                 <TableHead className="w-[150px] text-xs">Subject</TableHead>
-                <TableHead className="w-[120px] text-xs">Marks Received</TableHead>
+                <TableHead className="w-[120px] text-xs">
+                  Marks Received
+                </TableHead>
                 <TableHead className="w-[120px] text-xs">Total Marks</TableHead>
                 <TableHead className="w-[120px] text-xs">Status</TableHead>
-                <TableHead className="w-[120px] text-xs">Show Parents</TableHead>
-                <TableHead className="w-[150px] text-xs text-right">Attachments</TableHead>
+                <TableHead className="w-[120px] text-xs">
+                  Show Parents
+                </TableHead>
+                <TableHead className="w-[150px] text-xs text-right">
+                  Attachments
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -141,39 +150,67 @@ const StudentResultsTable = () => {
               {studentData.map((student, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+                    <Image
                       src={student.photo}
                       alt={student.name}
-                      className="w-10 h-10 rounded-full"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm">
                     <div>{student.name}</div>
-                    <div className="text-sm text-gray-500">{student.rollNo}</div>
+                    <div className="text-sm text-gray-500">
+                      {student.rollNo}
+                    </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{student.class}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {student.class}
+                  </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm">
                     <div>{student.examType}</div>
-                    <div className="text-sm text-gray-500">{student.examDate}</div>
+                    <div className="text-sm text-gray-500">
+                      {student.examDate}
+                    </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{student.subject}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{student.marksReceived}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{student.totalMarks}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {student.subject}
+                  </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
-                    <span className="text-red-600 font-medium">{student.status}</span>
+                    {student.marksReceived}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {student.totalMarks}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    <span className="text-red-600 font-medium">
+                      {student.status}
+                    </span>
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
                     <Switch />
                   </TableCell>
                   <TableCell className="w-[150px] p-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-blue-600"
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-blue-600"
+                      >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-blue-600"
+                      >
                         <FileText className="h-4 w-4" />
                       </Button>
                     </div>

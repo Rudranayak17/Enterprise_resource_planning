@@ -105,10 +105,10 @@ const VehicleTracking = () => {
           ))}
         </div>
 
-        {/* Map Section */}
+ ß
         <div className="flex-1 bg-gray-100 p-4">
           <div className="h-full rounded-lg bg-white">
-            {/* Map would be integrated here */}
+
             <div className="h-full flex items-center justify-center text-gray-500">
               Map Integration Area
             </div>

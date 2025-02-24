@@ -48,6 +48,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Image from "next/image";
 
 interface Student {
   photo: string;
@@ -155,10 +156,12 @@ const StudentManagementDashboard = () => {
           {students.map((student, index) => (
             <TableRow key={index}>
               <TableCell>
-                <img
+                <Image
                   src={student.photo}
                   alt={student.name}
-                  className="w-10 h-10 rounded-full"
+                  width={55}
+                  height={55}
+                  className="rounded-full bg-gray-200"
                 />
               </TableCell>
               <TableCell>

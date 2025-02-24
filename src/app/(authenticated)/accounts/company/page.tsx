@@ -40,6 +40,7 @@ import {
   PenSquare,
   Trash2,
 } from "lucide-react";
+import Image from "next/image";
 
 interface Company {
   photo: string;
@@ -118,10 +119,12 @@ const CompanyDashboard = () => {
               {companies.map((company, index) => (
                 <TableRow key={index}>
                   <TableCell className="w-[80px]">
-                    <img
+                  <Image
                       src={company.photo}
                       alt={company.name}
-                      className="w-10 h-10 rounded-full bg-gray-200"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] font-medium">

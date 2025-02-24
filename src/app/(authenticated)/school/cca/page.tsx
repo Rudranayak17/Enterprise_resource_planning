@@ -20,24 +20,25 @@ const ClassActivities = () => {
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
           <div className="bg-blue-50 px-4 py-2 rounded-md">
-            <span className="text-sm">Class Activity: 20</span>
+            <span className="text-sm">Total CCA: 20</span>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
+          
           <Select>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Select Class" />
+              <SelectValue placeholder="Select Year" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="11">11th Class</SelectItem>
-              <SelectItem value="12">12th Class</SelectItem>
+              <SelectItem value="11">2024-2025</SelectItem>
+              <SelectItem value="12">2025-2026</SelectItem>
             </SelectContent>
           </Select>
 
           <Button className="flex items-center gap-2 bg-blue-600">
             <Plus size={16} />
-            Add Class Activity
+            Add CCA
           </Button>
         </div>
       </div>

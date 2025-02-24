@@ -24,15 +24,36 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState("2023-24");
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const academicYears = ["2024-25", "2023-24", "2022-23"];
+
+  // Sample notifications data
+  const notifications = [
+    { id: 1, title: "New Assignment", message: "Math homework due tomorrow", time: "2h ago" },
+    { id: 2, title: "School Event", message: "Parent meeting at 5 PM", time: "4h ago" },
+    { id: 3, title: "Grade Posted", message: "Science test results available", time: "1d ago" },
+  ];
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -46,30 +67,23 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
     <nav className={cn("flex items-center justify-between px-6 py-4 border-b shadow-sm relative z-20")}>
       {/* Left Section with Logo and Menu */}
       <div className="flex items-center space-x-4">
-        {/* Mobile Menu Button for Sidebar */}
         <button className="md:hidden" onClick={toggleSidebar}>
           <LayoutDashboard className="w-6 h-6" />
         </button>
-
-        {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <GraduationCap className="w-6 h-6" />
           <span className="text-lg font-semibold">School Name</span>
         </Link>
       </div>
 
-      {/* Mobile Header Menu Button */}
       <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-      {/* Navigation Links */}
       <div className="flex space-x-3 items-center">
         <div className="hidden md:flex space-x-6">
           <Input placeholder="Select School" />
         </div>
-
-        {/* Dropdown for Academic Year */}
         <DropdownMenu>
           <DropdownMenuTrigger className="px-4 py-2 border rounded-md">
             {selectedYear}
@@ -84,7 +98,6 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
         </DropdownMenu>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -99,10 +112,66 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
       {/* User Section */}
       <div className="md:flex items-center space-x-4">
         <Maximize className="size-5 cursor-pointer" onClick={toggleFullScreen} />
-        <Bell className="size-5 cursor-pointer" />
-        <ThemeToggle />
+        
+        {/* Notification with Tooltip and Card */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="relative">
+                <Bell 
+                  className="size-5 cursor-pointer" 
+                  onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                  onMouseEnter={() => setIsNotificationOpen(true)}
+                />
+                {notifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {notifications.length}
+                  </span>
+                )}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>View Notifications</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
-        {/* User Profile Dropdown */}
+        {/* Notification Card */}
+        <AnimatePresence>
+          {isNotificationOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute top-12 right-0 w-80 z-50"
+              onMouseLeave={() => setIsNotificationOpen(false)}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle>Notifications</CardTitle>
+                </CardHeader>
+                <CardContent className="max-h-96 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className="p-2 border-b last:border-b-0 hover:bg-gray-100"
+                      >
+                        <h4 className="text-sm font-semibold">{notification.title}</h4>
+                        <p className="text-sm text-gray-600">{notification.message}</p>
+                        <p className="text-xs text-gray-400">{notification.time}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-600">No new notifications</p>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <ThemeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center space-x-2 cursor-pointer">
             <CircleUserRound className="w-6 h-6 text-blue-700" />
@@ -125,7 +194,6 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
         </DropdownMenu>
       </div>
 
-      {/* Logout Confirmation Dialog */}
       <Dialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
         <DialogContent>
           <DialogTitle>Confirm Logout</DialogTitle>

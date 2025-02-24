@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download } from 'lucide-react';
+import { Download } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 const FeeReceipt = () => {
   const receiptRows = Array(25).fill({
@@ -39,7 +40,7 @@ const FeeReceipt = () => {
     status: "Paid",
     paymentId: "FTPWER8788",
     transId: "KPJKGW5678",
-    date: "14/02/2023"
+    date: "14/02/2023",
   });
 
   return (
@@ -48,7 +49,7 @@ const FeeReceipt = () => {
       <div className="flex items-center justify-between mb-6">
         <div className="flex gap-4 items-center">
           <div className="font-semibold text-lg">Fee Receipt</div>
-          
+
           <Select>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Section" />
@@ -122,7 +123,9 @@ const FeeReceipt = () => {
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="w-[80px] text-xs">Photo</TableHead>
-                <TableHead className="w-[250px] text-xs">Student Name</TableHead>
+                <TableHead className="w-[250px] text-xs">
+                  Student Name
+                </TableHead>
                 <TableHead className="w-[120px] text-xs">Fee Type</TableHead>
                 <TableHead className="w-[120px] text-xs">Fee Month</TableHead>
                 <TableHead className="w-[120px] text-xs">Amount</TableHead>
@@ -130,7 +133,9 @@ const FeeReceipt = () => {
                 <TableHead className="w-[150px] text-xs">Status</TableHead>
                 <TableHead className="w-[150px] text-xs">Payment ID</TableHead>
                 <TableHead className="w-[150px] text-xs">Trans. ID</TableHead>
-                <TableHead className="w-[150px] text-xs text-right">Action</TableHead>
+                <TableHead className="w-[150px] text-xs text-right">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -143,10 +148,13 @@ const FeeReceipt = () => {
               {receiptRows.map((row, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img 
-                      src={row.photo} 
-                      alt="Student" 
-                      className="w-8 h-8 rounded-full"
+             
+                    <Image
+                      src={row.photo}
+                      alt={""}
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[250px] p-4 text-sm">
@@ -160,10 +168,18 @@ const FeeReceipt = () => {
                       View Details
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{row.feeType}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{row.feeMonth}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{row.amount}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{row.dueDate}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {row.feeType}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {row.feeMonth}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {row.amount}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {row.dueDate}
+                  </TableCell>
                   <TableCell className="w-[150px] p-4 text-sm">
                     <div className="flex items-center gap-1">
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
@@ -174,12 +190,16 @@ const FeeReceipt = () => {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{row.paymentId}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{row.transId}</TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {row.paymentId}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {row.transId}
+                  </TableCell>
                   <TableCell className="w-[150px] p-4 text-right">
-                    <Button 
-                      size="sm" 
-                      variant="default" 
+                    <Button
+                      size="sm"
+                      variant="default"
                       className="bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2"
                     >
                       <Download className="h-4 w-4" />

@@ -25,6 +25,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Search, Download, Plus, Grid, PenSquare } from "lucide-react";
+import Image from "next/image";
 
 interface Expense {
   photo: string;
@@ -46,7 +47,7 @@ const ExpenseDashboard = () => {
     paymentId: "#345544345",
     transactionId: "#895544345",
     status: "Paid",
-    date: "14/02/2024"
+    date: "14/02/2024",
   });
 
   return (
@@ -109,21 +110,27 @@ const ExpenseDashboard = () => {
               {expenses.map((expense, index) => (
                 <TableRow key={index}>
                   <TableCell className="w-[80px]">
-                    <img
+                    <Image
                       src={expense.photo}
                       alt={expense.companyName}
-                      className="w-10 h-10 rounded-full bg-gray-200"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] font-medium">
                     {expense.companyName}
                   </TableCell>
                   <TableCell className="w-[120px]">{expense.amount}</TableCell>
-                  <TableCell className="w-[150px]">{expense.modeMethod}</TableCell>
+                  <TableCell className="w-[150px]">
+                    {expense.modeMethod}
+                  </TableCell>
                   <TableCell className="w-[150px]">
                     <span className="text-blue-600">{expense.paymentId}</span>
                   </TableCell>
-                  <TableCell className="w-[150px]">{expense.transactionId}</TableCell>
+                  <TableCell className="w-[150px]">
+                    {expense.transactionId}
+                  </TableCell>
                   <TableCell className="w-[100px]">
                     <span className="px-2 py-1 rounded-full text-sm text-green-700 bg-green-100">
                       {expense.status}

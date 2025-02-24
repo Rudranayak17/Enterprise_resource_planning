@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 interface PickupAuthorization {
   photo: string;
@@ -49,7 +50,7 @@ const StudentPickupTable = () => {
     personType: "Parent",
     address: "Bishanpura, Sector 58, Noida",
     dateTime: "15/02/2025\n11:00 AM",
-    status: "Approved"
+    status: "Approved",
   });
 
   return (
@@ -59,7 +60,7 @@ const StudentPickupTable = () => {
         <div className="bg-blue-50 px-4 py-2 rounded-md">
           <span className="text-sm">Total Authorizer: 50</span>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <Select>
             <SelectTrigger className="w-32">
@@ -103,12 +104,18 @@ const StudentPickupTable = () => {
               <TableRow>
                 <TableHead className="w-[80px] text-xs">Photo</TableHead>
                 <TableHead className="w-[200px] text-xs">Name</TableHead>
-                <TableHead className="w-[200px] text-xs">Parent Details</TableHead>
-                <TableHead className="w-[200px] text-xs">Person Details</TableHead>
+                <TableHead className="w-[200px] text-xs">
+                  Parent Details
+                </TableHead>
+                <TableHead className="w-[200px] text-xs">
+                  Person Details
+                </TableHead>
                 <TableHead className="w-[250px] text-xs">Address</TableHead>
                 <TableHead className="w-[150px] text-xs">Date & Time</TableHead>
                 <TableHead className="w-[120px] text-xs">Status</TableHead>
-                <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
+                <TableHead className="w-[120px] text-xs text-right">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -121,32 +128,50 @@ const StudentPickupTable = () => {
               {authorizationData.map((auth, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+                    <Image
                       src={auth.photo}
                       alt={auth.studentName}
-                      className="w-10 h-10 rounded-full"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm">
                     <div>{auth.studentName}</div>
-                    <div className="text-sm text-gray-500">{auth.studentClass}</div>
+                    <div className="text-sm text-gray-500">
+                      {auth.studentClass}
+                    </div>
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm">
                     <div>{auth.parentName}</div>
-                    <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                    <div className="text-sm text-gray-500">
+                      {auth.parentPhone}
+                    </div>
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm">
                     <div>{auth.personType}</div>
                     <div>{auth.parentName}</div>
-                    <div className="text-sm text-gray-500">{auth.parentPhone}</div>
+                    <div className="text-sm text-gray-500">
+                      {auth.parentPhone}
+                    </div>
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">{auth.address}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm whitespace-pre-line">{auth.dateTime}</TableCell>
+                  <TableCell className="w-[250px] p-4 text-sm">
+                    {auth.address}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm whitespace-pre-line">
+                    {auth.dateTime}
+                  </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
-                    <span className="text-green-600 font-medium">{auth.status}</span>
+                    <span className="text-green-600 font-medium">
+                      {auth.status}
+                    </span>
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-right">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-blue-600"
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                   </TableCell>

@@ -55,7 +55,7 @@ const ExamScheduleTable = () => {
   });
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="p-4 ">
       {/* Controls Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="bg-blue-50 px-4 py-2 rounded-md">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Search } from 'lucide-react';
+import { Download, FileText, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -26,6 +26,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 const LeaveRequest = () => {
   const requests = Array(19).fill({
@@ -35,7 +36,7 @@ const LeaveRequest = () => {
     duration: "14/08/2024 - 18/08/2024",
     leaveType: "Full Day",
     reason: "For Suffering From Cold..",
-    status: "Pending/Expire"
+    status: "Pending/Expire",
   });
 
   return (
@@ -127,7 +128,9 @@ const LeaveRequest = () => {
                 <TableHead className="w-[150px] text-xs">Leave Type</TableHead>
                 <TableHead className="w-[200px] text-xs">Reason</TableHead>
                 <TableHead className="w-[120px] text-xs">Status</TableHead>
-                <TableHead className="w-[200px] text-xs text-right">Action</TableHead>
+                <TableHead className="w-[200px] text-xs text-right">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -140,17 +143,17 @@ const LeaveRequest = () => {
               {requests.map((request, index) => (
                 <TableRow key={index} className="border-b">
                   <TableCell className="w-[80px] p-4">
-                    <img
+                    <Image
                       src={request.photo}
                       alt="User"
-                      className="w-8 h-8 rounded-full"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] p-4 font-medium">
                     <div className="flex flex-col">
-                      <span className="text-blue-600">
-                        {request.name}
-                      </span>
+                      <span className="text-blue-600">{request.name}</span>
                       <span className="text-gray-500 text-sm">
                         {request.role}
                       </span>
@@ -170,13 +173,13 @@ const LeaveRequest = () => {
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-right">
                     <div className="flex justify-end gap-2">
-                      <Button 
+                      <Button
                         size="sm"
                         className="bg-green-500 hover:bg-green-600 text-white text-xs"
                       >
                         Approve
                       </Button>
-                      <Button 
+                      <Button
                         size="sm"
                         className="bg-red-100 hover:bg-red-200 text-red-600 text-xs"
                       >

@@ -25,7 +25,7 @@ const NoticeManagement = () => {
   });
 
   return (
-    <div className="p-6 bg-white max-w-7xl mx-auto">
+    <div className="p-6">
       {/* Header Controls */}
       <div className="flex items-center justify-between mb-6">
         <div className="bg-blue-50 px-3 py-1 rounded text-sm">

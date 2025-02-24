@@ -25,6 +25,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Search, Download, Plus, Info, PenSquare } from "lucide-react";
+import Image from "next/image";
 
 interface Student {
   photo: string;
@@ -48,7 +49,7 @@ const ScholarshipDashboard = () => {
     date: "16/02/2025",
     amount: "Rs 3000",
     approvalStatus: "Approved",
-    paymentStatus: "Pending"
+    paymentStatus: "Pending",
   });
 
   return (
@@ -126,11 +127,14 @@ const ScholarshipDashboard = () => {
               {students.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell className="w-[80px]">
-                    <img
+                    <Image
                       src={student.photo}
                       alt={student.name}
-                      className="w-10 h-10 rounded-full bg-gray-200"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
+                
                   </TableCell>
                   <TableCell className="w-[200px]">
                     <div>
@@ -143,7 +147,9 @@ const ScholarshipDashboard = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px]">{student.scholarshipType}</TableCell>
+                  <TableCell className="w-[150px]">
+                    {student.scholarshipType}
+                  </TableCell>
                   <TableCell className="w-[120px]">{student.date}</TableCell>
                   <TableCell className="w-[120px]">{student.amount}</TableCell>
                   <TableCell className="w-[150px]">
@@ -190,9 +196,7 @@ const ScholarshipDashboard = () => {
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <div className="text-sm text-gray-500">
-          Showing 1-10 of 12 entries
-        </div>
+        <div className="text-sm text-gray-500">Showing 1-10 of 12 entries</div>
         <Pagination>
           <PaginationContent>
             <PaginationItem>

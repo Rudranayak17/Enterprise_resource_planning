@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download } from 'lucide-react';
+import { Download } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 const ComplaintInterface = () => {
   const complaints = Array(25).fill({
@@ -37,7 +38,7 @@ const ComplaintInterface = () => {
     complainFor: "School",
     issue: "For Long time of School assembly on Summer Days...",
     status: "Pending",
-    attachments: "View Attachments"
+    attachments: "View Attachments",
   });
 
   return (
@@ -86,14 +87,20 @@ const ComplaintInterface = () => {
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className="w-[80px] text-xs">Photo</TableHead>
-                <TableHead className="w-[250px] text-xs">Student Name</TableHead>
+                <TableHead className="w-[250px] text-xs">
+                  Student Name
+                </TableHead>
                 <TableHead className="w-[120px] text-xs">Date</TableHead>
                 <TableHead className="w-[150px] text-xs">Parent</TableHead>
-                <TableHead className="w-[150px] text-xs">Complain For</TableHead>
+                <TableHead className="w-[150px] text-xs">
+                  Complain For
+                </TableHead>
                 <TableHead className="w-[300px] text-xs">Issue</TableHead>
                 <TableHead className="w-[120px] text-xs">Status</TableHead>
                 <TableHead className="w-[150px] text-xs">Attachments</TableHead>
-                <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
+                <TableHead className="w-[120px] text-xs text-right">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -106,10 +113,12 @@ const ComplaintInterface = () => {
               {complaints.map((complaint, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+                    <Image
                       src={complaint.photo}
-                      alt="Student"
-                      className="w-8 h-8 rounded-full"
+                      alt={complaint.studentName}
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[250px] p-4 text-sm">
@@ -125,24 +134,32 @@ const ComplaintInterface = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{complaint.date}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{complaint.parent}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{complaint.complainFor}</TableCell>
-                  <TableCell className="w-[300px] p-4 text-sm max-w-xs truncate">{complaint.issue}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {complaint.date}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {complaint.parent}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {complaint.complainFor}
+                  </TableCell>
+                  <TableCell className="w-[300px] p-4 text-sm max-w-xs truncate">
+                    {complaint.issue}
+                  </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
                     <span className="text-red-500">{complaint.status}</span>
                   </TableCell>
                   <TableCell className="w-[150px] p-4 text-sm">
-                    <Button 
-                      variant="link" 
+                    <Button
+                      variant="link"
                       className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
                     >
                       {complaint.attachments}
                     </Button>
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-right">
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       className="bg-green-500 hover:bg-green-600"
                     >
                       Resolved

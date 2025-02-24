@@ -23,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 
 const monthlyData = [
   { month: "January", income: 2.4, expenses: 1.8 },
@@ -238,11 +239,14 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="relative h-[200px] rounded-lg overflow-hidden">
-                <img
+                <Image
                   src="/api/placeholder/400/200"
                   alt="Activity"
-                  className="object-cover w-full h-full"
+                  width={55}
+                  height={55}
+                  className="rounded-full bg-gray-200"
                 />
+
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white">
                   <p className="font-medium">Environment Day</p>
                   <button className="text-sm text-blue-400">View more</button>

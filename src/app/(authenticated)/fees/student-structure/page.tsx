@@ -26,6 +26,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 const StudentFeeTable = () => {
   const studentRows = Array(25).fill({
@@ -129,10 +130,13 @@ const StudentFeeTable = () => {
               {studentRows.map((row, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+            
+                    <Image
                       src={row.photo}
-                      alt="Student"
-                      className="w-8 h-8 rounded-full"
+                      alt={""}
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[250px] p-4 text-sm">

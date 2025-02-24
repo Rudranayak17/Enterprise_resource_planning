@@ -25,6 +25,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Search, Download, Plus } from "lucide-react";
+import Image from "next/image";
 
 interface Donation {
   photo: string;
@@ -44,7 +45,7 @@ const DonationDashboard = () => {
     modeMethod: "Offline & Cash",
     paymentId: "#345544345",
     transactionId: "#895544345",
-    status: "Paid"
+    status: "Paid",
   });
 
   return (
@@ -95,7 +96,9 @@ const DonationDashboard = () => {
                 <TableHead className="w-[150px]">Payment ID</TableHead>
                 <TableHead className="w-[150px]">Transaction ID</TableHead>
                 <TableHead className="w-[100px]">Status</TableHead>
-                <TableHead className="w-[120px] text-right">View Detail</TableHead>
+                <TableHead className="w-[120px] text-right">
+                  View Detail
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -106,19 +109,27 @@ const DonationDashboard = () => {
               {donations.map((donation, index) => (
                 <TableRow key={index}>
                   <TableCell className="w-[80px]">
-                    <img
+                    <Image
                       src={donation.photo}
                       alt={donation.companyName}
-                      className="w-10 h-10 rounded-full bg-gray-200"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] font-medium">
                     {donation.companyName}
                   </TableCell>
                   <TableCell className="w-[150px]">{donation.amount}</TableCell>
-                  <TableCell className="w-[200px]">{donation.modeMethod}</TableCell>
-                  <TableCell className="w-[150px]">{donation.paymentId}</TableCell>
-                  <TableCell className="w-[150px]">{donation.transactionId}</TableCell>
+                  <TableCell className="w-[200px]">
+                    {donation.modeMethod}
+                  </TableCell>
+                  <TableCell className="w-[150px]">
+                    {donation.paymentId}
+                  </TableCell>
+                  <TableCell className="w-[150px]">
+                    {donation.transactionId}
+                  </TableCell>
                   <TableCell className="w-[100px]">
                     <span className="px-2 py-1 rounded-full text-sm text-green-700 bg-green-100">
                       {donation.status}

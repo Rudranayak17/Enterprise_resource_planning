@@ -1,13 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
+import Image from "next/image";
 
 const studentFeeData = Array.from({ length: 59 }, (_, index) => ({
   id: index + 1,
@@ -29,7 +55,10 @@ export default function StudentFeeTable() {
   // Pagination logic
   const totalItems = studentFeeData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = studentFeeData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = studentFeeData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
@@ -91,10 +120,14 @@ export default function StudentFeeTable() {
               <TableHead className="w-[120px] text-xs">Fee Type</TableHead>
               <TableHead className="w-[100px] text-xs">Amount</TableHead>
               <TableHead className="w-[100px] text-xs">Discount</TableHead>
-              <TableHead className="w-[120px] text-xs">Payable Amount</TableHead>
+              <TableHead className="w-[120px] text-xs">
+                Payable Amount
+              </TableHead>
               <TableHead className="w-[120px] text-xs">Status</TableHead>
               <TableHead className="w-[120px] text-xs">Remarks</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
+              <TableHead className="w-[120px] text-xs text-right">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
         </Table>
@@ -104,18 +137,40 @@ export default function StudentFeeTable() {
               {paginatedData.map((fee) => (
                 <TableRow key={fee.id} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+                    <Image
                       src={fee.photo}
                       alt={`${fee.studentName}'s photo`}
-                      className="w-10 h-10 rounded-full"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
+                    />
+
+                    <Image
+                      src={fee.photo}
+                      alt={`${fee.studentName}'s photo`}
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium">{fee.studentName}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{fee.category}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{fee.feeType}</TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">{fee.amount}</TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">{fee.discount}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{fee.payableAmount}</TableCell>
+                  <TableCell className="w-[180px] p-4 text-sm font-medium">
+                    {fee.studentName}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {fee.category}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {fee.feeType}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm">
+                    {fee.amount}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm">
+                    {fee.discount}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {fee.payableAmount}
+                  </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm">
                     <span className="text-red-600">{fee.status}</span>
                   </TableCell>
@@ -132,7 +187,9 @@ export default function StudentFeeTable() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => console.log(`View ${fee.id}`)}>
+                        <DropdownMenuItem
+                          onClick={() => console.log(`View ${fee.id}`)}
+                        >
                           View
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -155,7 +212,8 @@ export default function StudentFeeTable() {
       <div className="mt-4 flex items-center justify-between">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          entries
         </div>
         <Pagination>
           <PaginationContent>
@@ -177,7 +235,9 @@ export default function StudentFeeTable() {
             ))}
             <PaginationItem>
               <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
               />
             </PaginationItem>

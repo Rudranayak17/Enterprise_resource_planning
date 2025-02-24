@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Search } from 'lucide-react';
+import { Download, FileText, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -26,6 +26,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Image from "next/image";
 
 const LeaveRequestSimple = () => {
   const requests = Array(28).fill({
@@ -33,7 +34,7 @@ const LeaveRequestSimple = () => {
     name: "Ravi Singh",
     roleType: "Teacher/PRT",
     date: "14/08/2024",
-    leaveType: "Sick Leave"
+    leaveType: "Sick Leave",
   });
 
   return (
@@ -114,11 +115,21 @@ const LeaveRequestSimple = () => {
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50">
-                <TableHead className="w-[80px] text-xs font-medium">Photo</TableHead>
-                <TableHead className="w-[200px] text-xs font-medium">Name</TableHead>
-                <TableHead className="w-[150px] text-xs font-medium">Role/Type</TableHead>
-                <TableHead className="w-[150px] text-xs font-medium">Date</TableHead>
-                <TableHead className="w-[150px] text-xs font-medium">Leave Type</TableHead>
+                <TableHead className="w-[80px] text-xs font-medium">
+                  Photo
+                </TableHead>
+                <TableHead className="w-[200px] text-xs font-medium">
+                  Name
+                </TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">
+                  Role/Type
+                </TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">
+                  Date
+                </TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">
+                  Leave Type
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -131,10 +142,12 @@ const LeaveRequestSimple = () => {
               {requests.map((request, index) => (
                 <TableRow key={index} className="border-b">
                   <TableCell className="w-[80px] p-4">
-                    <img
+                    <Image
                       src={request.photo}
                       alt="User"
-                      className="w-8 h-8 rounded-full"
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
                   </TableCell>
                   <TableCell className="w-[200px] p-4 text-sm font-medium">

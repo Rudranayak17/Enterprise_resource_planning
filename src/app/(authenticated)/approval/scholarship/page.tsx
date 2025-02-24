@@ -1,13 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { MoreVertical, Info } from "lucide-react"; // Importing the info icon from Lucide React
+import Image from "next/image";
 
 const scholarshipData = Array.from({ length: 90 }, (_, index) => ({
   id: index + 1,
@@ -25,13 +51,18 @@ export default function ScholarshipApprovalTable() {
   // Pagination logic
   const totalItems = scholarshipData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = scholarshipData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = scholarshipData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="mx-4 p-3 space-y-6">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold">Scholarship Approval: {totalItems}</h1>
+        <h1 className="text-lg font-semibold">
+          Scholarship Approval: {totalItems}
+        </h1>
         <div className="flex gap-2">
           <Select>
             <SelectTrigger className="w-40">
@@ -76,10 +107,14 @@ export default function ScholarshipApprovalTable() {
             <TableRow>
               <TableHead className="w-[80px] text-xs">Photo</TableHead>
               <TableHead className="w-[120px] text-xs">Student Name</TableHead>
-              <TableHead className="w-[150px] text-xs">Scholarship Type</TableHead>
+              <TableHead className="w-[150px] text-xs">
+                Scholarship Type
+              </TableHead>
               <TableHead className="w-[100px] text-xs">Amount</TableHead>
               <TableHead className="w-[100px] text-xs">Status</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
+              <TableHead className="w-[120px] text-xs text-right">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
         </Table>
@@ -89,17 +124,32 @@ export default function ScholarshipApprovalTable() {
               {paginatedData.map((scholarship) => (
                 <TableRow key={scholarship.id} className="hover:bg-gray-50">
                   <TableCell className="w-[80px] p-4 text-sm">
-                    <img
+                    <Image
                       src={scholarship.photo}
-                      alt={`${scholarship.studentName}'s photo`}
-                      className="w-10 h-10 rounded-full"
+                      alt={scholarship.studentName}
+                      width={55}
+                      height={55}
+                      className="rounded-full bg-gray-200"
                     />
+            
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{scholarship.studentName}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{scholarship.scholarshipType}</TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">{scholarship.amount}</TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm">
+                    {scholarship.studentName}
+                  </TableCell>
+                  <TableCell className="w-[150px] p-4 text-sm">
+                    {scholarship.scholarshipType}
+                  </TableCell>
                   <TableCell className="w-[100px] p-4 text-sm">
-                    <span className={scholarship.status === "Pending" ? "text-red-600" : "text-green-600"}>
+                    {scholarship.amount}
+                  </TableCell>
+                  <TableCell className="w-[100px] p-4 text-sm">
+                    <span
+                      className={
+                        scholarship.status === "Pending"
+                          ? "text-red-600"
+                          : "text-green-600"
+                      }
+                    >
                       {scholarship.status}
                     </span>
                   </TableCell>
@@ -111,7 +161,9 @@ export default function ScholarshipApprovalTable() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => console.log(`View ${scholarship.id}`)}>
+                        <DropdownMenuItem
+                          onClick={() => console.log(`View ${scholarship.id}`)}
+                        >
                           View
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -134,7 +186,8 @@ export default function ScholarshipApprovalTable() {
       <div className="mt-4 flex items-center justify-between">
         <div className="text-sm text-gray-500">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          entries
         </div>
         <Pagination>
           <PaginationContent>
@@ -156,7 +209,9 @@ export default function ScholarshipApprovalTable() {
             ))}
             <PaginationItem>
               <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
               />
             </PaginationItem>

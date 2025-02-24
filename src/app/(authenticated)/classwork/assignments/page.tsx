@@ -54,7 +54,7 @@ const AssignmentDashboard = () => {
   }));
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="p-4">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-6">
         <div className="bg-blue-50 px-4 py-2 rounded-md">
