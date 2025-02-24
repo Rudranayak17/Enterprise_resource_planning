@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-
 import {
   ChevronDown,
   ChevronUp,
@@ -20,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { navItems } from "@/constant/sideNav";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface NavItemProps {
   item: {
@@ -52,7 +51,6 @@ const NavItem: React.FC<NavItemProps> = ({
   onDropdownChange,
   onActiveChange,
 }) => {
-  // const router = useRouter();
   const isActive = activeItem === item.label;
   const isOpen = openDropdowns.includes(item.label);
 
@@ -158,10 +156,10 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const { theme, systemTheme } = useTheme();
   const pathname = usePathname();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-    // Find and set initial active item based on current route
     const currentPath = pathname;
     const findActiveItem = () => {
       for (const item of navItems) {
@@ -175,7 +173,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
           );
           if (activeSubItem) {
             setActiveItem(activeSubItem.label);
-            setOpenDropdowns((prev) => [...prev, item.label]);
+            setOpenDropdowns([item.label]);
             return;
           }
         }
@@ -196,11 +194,23 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
   };
 
   const handleDropdownChange = (label: string) => {
-    setOpenDropdowns((prev) =>
-      prev.includes(label)
-        ? prev.filter((item) => item !== label)
-        : [...prev, label]
-    );
+    setOpenDropdowns((prev) => {
+      if (prev.includes(label)) {
+        return prev.filter((item) => item !== label);
+      } else {
+        return [label];
+      }
+    });
+  };
+
+  const handleActiveChange = (label: string) => {
+    const scrollPosition = scrollAreaRef.current?.scrollTop || 0;
+    setActiveItem(label);
+    setTimeout(() => {
+      if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTop = scrollPosition;
+      }
+    }, 0);
   };
 
   if (!mounted) {
@@ -214,7 +224,6 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         isDarkTheme ? "bg-black text-white" : "bg-white text-black"
       )}
     >
-      {/* Header section remains the same */}
       <div className="px-4 py-[1.45rem] border-b flex justify-between items-center">
         {(isExpanded || isHovered) && (
           <div className="flex items-center space-x-3">
@@ -251,7 +260,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
         </Button>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1" ref={scrollAreaRef}>
         <div className="flex flex-col space-y-1 p-2">
           {navItems.map((item, index) => (
             <NavItem
@@ -263,7 +272,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
               activeItem={activeItem}
               openDropdowns={openDropdowns}
               onDropdownChange={handleDropdownChange}
-              onActiveChange={setActiveItem}
+              onActiveChange={handleActiveChange}
             />
           ))}
         </div>
