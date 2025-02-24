@@ -140,7 +140,7 @@ export default function PaymentTransferApprovalTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
+                className={currentPage === 1 ? "disabled" : ""}
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -156,7 +156,7 @@ export default function PaymentTransferApprovalTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
+                className={currentPage === totalPages ? "disabled" : ""}
               />
             </PaginationItem>
           </PaginationContent>

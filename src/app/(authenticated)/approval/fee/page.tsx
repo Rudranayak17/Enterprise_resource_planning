@@ -220,10 +220,11 @@ export default function StudentFeeApprovalTable() {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              />
+              {currentPage > 1 && (
+                <PaginationPrevious
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                />
+              )}
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
               <PaginationItem key={i + 1}>
@@ -236,12 +237,13 @@ export default function StudentFeeApprovalTable() {
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationNext
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-              />
+              {currentPage < totalPages && (
+                <PaginationNext
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                />
+              )}
             </PaginationItem>
           </PaginationContent>
         </Pagination>

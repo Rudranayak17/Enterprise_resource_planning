@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { navItems } from "@/constant/sideNav";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavItemProps {
   item: {
@@ -159,12 +159,12 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
   const [activeItem, setActiveItem] = useState("");
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const { theme, systemTheme } = useTheme();
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
     // Find and set initial active item based on current route
-    const currentPath = router.pathname;
+    const currentPath = pathname;
     const findActiveItem = () => {
       for (const item of navItems) {
         if (item.href === currentPath) {
@@ -184,7 +184,7 @@ const SideNav: React.FC<SideNavProps> = ({ isOpen, onClose }) => {
       }
     };
     findActiveItem();
-  }, [router.pathname]);
+  }, [pathname]);
 
   const isDarkTheme =
     mounted &&

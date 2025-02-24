@@ -186,7 +186,7 @@ export default function StudentAdmissionTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
+                className={currentPage === 1 ? "disabled" : ""}
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -204,7 +204,7 @@ export default function StudentAdmissionTable() {
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
-                disabled={currentPage === totalPages}
+                className={currentPage === 1 ? "disabled" : ""}
               />
             </PaginationItem>
           </PaginationContent>

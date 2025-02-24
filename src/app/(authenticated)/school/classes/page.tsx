@@ -159,7 +159,7 @@ export default function ClassTable() {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
+            
               />
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, i) => (
@@ -175,7 +175,7 @@ export default function ClassTable() {
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
+            
               />
             </PaginationItem>
           </PaginationContent>
