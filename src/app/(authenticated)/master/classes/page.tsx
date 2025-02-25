@@ -1,15 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,33 +11,46 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical, Plus } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Download, MoreVertical, Plus } from "lucide-react";
+import { useTheme } from "next-themes";
 
-// Sample data
 const classData = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
   className: "LKG",
 }));
 
-export default function ClassTable() {
+const ClassTable = () => {
+  const [mounted, setMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const { resolvedTheme } = useTheme();
 
-  // Pagination logic
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const totalItems = classData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedData = classData.slice(
@@ -52,77 +58,103 @@ export default function ClassTable() {
     currentPage * itemsPerPage
   );
 
-  return (
-    <div className="mx-4 p-3 space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold">All Class: {totalItems}</h1>
-        <div className="flex gap-2">
-          <Input type="text" placeholder="Search User" className="w-64" />
+  if (!mounted) return null;
 
+  const isDarkTheme = resolvedTheme === "dark";
+
+  return (
+    <div className="p-4 space-y-6">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <span className="font-medium">Total Classes:</span>
+          <span className="bg-blue-50 px-4 py-2 rounded-md text-sm">
+            {totalItems}
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Input type="text" placeholder="Search Classes" className="w-64" />
           <Select>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Download" />
+              <SelectValue placeholder="Class" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="2024-25">Excel</SelectItem>
-              <SelectItem value="2023-24">Pdf</SelectItem>
+              <SelectItem value="lkg">LKG</SelectItem>
+              <SelectItem value="ukg">UKG</SelectItem>
             </SelectContent>
           </Select>
-          <select
-            className="border rounded p-1"
-            value={itemsPerPage}
-            onChange={(e) => {
-              setItemsPerPage(parseInt(e.target.value, 10));
+          <Button variant="outline" className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            Download
+          </Button>
+          <Select
+            value={itemsPerPage.toString()}
+            onValueChange={(value) => {
+              setItemsPerPage(parseInt(value));
               setCurrentPage(1);
             }}
           >
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <Plus />
+            <SelectTrigger className="w-20">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
             Add Class
           </Button>
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Table Container */}
       <div className="border rounded-lg">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="w-[80px] text-xs">S.No.</TableHead>
-              <TableHead className="w-[200px] text-xs">Class Name</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">
-                Action
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className={isDarkTheme ? "bg-gray-900" : "bg-gray-50"}>
+              <TableRow
+                className={
+                  isDarkTheme
+                    ? "text-white border-b-gray-700"
+                    : "text-black border-b-gray-200"
+                }
+              >
+                <TableHead className="w-[80px] text-xs p-4 text-center">S.No.</TableHead>
+                <TableHead className="w-[200px] text-xs p-4 text-center">Class Name</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Table Body */}
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((classItem) => (
-                <TableRow key={classItem.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                <TableRow
+                  key={classItem.id}
+                  className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
+                >
+                  <TableCell className="w-[80px] p-4 text-sm text-center">
                     {classItem.id}
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                  <TableCell className="w-[200px] p-4 text-sm font-medium text-center">
                     {classItem.className}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" className="mx-auto flex">
                           <MoreVertical className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => console.log(`View ${classItem.id}`)}
-                        >
+                        <DropdownMenuItem onClick={() => console.log(`View ${classItem.id}`)}>
                           View
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -142,11 +174,10 @@ export default function ClassTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
-        <div className="text-sm text-gray-500">
-          Showing {(currentPage - 1) * itemsPerPage + 1}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
-          entries
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
         </div>
         <Pagination>
           <PaginationContent>
@@ -155,21 +186,23 @@ export default function ClassTable() {
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               />
             </PaginationItem>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(i + 1)}
-                  isActive={currentPage === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              const pageNum = i + 1;
+              return (
+                <PaginationItem key={pageNum}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(pageNum)}
+                    isActive={currentPage === pageNum}
+                  >
+                    {pageNum}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+            {totalPages > 5 && <PaginationEllipsis />}
             <PaginationItem>
               <PaginationNext
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               />
             </PaginationItem>
           </PaginationContent>
@@ -177,4 +210,6 @@ export default function ClassTable() {
       </div>
     </div>
   );
-}
+};
+
+export default ClassTable;

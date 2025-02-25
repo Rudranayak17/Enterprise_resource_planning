@@ -1,14 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,25 +11,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react"; // Importing the three-dot icon from Lucide React
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Download, MoreVertical, Plus } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const studentFeeData = Array.from({ length: 59 }, (_, index) => ({
   id: index + 1,
-  photo: "/placeholder-avatar.jpg", // Use a placeholder or actual image path
+  photo: "/placeholder-avatar.jpg",
   studentName: "Ravi Pal (Roll No. 21)",
   category: "Class - 9th B",
   feeType: "Monthly",
@@ -48,11 +50,16 @@ const studentFeeData = Array.from({ length: 59 }, (_, index) => ({
   remarks: "View Remarks",
 }));
 
-export default function StudentFeeTable() {
+const StudentFeeTable = () => {
+  const [mounted, setMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const { resolvedTheme } = useTheme();
 
-  // Pagination logic
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const totalItems = studentFeeData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedData = studentFeeData.slice(
@@ -60,12 +67,22 @@ export default function StudentFeeTable() {
     currentPage * itemsPerPage
   );
 
+  if (!mounted) return null;
+
+  const isDarkTheme = resolvedTheme === "dark";
+
   return (
-    <div className="mx-4 p-3 space-y-6">
+    <div className="p-4 space-y-6">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold">Student Fee: {totalItems}</h1>
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <span className="font-medium">Total Student Fees:</span>
+          <span className="bg-blue-50 px-4 py-2 rounded-md text-sm">
+            {totalItems}
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Input type="text" placeholder="Search Students" className="w-64" />
           <Select>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Session" />
@@ -75,113 +92,118 @@ export default function StudentFeeTable() {
               <SelectItem value="2023-24">2023-24</SelectItem>
             </SelectContent>
           </Select>
-          <Select>
-            <SelectTrigger className="w-40">
-              <SelectValue placeholder="Class" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="9th-b">9th B</SelectItem>
-              <SelectItem value="10th-a">10th A</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-40">
-              <SelectValue placeholder="Student" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ravi-pal">Ravi Pal</SelectItem>
-              <SelectItem value="rahul-singh">Rahul Singh</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="outline">Download</Button>
-          <select
-            className="border rounded p-2"
-            value={itemsPerPage}
-            onChange={(e) => {
-              setItemsPerPage(parseInt(e.target.value, 10));
+          <Button variant="outline" className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            Download
+          </Button>
+          <Select
+            value={itemsPerPage.toString()}
+            onValueChange={(value) => {
+              setItemsPerPage(parseInt(value));
               setCurrentPage(1);
             }}
           >
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
+            <SelectTrigger className="w-20">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Add Fee
+          </Button>
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Table Container */}
       <div className="border rounded-lg">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="w-[80px] text-xs">Photo</TableHead>
-              <TableHead className="w-[180px] text-xs">Student Name</TableHead>
-              <TableHead className="w-[120px] text-xs">Category</TableHead>
-              <TableHead className="w-[120px] text-xs">Fee Type</TableHead>
-              <TableHead className="w-[100px] text-xs">Amount</TableHead>
-              <TableHead className="w-[100px] text-xs">Discount</TableHead>
-              <TableHead className="w-[120px] text-xs">
-                Payable Amount
-              </TableHead>
-              <TableHead className="w-[120px] text-xs">Status</TableHead>
-              <TableHead className="w-[120px] text-xs">Remarks</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">
-                Action
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className={isDarkTheme ? "bg-gray-900" : "bg-gray-50"}>
+              <TableRow
+                className={
+                  isDarkTheme
+                    ? "text-white border-b-gray-700"
+                    : "text-black border-b-gray-200"
+                }
+              >
+                <TableHead className="w-[80px] text-xs p-4 text-center">Photo</TableHead>
+                <TableHead className="w-[180px] text-xs p-4 text-center">Student Name</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Category</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Fee Type</TableHead>
+                <TableHead className="w-[100px] text-xs p-4 text-center">Amount</TableHead>
+                <TableHead className="w-[100px] text-xs p-4 text-center">Discount</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Payable Amount</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Status</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Remarks</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Table Body */}
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((fee) => (
-                <TableRow key={fee.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
-                    <Image
-                      src={fee.photo}
-                      alt={`${fee.studentName}'s photo`}
-                      width={70}
-                      height={55}
-                      className="rounded-full bg-gray-200"
-                    />
+                <TableRow
+                  key={fee.id}
+                  className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
+                >
+                  <TableCell className="w-[80px] p-4 text-sm text-center">
+                    <div className="w-20 h-20 overflow-hidden rounded-full border mx-auto">
+                      <Image
+                        src={fee.photo}
+                        alt={`${fee.studentName}'s photo`}
+                        width={128}
+                        height={128}
+                        className="rounded-full"
+                      />
+                    </div>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium">
+                  <TableCell className="w-[180px] p-4 text-sm font-medium text-center">
                     {fee.studentName}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     {fee.category}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     {fee.feeType}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-4 text-sm text-center">
                     {fee.amount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-4 text-sm text-center">
                     {fee.discount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     {fee.payableAmount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
-                    <span className="text-red-600">{fee.status}</span>
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                    <span className={fee.status === "Pending" ? "text-red-600" : "text-green-600"}>
+                      {fee.status}
+                    </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     <a href="#" className="text-blue-600 hover:underline">
                       {fee.remarks}
                     </a>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" className="mx-auto flex">
                           <MoreVertical className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => console.log(`View ${fee.id}`)}
-                        >
+                        <DropdownMenuItem onClick={() => console.log(`View ${fee.id}`)}>
                           View
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -201,11 +223,10 @@ export default function StudentFeeTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
-        <div className="text-sm text-gray-500">
-          Showing {(currentPage - 1) * itemsPerPage + 1}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
-          entries
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
         </div>
         <Pagination>
           <PaginationContent>
@@ -214,21 +235,23 @@ export default function StudentFeeTable() {
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               />
             </PaginationItem>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(i + 1)}
-                  isActive={currentPage === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              const pageNum = i + 1;
+              return (
+                <PaginationItem key={pageNum}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(pageNum)}
+                    isActive={currentPage === pageNum}
+                  >
+                    {pageNum}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+            {totalPages > 5 && <PaginationEllipsis />}
             <PaginationItem>
               <PaginationNext
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               />
             </PaginationItem>
           </PaginationContent>
@@ -236,4 +259,6 @@ export default function StudentFeeTable() {
       </div>
     </div>
   );
-}
+};
+
+export default StudentFeeTable;

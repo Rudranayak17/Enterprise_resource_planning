@@ -1,15 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,20 +11,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Download, MoreVertical, Plus } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const subjectData = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
@@ -39,11 +42,16 @@ const subjectData = Array.from({ length: 15 }, (_, index) => ({
   subjectType: "PGT",
 }));
 
-export default function SubjectTable() {
+const SubjectTable = () => {
+  const [mounted, setMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const { resolvedTheme } = useTheme();
 
-  // Pagination logic
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const totalItems = subjectData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedData = subjectData.slice(
@@ -51,61 +59,98 @@ export default function SubjectTable() {
     currentPage * itemsPerPage
   );
 
-  return (
-    <div className="mx-4 p-3 space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold">All Subject: {totalItems}</h1>
-        <div className="flex gap-2">
-    
+  if (!mounted) return null;
 
+  const isDarkTheme = resolvedTheme === "dark";
+
+  return (
+    <div className="p-4 space-y-6">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <span className="font-medium">Total Subjects:</span>
+          <span className="bg-blue-50 px-4 py-2 rounded-md text-sm">
+            {totalItems}
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
+          <Input type="text" placeholder="Search Subjects" className="w-64" />
           <Select>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder="Subject" />
+              <SelectValue placeholder="Subject Type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="maths">Maths</SelectItem>
-              <SelectItem value="science">Science</SelectItem>
+              <SelectItem value="pgt">PGT</SelectItem>
+              <SelectItem value="tgt">TGT</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">Download</Button>
-          <select
-            className="border rounded p-2"
-            value={itemsPerPage}
-            onChange={(e) => {
-              setItemsPerPage(parseInt(e.target.value, 10));
+          <Button variant="outline" className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            Download
+          </Button>
+          <Select
+            value={itemsPerPage.toString()}
+            onValueChange={(value) => {
+              setItemsPerPage(parseInt(value));
               setCurrentPage(1);
             }}
           >
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
+            <SelectTrigger className="w-20">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Add Subject
+          </Button>
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Table Container */}
       <div className="border rounded-lg">
-        <Table>
-          <TableHeader className="bg-gray-50">
-            <TableRow>
-              <TableHead className="w-[200px] text-xs">Subject Name</TableHead>
-              <TableHead className="w-[200px] text-xs">Subject Type</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-        </Table>
+        {/* Fixed Header */}
+        <div className="w-full">
+          <Table>
+            <TableHeader className={isDarkTheme ? "bg-gray-900" : "bg-gray-50"}>
+              <TableRow
+                className={
+                  isDarkTheme
+                    ? "text-white border-b-gray-700"
+                    : "text-black border-b-gray-200"
+                }
+              >
+                <TableHead className="w-[200px] text-xs p-4 text-center">Subject Name</TableHead>
+                <TableHead className="w-[200px] text-xs p-4 text-center">Subject Type</TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+        {/* Scrollable Table Body */}
         <div className="max-h-[calc(100vh-300px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((subject) => (
-                <TableRow key={subject.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[200px] p-4 text-sm">{subject.subjectName}</TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">{subject.subjectType}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                <TableRow
+                  key={subject.id}
+                  className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
+                >
+                  <TableCell className="w-[200px] p-4 text-sm text-center">
+                    {subject.subjectName}
+                  </TableCell>
+                  <TableCell className="w-[200px] p-4 text-sm text-center">
+                    {subject.subjectType}
+                  </TableCell>
+                  <TableCell className="w-[120px] p-4 text-sm text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" className="mx-auto flex">
                           <MoreVertical className="h-4 w-4 text-gray-500" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -130,9 +175,9 @@ export default function SubjectTable() {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between sticky bottom-0 bg-white py-2 border-t">
-        <div className="text-sm text-gray-500">
-          Showing {(currentPage - 1) * itemsPerPage + 1}-
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
           {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
         </div>
         <Pagination>
@@ -142,16 +187,20 @@ export default function SubjectTable() {
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               />
             </PaginationItem>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(i + 1)}
-                  isActive={currentPage === i + 1}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              const pageNum = i + 1;
+              return (
+                <PaginationItem key={pageNum}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(pageNum)}
+                    isActive={currentPage === pageNum}
+                  >
+                    {pageNum}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+            {totalPages > 5 && <PaginationEllipsis />}
             <PaginationItem>
               <PaginationNext
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
@@ -162,4 +211,6 @@ export default function SubjectTable() {
       </div>
     </div>
   );
-}
+};
+
+export default SubjectTable;
