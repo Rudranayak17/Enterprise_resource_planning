@@ -33,13 +33,6 @@ const ROLE_DESCRIPTIONS: Record<Role, string> = {
   user: "User Portal",
 };
 
-const DASHBOARD_ROUTES: Record<Role, string> = {
-  school: "/dashboard/school",
-  branch: "/dashboard/branch",
-  user: "/dashboard/user",
-};
-
-// Components
 const LoginForm: React.FC<LoginFormProps> = ({
   role,
   isInitialLogin = false,
@@ -52,6 +45,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
     schoolId: "",
     role,
   });
+  const [showForgotPassword, setShowForgotPassword] = React.useState(false);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,69 +58,129 @@ const LoginForm: React.FC<LoginFormProps> = ({
     onSubmit(formData);
   };
 
+  const handleForgotPasswordClick = () => {
+    setShowForgotPassword(true);
+  };
+
+  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.phoneNumber) {
+      // Here you could add API call to verify phone number if needed
+      router.push(`/forgot-password?phone=${formData.phoneNumber}`);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <label className="text-sm text-gray-700">Phone Number</label>
-        <Input
-          type="tel"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          placeholder="Enter your phone number"
-          className="w-full"
-          required
-        />
-      </div>
+    <>
+      {!showForgotPassword ? (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-700">Phone Number</label>
+            <Input
+              type="tel"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+              className="w-full"
+              required
+            />
+          </div>
 
-      {isInitialLogin ? (
-        <div className="space-y-2">
-          <label className="text-sm text-gray-700">School ID</label>
-          <Input
-            type="text"
-            name="schoolId"
-            value={formData.schoolId}
-            onChange={handleChange}
-            placeholder="Enter your School ID"
-            className="w-full"
-            required
-          />
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <label className="text-sm text-gray-700">Password</label>
-          <Input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            className="w-full"
-            required
-          />
-        </div>
-      )}
+          {role !== "user" && (
+            <>
+              <div className="space-y-2">
+                <label className="text-sm text-gray-700">School ID</label>
+                <Input
+                  type="text"
+                  name="schoolId"
+                  value={formData.schoolId}
+                  onChange={handleChange}
+                  placeholder="Enter your School ID"
+                  className="w-full"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-gray-700">Password</label>
+                <Input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  className="w-full"
+                  required
+                />
+              </div>
+            </>
+          )}
 
-      {!isInitialLogin && (
-        <div className="flex justify-between items-center pt-2">
+          {role === "user" && (
+            <div className="space-y-2">
+              <label className="text-sm text-gray-700">School ID</label>
+              <Input
+                type="text"
+                name="schoolId"
+                value={formData.schoolId}
+                onChange={handleChange}
+                placeholder="Enter your School ID"
+                className="w-full"
+                required
+              />
+            </div>
+          )}
+
+          <div className="flex justify-between items-center pt-2">
+            <Button
+              type="button"
+              variant="link"
+              className="text-blue-600 text-sm"
+              onClick={handleForgotPasswordClick}
+            >
+              Forgot Password?
+            </Button>
+          </div>
+
           <Button
-            type="button"
-            variant="link"
-            className="text-blue-600 text-sm"
-            onClick={() => router.push("/forgot-password")}
+            type="submit"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white"
           >
-            Forgot Password?
+            Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}
           </Button>
-        </div>
+        </form>
+      ) : (
+        <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-700">Phone Number</label>
+            <Input
+              type="tel"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+              className="w-full"
+              required
+            />
+          </div>
+          <div className="flex justify-between items-center pt-2">
+            <Button
+              type="button"
+              variant="link"
+              className="text-blue-600 text-sm"
+              onClick={() => setShowForgotPassword(false)}
+            >
+              Back to Login
+            </Button>
+            <Button
+              type="submit"
+              className="bg-gradient-to-r from-blue-600 to-blue-400 text-white"
+            >
+              Continue
+            </Button>
+          </div>
+        </form>
       )}
-
-      <Button
-        type="submit"
-        className="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white"
-      >
-        Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}
-      </Button>
-    </form>
+    </>
   );
 };
 
@@ -149,22 +204,6 @@ const LoginPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = React.useState<Role>("school");
 
   const handleLoginSubmit = async (data: LoginFormData) => {
-    // console.log("hello ", {
-    //   phone: data.phoneNumber,
-    //   role: data.role,
-    //   password: data.password,
-    // });
-    // try {
-    //   const resp = await login({
-    //     phone: data.phoneNumber,
-    //     role: data.role,
-    //     password: data.password,
-    //   }).unwrap();
-
-     
-    // } catch (err) {
-    //   console.log("err", err);
-    // }
     router.push("/dashboard/student");
   };
 
@@ -192,11 +231,7 @@ const LoginPage: React.FC = () => {
               <LoginForm role="branch" onSubmit={handleLoginSubmit} />
             </TabsContent>
             <TabsContent value="user">
-              <LoginForm
-                role="user"
-                isInitialLogin={true}
-                onSubmit={handleLoginSubmit}
-              />
+              <LoginForm role="user" onSubmit={handleLoginSubmit} />
             </TabsContent>
           </CardContent>
         </Tabs>
