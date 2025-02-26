@@ -106,18 +106,18 @@ export default function StudentAdmissionTable() {
               <TableHead className="w-[120px] text-xs">Father Name</TableHead>
               <TableHead className="w-[150px] text-xs">Address</TableHead>
               <TableHead className="w-[100px] text-xs">Status</TableHead>
-              <TableHead className="w-[120px] text-xs text-right">
+              <TableHead className="w-[50px] text-xs text-right">
                 Action
               </TableHead>
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((student) => (
                 <TableRow key={student.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                   
                     <Image
                       src={student.photo}
@@ -127,25 +127,25 @@ export default function StudentAdmissionTable() {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.name}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.admissionNo}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.motherName}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.fatherName}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {student.address}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {student.status}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[50px] p-2 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm">

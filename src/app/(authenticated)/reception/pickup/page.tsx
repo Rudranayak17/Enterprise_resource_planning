@@ -122,12 +122,12 @@ const StudentPickupTable = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {authorizationData.map((auth, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={auth.photo}
                       alt={auth.studentName}
@@ -136,37 +136,37 @@ const StudentPickupTable = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{auth.studentName}</div>
                     <div className="text-sm text-gray-500">
                       {auth.studentClass}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{auth.parentName}</div>
                     <div className="text-sm text-gray-500">
                       {auth.parentPhone}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{auth.personType}</div>
                     <div>{auth.parentName}</div>
                     <div className="text-sm text-gray-500">
                       {auth.parentPhone}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">
+                  <TableCell className="w-[250px] p-2 text-sm">
                     {auth.address}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm whitespace-pre-line">
+                  <TableCell className="w-[150px] p-2 text-sm whitespace-pre-line">
                     {auth.dateTime}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-green-600 font-medium">
                       {auth.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-right">
                     <Button
                       variant="ghost"
                       size="icon"

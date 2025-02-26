@@ -129,31 +129,31 @@ const LeaveRequestManagement = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {leaveRequests.map((request, index) => (
                 <TableRow key={index}>
-                  <TableCell className="w-[80px] p-4">
-                    <UserCircle2 className="h-10 w-10 text-gray-400" />
+                  <TableCell className="w-[80px] p-2">
+                    <UserCircle2 className="h-55 w-55 text-gray-400" />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 font-medium">
+                  <TableCell className="w-[200px] p-2 font-medium">
                     <div>{request.name}</div>
                     <div className="text-sm text-gray-500">{request.class}</div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     {request.duration}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {request.leaveType}
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     {request.reason}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-yellow-500 font-medium">{request.status}</span>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-right">
+                  <TableCell className="w-[200px] p-2 text-right">
                     <div className="flex justify-end space-x-2">
                       <Button 
                         variant="outline" 

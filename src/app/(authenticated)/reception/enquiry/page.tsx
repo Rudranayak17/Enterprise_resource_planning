@@ -140,7 +140,7 @@ const StudentTable = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {students.map((student, index) => (
@@ -148,7 +148,7 @@ const StudentTable = () => {
                   key={index}
                   className={isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}
                 >
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div className="space-y-1">
                       <div className="font-medium">{student.studentName.name}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -159,7 +159,7 @@ const StudentTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div className="space-y-1">
                       <div className="font-medium">{student.parentName.name}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -170,7 +170,7 @@ const StudentTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div className="space-y-1">
                       <div>{student.preferredClass.class}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -178,7 +178,7 @@ const StudentTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">
+                  <TableCell className="w-[250px] p-2 text-sm">
                     <div className="space-y-1">
                       <div>{student.previousDetails.class}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -189,7 +189,7 @@ const StudentTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div className="space-y-1">
                       <div>{student.testDetail.text}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -200,12 +200,12 @@ const StudentTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className={isDarkTheme ? "px-2 py-1 bg-yellow-900 text-yellow-300 rounded" : "px-2 py-1 bg-yellow-100 text-yellow-800 rounded"}>
                       {student.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-right">
+                  <TableCell className="w-[200px] p-2 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
                         <Edit className="h-4 w-4" />

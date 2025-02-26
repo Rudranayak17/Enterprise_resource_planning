@@ -89,10 +89,10 @@ const RoutesTable = () => {
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="w-[150px] text-xs">Route No.</TableHead>
+                <TableHead className="w-[100px] text-xs">Route No.</TableHead>
                 <TableHead className="w-[150px] text-xs">Route Type</TableHead>
                 <TableHead className="w-[200px] text-xs">Driver & Helper</TableHead>
-                <TableHead className="w-[150px] text-xs">Time</TableHead>
+                <TableHead className="w-[180px] text-xs">Time</TableHead>
                 <TableHead className="w-[150px] text-xs">Polyline</TableHead>
                 <TableHead className="w-[150px] text-xs">Stoppage Point</TableHead>
                 <TableHead className="w-[120px] text-xs">Active Days</TableHead>
@@ -109,19 +109,19 @@ const RoutesTable = () => {
             <TableBody>
               {routes.map((route) => (
                 <TableRow key={route.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[150px] p-4 text-sm text-blue-600">
+                  <TableCell className="w-[100px] p-2 text-sm text-blue-600">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
                       Route {route.id}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{route.type}</TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm whitespace-pre-line">{route.driver}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">{route.type}</TableCell>
+                  <TableCell className="w-[200px] p-2 text-sm whitespace-pre-line">{route.driver}</TableCell>
+                  <TableCell className="w-[180px] p-2 text-sm">
                     Start: {route.timeStart}<br />
                     End: {route.timeEnd}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     <Button 
                       variant="link" 
                       className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
@@ -129,7 +129,7 @@ const RoutesTable = () => {
                       View on map
                     </Button>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     <Button 
                       variant="link" 
                       className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
@@ -137,9 +137,9 @@ const RoutesTable = () => {
                       ({route.activeDays}) View info
                     </Button>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{route.activeDays} days</TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">{route.trackingMethod}</TableCell>
-                  <TableCell className="w-[150px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-sm">{route.activeDays} days</TableCell>
+                  <TableCell className="w-[150px] p-2 text-sm">{route.trackingMethod}</TableCell>
+                  <TableCell className="w-[150px] p-2 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
                         <Eye className="h-4 w-4" />

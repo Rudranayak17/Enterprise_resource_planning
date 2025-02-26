@@ -148,7 +148,7 @@ const StudentFeeTable = () => {
         </div>
 
         {/* Scrollable Table Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((fee) => (
@@ -156,46 +156,46 @@ const StudentFeeTable = () => {
                   key={fee.id}
                   className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
                 >
-                  <TableCell className="w-[80px] p-4 text-sm text-center">
-                    <div className="w-20 h-20 overflow-hidden rounded-full border mx-auto">
+                  <TableCell className="w-[80px] p-2 text-sm text-center">
+                    <div className="w-12 h-12 overflow-hidden rounded-full border mx-auto">
                       <Image
                         src={fee.photo}
                         alt={`${fee.studentName}'s photo`}
-                        width={128}
-                        height={128}
+                        width={100}
+                        height={100}
                         className="rounded-full"
                       />
                     </div>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium text-center">
+                  <TableCell className="w-[180px] p-2 text-sm font-medium text-center">
                     {fee.studentName}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     {fee.category}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     {fee.feeType}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm text-center">
+                  <TableCell className="w-[100px] p-2 text-sm text-center">
                     {fee.amount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm text-center">
+                  <TableCell className="w-[100px] p-2 text-sm text-center">
                     {fee.discount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     {fee.payableAmount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     <span className={fee.status === "Pending" ? "text-red-600" : "text-green-600"}>
                       {fee.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     <a href="#" className="text-blue-600 hover:underline">
                       {fee.remarks}
                     </a>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" className="mx-auto flex">

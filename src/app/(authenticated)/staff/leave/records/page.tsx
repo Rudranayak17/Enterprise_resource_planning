@@ -136,12 +136,12 @@ const LeaveRequestSimple = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {requests.map((request, index) => (
                 <TableRow key={index} className="border-b">
-                  <TableCell className="w-[80px] p-4">
+                  <TableCell className="w-[80px] p-2">
                     <Image
                       src={request.photo}
                       alt="User"
@@ -150,16 +150,16 @@ const LeaveRequestSimple = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                  <TableCell className="w-[200px] p-2 text-sm font-medium">
                     {request.name}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm text-blue-600">
+                  <TableCell className="w-[150px] p-2 text-sm text-blue-600">
                     {request.roleType}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {request.date}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {request.leaveType}
                   </TableCell>
                 </TableRow>

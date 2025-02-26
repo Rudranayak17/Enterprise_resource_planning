@@ -122,30 +122,30 @@ const AttendanceManagement = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {students.map((student, index) => (
                 <TableRow key={index}>
-                  <TableCell className="w-[80px] p-4">
-                    <UserCircle2 className="h-10 w-10 text-gray-400" />
+                  <TableCell className="w-[80px] p-2">
+                    <UserCircle2 className="h-55 w-55 text-gray-400" />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm font-medium">
+                  <TableCell className="w-[200px] p-2 text-sm font-medium">
                     {student.name}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {student.class}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.rollNo}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {student.date}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-green-600">{student.status}</span>
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-right">
+                  <TableCell className="w-[100px] p-2 text-right">
                     <Button 
                       variant="outline" 
                       size="sm" 

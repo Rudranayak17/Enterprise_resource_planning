@@ -154,44 +154,44 @@ export default function StudentManagementDashboard() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((student) => (
                 <TableRow key={student.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={student.photo}
                       alt={`${student.name}'s photo`}
-                      width={70}
+                      width={55}
                       height={55}
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium">
+                  <TableCell className="w-[180px] p-2 text-sm font-medium">
                     <div>{student.name}</div>
                     <div className="text-gray-500 text-xs">
                       {student.gender}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">
+                  <TableCell className="w-[180px] p-2 text-sm">
                     <div>{student.admissionNo}</div>
                     <div className="text-blue-600 text-xs">{student.dob}</div>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">
+                  <TableCell className="w-[180px] p-2 text-sm">
                     <div>{student.class}</div>
                     <div className="text-gray-500 text-xs">
                       Roll no. {student.rollNo}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div className="truncate">{student.guardianName}</div>
                     <div className="text-blue-600 text-xs">{student.phone}</div>
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">
+                  <TableCell className="w-[250px] p-2 text-sm">
                     <div className="truncate">{student.address}</div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm">

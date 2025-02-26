@@ -142,12 +142,12 @@ const FeeReceipt = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {receiptRows.map((row, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
              
                     <Image
                       src={row.photo}
@@ -157,7 +157,7 @@ const FeeReceipt = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">
+                  <TableCell className="w-[250px] p-2 text-sm">
                     <div>{row.studentName}</div>
                     <div className="text-sm text-gray-500">
                       Class: {row.classSection}
@@ -168,19 +168,19 @@ const FeeReceipt = () => {
                       View Details
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.feeType}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.feeMonth}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.amount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.dueDate}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     <div className="flex items-center gap-1">
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                         {row.status}
@@ -190,13 +190,13 @@ const FeeReceipt = () => {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {row.paymentId}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {row.transId}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-right">
+                  <TableCell className="w-[150px] p-2 text-right">
                     <Button
                       size="sm"
                       variant="default"

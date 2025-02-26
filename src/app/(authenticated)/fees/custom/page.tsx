@@ -188,7 +188,7 @@ const FeeManagementList = () => {
             <TableBody>
               {studentRows.map((row, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
         
                     <Image
                       src={row.photo}
@@ -198,38 +198,38 @@ const FeeManagementList = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{row.studentName}</div>
                     <div className="text-sm text-gray-500">
                       Roll No: {row.rollNo}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     <span className="text-blue-600 hover:underline cursor-pointer">
                       {row.classSection}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {row.feeType}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.amount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {row.dueDate}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                       {row.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {row.paymentId}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {row.transId}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-right">
+                  <TableCell className="w-[150px] p-2 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button
                         size="icon"

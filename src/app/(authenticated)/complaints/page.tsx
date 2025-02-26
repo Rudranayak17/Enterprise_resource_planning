@@ -107,12 +107,12 @@ const ComplaintInterface = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {complaints.map((complaint, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={complaint.photo}
                       alt={complaint.studentName}
@@ -121,7 +121,7 @@ const ComplaintInterface = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[250px] p-4 text-sm">
+                  <TableCell className="w-[250px] p-2 text-sm">
                     <div>
                       <div className="font-medium text-blue-600">
                         {complaint.studentName}
@@ -134,22 +134,22 @@ const ComplaintInterface = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {complaint.date}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {complaint.parent}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {complaint.complainFor}
                   </TableCell>
-                  <TableCell className="w-[300px] p-4 text-sm max-w-xs truncate">
+                  <TableCell className="w-[300px] p-2 text-sm max-w-xs truncate">
                     {complaint.issue}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-red-500">{complaint.status}</span>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     <Button
                       variant="link"
                       className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal"
@@ -157,7 +157,7 @@ const ComplaintInterface = () => {
                       {complaint.attachments}
                     </Button>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-right">
                     <Button
                       size="sm"
                       className="bg-green-500 hover:bg-green-600"

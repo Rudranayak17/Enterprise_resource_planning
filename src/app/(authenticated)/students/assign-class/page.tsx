@@ -105,34 +105,34 @@ const Page = () => {
         </div>
 
         {/* Scrollable Body Section */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {students.map((user, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.photo} alt={user.name} />
                     </Avatar>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium">
+                  <TableCell className="w-[180px] p-2 text-sm font-medium">
                     {user.name}
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">
+                  <TableCell className="w-[180px] p-2 text-sm">
                     <p>{user.admission.id}</p>
                     <p className="text-xs text-blue-600">{user.admission.date}</p>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">
+                  <TableCell className="w-[180px] p-2 text-sm">
                     <p>{user.guardian.name}</p>
                     <p className="text-xs text-blue-600">{user.guardian.phone}</p>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">
+                  <TableCell className="w-[180px] p-2 text-sm">
                     <p>{user.guardian.name}</p> {/* Assuming same guardian for simplicity; adjust if mother data exists */}
                     <p className="text-xs text-blue-600">{user.guardian.phone}</p>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm">{user.address}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">{user?.status}</TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[180px] p-2 text-sm">{user.address}</TableCell>
+                  <TableCell className="w-[120px] p-2 text-sm">{user?.status}</TableCell>
+                  <TableCell className="w-[120px] p-2 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600">
                         <Pencil className="h-4 w-4" />

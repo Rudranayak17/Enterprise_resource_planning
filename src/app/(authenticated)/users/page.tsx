@@ -123,28 +123,28 @@ export default function StaffTable() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((staff) => (
                 <TableRow key={staff.id}>
-                  <TableCell className="w-[80px] p-4">
+                  <TableCell className="w-[80px] p-2">
                     <UserCircle2 className="h-10 w-10 text-gray-400" />
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 font-medium">
+                  <TableCell className="w-[180px] p-2 font-medium">
                     <div>{staff.name}</div>
                     <div className="text-sm text-gray-500">{staff.gender}</div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4">
+                  <TableCell className="w-[150px] p-2">
                     <div>{staff.role}</div>
                     <div className="text-sm text-blue-600">{staff.type}</div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4">
+                  <TableCell className="w-[200px] p-2">
                     <div className="text-blue-600">{staff.email}</div>
                     <div>{staff.phone}</div>
                   </TableCell>
                   <TableCell className="p-4 text-sm">{staff.address}</TableCell>
-                  <TableCell className="w-[100px] p-4 text-right">
+                  <TableCell className="w-[100px] p-2 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0">

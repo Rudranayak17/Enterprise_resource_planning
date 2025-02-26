@@ -144,12 +144,12 @@ const StudentResultsTable = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {studentData.map((student, index) => (
                 <TableRow key={index} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={student.photo}
                       alt={student.name}
@@ -158,39 +158,39 @@ const StudentResultsTable = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{student.name}</div>
                     <div className="text-sm text-gray-500">
                       {student.rollNo}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.class}
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     <div>{student.examType}</div>
                     <div className="text-sm text-gray-500">
                       {student.examDate}
                     </div>
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {student.subject}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.marksReceived}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {student.totalMarks}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-red-600 font-medium">
                       {student.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <Switch />
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-right">
+                  <TableCell className="w-[150px] p-2 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button
                         variant="ghost"

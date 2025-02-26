@@ -118,12 +118,12 @@ export default function ScholarshipApprovalTable() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((scholarship) => (
                 <TableRow key={scholarship.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={scholarship.photo}
                       alt={scholarship.studentName}
@@ -133,16 +133,16 @@ export default function ScholarshipApprovalTable() {
                     />
             
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {scholarship.studentName}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {scholarship.scholarshipType}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {scholarship.amount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     <span
                       className={
                         scholarship.status === "Pending"
@@ -153,7 +153,7 @@ export default function ScholarshipApprovalTable() {
                       {scholarship.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm">

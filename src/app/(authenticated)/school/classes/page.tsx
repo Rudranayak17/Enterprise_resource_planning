@@ -91,7 +91,7 @@ export default function ClassTable() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((classInfo) => (

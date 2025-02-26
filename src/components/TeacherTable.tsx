@@ -33,34 +33,34 @@ export default function TeacherTable({ users }: { users: TeacherData }) {
         </div>
 
         {/* Scrollable Body Section */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {Array(25)
                 .fill(users)
                 .map((user, index) => (
                   <TableRow key={index}>
-                    <TableCell className="w-[80px] p-2">
+                    <TableCell className="w-[80px] p-4">
                       <Avatar className="h-6 w-6">
                         <AvatarImage src={user.photo} />
                       </Avatar>
                     </TableCell>
-                    <TableCell className="w-[200px] p-2 text-sm font-medium">
+                    <TableCell className="w-[200px] p-4 text-sm font-medium">
                       {user.name}
                     </TableCell>
-                    <TableCell className="w-[150px] p-2 text-sm">
+                    <TableCell className="w-[150px] p-4 text-sm">
                       {user.role}
                     </TableCell>
-                    <TableCell className="w-[150px] p-2 text-sm">
+                    <TableCell className="w-[150px] p-4 text-sm">
                       {user.type}
                     </TableCell>
-                    <TableCell className="w-[150px] p-2 text-sm">
+                    <TableCell className="w-[150px] p-4 text-sm">
                       {user.date}
                     </TableCell>
-                    <TableCell className="w-[120px] p-2 text-sm">
+                    <TableCell className="w-[120px] p-4 text-sm">
                       {user.status}
                     </TableCell>
-                    <TableCell className="w-[120px] p-2 text-right">
+                    <TableCell className="w-[120px] p-4 text-right">
                       <span className="flex justify-end space-x-4">
                         <Pencil className="h-4 w-4 cursor-pointer" stroke="blue" />
                         <Trash2 className="h-4 w-4 cursor-pointer" stroke="red" />

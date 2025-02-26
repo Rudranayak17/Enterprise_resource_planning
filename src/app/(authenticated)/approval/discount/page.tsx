@@ -125,12 +125,12 @@ export default function InvoiceDiscountApprovalTable() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((invoice) => (
                 <TableRow key={invoice.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={invoice.photo}
                       alt={invoice.studentName}
@@ -140,25 +140,25 @@ export default function InvoiceDiscountApprovalTable() {
                     />
               
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {invoice.studentName}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {invoice.fee}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {invoice.month}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {invoice.amount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {invoice.discount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {invoice.payableAmount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     <span
                       className={
                         invoice.status === "Pending"

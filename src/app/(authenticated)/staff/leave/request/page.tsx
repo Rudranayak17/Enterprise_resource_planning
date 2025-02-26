@@ -137,12 +137,12 @@ const LeaveRequest = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {requests.map((request, index) => (
                 <TableRow key={index} className="border-b">
-                  <TableCell className="w-[80px] p-4">
+                  <TableCell className="w-[80px] p-2">
                     <Image
                       src={request.photo}
                       alt="User"
@@ -151,7 +151,7 @@ const LeaveRequest = () => {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 font-medium">
+                  <TableCell className="w-[200px] p-2 font-medium">
                     <div className="flex flex-col">
                       <span className="text-blue-600">{request.name}</span>
                       <span className="text-gray-500 text-sm">
@@ -159,19 +159,19 @@ const LeaveRequest = () => {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm">
+                  <TableCell className="w-[200px] p-2 text-sm">
                     {request.duration}
                   </TableCell>
-                  <TableCell className="w-[150px] p-4 text-sm">
+                  <TableCell className="w-[150px] p-2 text-sm">
                     {request.leaveType}
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm max-w-xs truncate">
+                  <TableCell className="w-[200px] p-2 text-sm max-w-xs truncate">
                     {request.reason}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <span className="text-orange-500">{request.status}</span>
                   </TableCell>
-                  <TableCell className="w-[200px] p-4 text-right">
+                  <TableCell className="w-[200px] p-2 text-right">
                     <div className="flex justify-end gap-2">
                       <Button
                         size="sm"

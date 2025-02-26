@@ -129,10 +129,10 @@ const BusTable = () => {
                     : "text-black border-b-gray-200"
                 }
               >
-                <TableHead className="w-[100px] text-xs p-4 text-center">Bus No.</TableHead>
+                <TableHead className="w-[150px] text-xs p-4 text-center">Bus No.</TableHead>
                 <TableHead className="w-[180px] text-xs p-4 text-center">Driver</TableHead>
                 <TableHead className="w-[180px] text-xs p-4 text-center">Helper</TableHead>
-                <TableHead className="w-[120px] text-xs p-4 text-center">Bus Type</TableHead>
+                <TableHead className="w-[100px] text-xs p-4 text-center">Bus Type</TableHead>
                 <TableHead className="w-[120px] text-xs p-4 text-center">GPS Installed</TableHead>
                 <TableHead className="w-[130px] text-xs p-4 text-center">Camera Installed</TableHead>
                 <TableHead className="w-[140px] text-xs p-4 text-center">Document Expiry</TableHead>
@@ -143,7 +143,7 @@ const BusTable = () => {
         </div>
 
         {/* Scrollable Table Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((bus) => (
@@ -151,7 +151,7 @@ const BusTable = () => {
                   key={bus.id}
                   className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
                 >
-                  <TableCell className="w-[100px] p-4 text-sm text-center">
+                  <TableCell className="w-[150px] p-4 text-sm text-center">
                     {bus.busNo}
                   </TableCell>
                   <TableCell className="w-[180px] p-4 text-sm font-medium text-center">
@@ -160,7 +160,7 @@ const BusTable = () => {
                   <TableCell className="w-[180px] p-4 text-sm text-center">
                     {bus.helper}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[100px] p-4 text-sm text-center">
                     {bus.busType}
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm text-center">

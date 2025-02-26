@@ -127,12 +127,12 @@ export default function StudentFeeApprovalTable() {
             </TableRow>
           </TableHeader>
         </Table>
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((fee) => (
                 <TableRow key={fee.id} className="hover:bg-gray-50">
-                  <TableCell className="w-[80px] p-4 text-sm">
+                  <TableCell className="w-[80px] p-2 text-sm">
                     <Image
                       src={fee.photo}
                       alt={fee.studentName}
@@ -141,28 +141,28 @@ export default function StudentFeeApprovalTable() {
                       className="rounded-full bg-gray-200"
                     />
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {fee.studentName}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {fee.class}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {fee.category}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {fee.feeType}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {fee.amount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     {fee.discount}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     {fee.payableAmount}
                   </TableCell>
-                  <TableCell className="w-[100px] p-4 text-sm">
+                  <TableCell className="w-[100px] p-2 text-sm">
                     <span
                       className={
                         fee.status === "Pending"
@@ -173,7 +173,7 @@ export default function StudentFeeApprovalTable() {
                       {fee.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm">
+                  <TableCell className="w-[120px] p-2 text-sm">
                     <Button
                       variant="link"
                       className="p-0 text-blue-500 hover:underline"
@@ -181,7 +181,7 @@ export default function StudentFeeApprovalTable() {
                       View Remarks
                     </Button>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-right">
+                  <TableCell className="w-[120px] p-2 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm">

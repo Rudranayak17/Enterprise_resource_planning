@@ -141,7 +141,7 @@ const ClassFeeTable = () => {
         </div>
 
         {/* Scrollable Table Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((fee) => (

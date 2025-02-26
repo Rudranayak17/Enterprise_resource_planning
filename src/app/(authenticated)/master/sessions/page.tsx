@@ -147,7 +147,7 @@ const StaffTable = () => {
         </div>
 
         {/* Scrollable Table Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
+        <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
               {paginatedData.map((staff) => (
@@ -155,42 +155,42 @@ const StaffTable = () => {
                   key={staff.id}
                   className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
                 >
-                  <TableCell className="w-[80px] p-4 text-sm text-center">
-                    <div className="w-20 h-20 overflow-hidden rounded-full border mx-auto">
+                  <TableCell className="w-[80px] p-2 text-sm text-center">
+                    <div className="w-12 h-12 overflow-hidden rounded-full border mx-auto">
                       <Image
                         src={staff.photo}
                         alt={`${staff.name}'s photo`}
-                        width={128}
-                        height={128}
+                        width={100}
+                        height={100}
                         className="rounded-full"
                       />
                     </div>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm font-medium text-center">
+                  <TableCell className="w-[180px] p-2 text-sm font-medium text-center">
                     {staff.name}
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm text-center">
+                  <TableCell className="w-[180px] p-2 text-sm text-center">
                     {staff.role}
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm text-center">
+                  <TableCell className="w-[180px] p-2 text-sm text-center">
                     <p>{staff.email}</p>
                     <p className="text-xs text-blue-600">{staff.phone}</p>
                   </TableCell>
-                  <TableCell className="w-[180px] p-4 text-sm text-center">
+                  <TableCell className="w-[180px] p-2 text-sm text-center">
                     {staff.address}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     {staff.session}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     {staff.salary}
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     <span className={staff.status === "Active" ? "text-green-600" : "text-red-600"}>
                       {staff.status}
                     </span>
                   </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
+                  <TableCell className="w-[120px] p-2 text-sm text-center">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" className="mx-auto flex">
