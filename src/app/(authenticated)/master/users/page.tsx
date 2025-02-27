@@ -159,10 +159,10 @@ const StaffTable = () => {
         </div>
       </div>
 
-      {/* Table Container */}
-      <div className="border rounded-md">
+      {/* Table Container with ScrollArea */}
+      <ScrollArea className="h-[500px] rounded-md border">
         <Table>
-          <TableHeader className={isDarkTheme ? "bg-gray-900" : "bg-gray-50"}>
+          <TableHeader className={`sticky top-0 bg-secondary ${isDarkTheme ? "bg-gray-900" : "bg-gray-50"}`}>
             <TableRow
               className={
                 isDarkTheme
@@ -179,14 +179,25 @@ const StaffTable = () => {
               <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
-        </Table>
-        </div>
-
-        {/* Scrollable Table Body */}
-        <div className="max-h-[calc(100vh-300px)] overflow-auto">
-          <Table>
-            <TableBody>
-              {paginatedData.map((staff) => (
+          <TableBody>
+            {isLoading ? (
+              Array.from({ length: itemsPerPage }).map((_, index) => (
+                <SkeletonRow key={index} />
+              ))
+            ) : isError ? (
+              <TableRow>
+                <TableCell colSpan={7} className="p-4 text-center text-red-600">
+                  Error loading data
+                </TableCell>
+              </TableRow>
+            ) : paginatedData.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="p-4 text-center">
+                  No staff found
+                </TableCell>
+              </TableRow>
+            ) : (
+              paginatedData.map((staff: any) => (
                 <TableRow
                   key={staff.id}
                   className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
@@ -194,11 +205,11 @@ const StaffTable = () => {
                   <TableCell className="w-[80px] p-4 text-sm text-center">
                     <div className="w-20 h-20 overflow-hidden rounded-full border mx-auto">
                       <Image
-                        src={staff.photo}
+                        src={"/placeholder-avatar.jpg"}
                         alt={`${staff.name}'s photo`}
                         width={128}
                         height={128}
-                        className="rounded-full"
+                        className="rounded-full object-cover"
                       />
                     </div>
                   </TableCell>
@@ -206,17 +217,19 @@ const StaffTable = () => {
                     {staff.name}
                   </TableCell>
                   <TableCell className="w-[180px] p-4 text-sm text-center">
-                    {staff.role}
+                    {staff.user_type === "OTHERS" ? staff.role : `${staff.user_type} ${staff.role}`}
                   </TableCell>
                   <TableCell className="w-[180px] p-4 text-sm text-center">
                     <p>{staff.email}</p>
                     <p className="text-xs text-blue-600">{staff.phone}</p>
                   </TableCell>
                   <TableCell className="w-[250px] p-4 text-sm text-center">
-                    {staff.address}
+                    {staff.address}, {staff.city}, {staff.state}, {staff.country}
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm text-center">
-                    <span className="text-green-600">{staff.status}</span>
+                    <span className={staff.is_active ? "text-green-600" : "text-red-600"}>
+                      {staff.is_active ? "Active" : "Inactive"}
+                    </span>
                   </TableCell>
                   <TableCell className="w-[120px] p-4 text-sm text-center">
                     <DropdownMenu>
@@ -239,11 +252,11 @@ const StaffTable = () => {
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </ScrollArea>
-      </div>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
 
       {/* Pagination */}
       <div className="mt-4 flex items-center justify-between">
