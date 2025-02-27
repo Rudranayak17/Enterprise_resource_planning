@@ -11,36 +11,61 @@ import { ChevronLeft } from "lucide-react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { useReset_passwordMutation } from "@/provider/api/auth";
 
 const ForgotPasswordPage = () => {
   const searchParams = useSearchParams();
   const phone = searchParams.get("phone") || "";
+  const role = searchParams.get("role") || "";
+  const schoolId = searchParams.get("schoolId") || "";
   const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
-
+  const [resetPassword, { isLoading }] = useReset_passwordMutation();
 
   interface HandleOtpSubmitEvent extends React.FormEvent<HTMLFormElement> {}
 
-  const handleOtpSubmit = (e: HandleOtpSubmitEvent): void => {
+  const handleOtpSubmit = async (e: HandleOtpSubmitEvent): Promise<void> => {
     e.preventDefault();
-    // Verify OTP - should be exactly 4 digits
-    if (otp.length === 4 && /^\d{4}$/.test(otp)) {
-      console.log("Verifying OTP:", { phone, otp });
+    if (otp.length === 4 && /^\d{4}$/.test(otp) && password.length > 0) {
+      try {
+        const response = await resetPassword({
+
+
+          
+          phone,
+          otp,
+          role,
+          schoolId,
+          newPassword: password,
+        }).unwrap();
+
+        console.log("Password reset successful:", response);
+       
+        router.push("/login");
+      } catch (error) {
+        console.error("Password reset failed:", error);
+       
+      }
     } else {
-      console.log("Please enter a valid 4-digit OTP");
+      console.log("Please enter a valid 4-digit OTP and a password");
+
     }
   };
+
   const navigateToLogin = (e: React.FormEvent) => {
     e.preventDefault();
-  router.push("/login")
+    router.push("/login");
   };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-[400px] shadow-lg">
+    <div className="min-h-screen flex items-center justify-center">
+      <Card className="w-[450px] shadow-lg">
         <CardHeader className="space-y-6">
           <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center">
-              <Image alt="logo" src={logo} className="w-10 h-10 bg-cover" />
+            <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center">
+              <Image alt="logo" src={logo} className="w-12 h-12 bg-cover" />
             </div>
           </div>
 
@@ -52,9 +77,9 @@ const ForgotPasswordPage = () => {
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-6">
-          <form onSubmit={handleOtpSubmit} className="space-y-6">
-            <div className="space-y-2">
+        <CardContent className="space-y-8">
+          <form onSubmit={handleOtpSubmit} className="space-y-8">
+            <div className="space-y-3">
               <label className="text-sm text-gray-700 block text-center">
                 OTP
               </label>
@@ -64,26 +89,41 @@ const ForgotPasswordPage = () => {
                   value={otp}
                   onChange={(value) => setOtp(value)}
                 >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
+                  <InputOTPGroup className="gap-8">
+                    <InputOTPSlot index={0} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={1} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={2} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={3} className="w-12 h-12 text-lg" />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
             </div>
+
+            <div className="space-y-3">
+              <label className="text-sm text-gray-700 block text-center">
+                New Password
+              </label>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter new password"
+                className="h-12 text-lg"
+              />
+            </div>
+
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white"
+              className="w-full h-12 text-lg bg-gradient-to-r from-blue-600 to-blue-400 text-white"
             >
-              Verify OTP
+              Submit
             </Button>
           </form>
 
           <div className="space-y-4">
             <Button
               variant="link"
+              disabled={isLoading}
               onClick={navigateToLogin}
               className="w-full text-gray-600 text-sm flex items-center justify-center gap-2"
             >

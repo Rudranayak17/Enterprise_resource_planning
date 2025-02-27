@@ -5,10 +5,22 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/provider/api/auth";
+import {
+  useLoginMutation,
+  useRole_by_phoneMutation,
+  useSend_otpMutation,
+} from "@/provider/api/auth";
+import { toast } from "sonner";
 
 // Types
 type Role = "school" | "branch" | "user";
@@ -17,9 +29,12 @@ interface LoginFormData {
   phoneNumber: string;
   password?: string;
   schoolId?: string;
-  role: Role;
+  role: Role | string;
 }
-
+interface Roles {
+  id: string;
+  role: string;
+}
 interface LoginFormProps {
   role: Role;
   isInitialLogin?: boolean;
@@ -39,18 +54,50 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
 }) => {
   const router = useRouter();
+  const [login] = useLoginMutation();
   const [formData, setFormData] = React.useState<LoginFormData>({
     phoneNumber: "",
     password: "",
     schoolId: "",
     role,
   });
+  const [send_otp] = useSend_otpMutation();
   const [showForgotPassword, setShowForgotPassword] = React.useState(false);
-
+  const [userRoles, setUserRoles] = React.useState<Roles[]>([]);
+  const [step, setStep] = React.useState<"initial" | "roleSelect">("initial");
+  const [getUserRole] = useRole_by_phoneMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRoleChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, role: value }));
+  };
+
+  const handleInitialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (role === "user" && step === "initial") {
+      try {
+        const response = await getUserRole({
+          phone: formData.phoneNumber,
+          schoolId: formData.schoolId,
+        }).unwrap();
+        if (response.results) {
+          setUserRoles(response.results);
+        }
+        if (response.results && response.results.length > 0) {
+          setStep("roleSelect");
+        } else {
+          toast("No roles found for this user");
+        }
+      } catch (error) {
+        toast(`Error fetching roles: ${JSON.stringify(error, null, 2)}`);
+      }
+    } else {
+      handleSubmit(e);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -62,18 +109,77 @@ const LoginForm: React.FC<LoginFormProps> = ({
     setShowForgotPassword(true);
   };
 
-  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phoneNumber) {
-      // Here you could add API call to verify phone number if needed
-      router.push(`/forgot-password?phone=${formData.phoneNumber}`);
+
+    if (!formData.phoneNumber) {
+      return toast.error("Phone number is required");
+    }
+    if (!formData.schoolId) {
+      return toast.error("School ID is required");
+    }
+
+    if (role === "user") {
+      try {
+        const response = await getUserRole({
+          phone: formData.phoneNumber,
+          schoolId: formData.schoolId,
+        }).unwrap();
+
+        if (response.results && response.results.length > 0) {
+          setUserRoles(response.results);
+          if (response.results.length === 1) {
+            // If only one role, use it directly
+            await sendOtp(response.results[0].role);
+          } else {
+            // If multiple roles, wait for selection
+            setStep("roleSelect");
+            return;
+          }
+        } else {
+          toast("No roles found for this user");
+          return;
+        }
+      } catch (error) {
+        toast(`Error fetching roles: ${JSON.stringify(error, null, 2)}`);
+        return;
+      }
+    } else {
+      await sendOtp(formData.role);
+    }
+  };
+
+  const sendOtp = async (selectedRole: string) => {
+    try {
+      const response = await send_otp({
+        phone: formData.phoneNumber,
+        role: selectedRole,
+        schoolId: formData.schoolId,
+      }).unwrap();
+      // console.log(response)
+      toast.success("otp send successfully");
+      if (response) {
+        router.push(
+          `/forgot-password?phone=${formData.phoneNumber}&role=${selectedRole}&schoolId=${formData.schoolId}`
+        );
+      }
+    } catch (error) {
+      toast.error("Failed to send OTP. Please try again.");
+      console.error("Error sending OTP:", error);
     }
   };
 
   return (
     <>
       {!showForgotPassword ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={
+            role === "user" && step === "initial"
+              ? handleInitialSubmit
+              : handleSubmit
+          }
+          className="space-y-4"
+        >
           <div className="space-y-2">
             <label className="text-sm text-gray-700">Phone Number</label>
             <Input
@@ -87,44 +193,46 @@ const LoginForm: React.FC<LoginFormProps> = ({
             />
           </div>
 
-          {role !== "user" && (
-            <>
-              <div className="space-y-2">
-                <label className="text-sm text-gray-700">School ID</label>
-                <Input
-                  type="text"
-                  name="schoolId"
-                  value={formData.schoolId}
-                  onChange={handleChange}
-                  placeholder="Enter your School ID"
-                  className="w-full"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-gray-700">Password</label>
-                <Input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="w-full"
-                  required
-                />
-              </div>
-            </>
+          <div className="space-y-2">
+            <label className="text-sm text-gray-700">School ID</label>
+            <Input
+              type="text"
+              name="schoolId"
+              value={formData.schoolId}
+              onChange={handleChange}
+              placeholder="Enter your School ID"
+              className="w-full"
+              required
+            />
+          </div>
+
+          {role === "user" && step === "roleSelect" && (
+            <div className="space-y-2">
+              <label className="text-sm text-gray-700">Select Role</label>
+              <Select onValueChange={handleRoleChange} value={formData.role}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select your role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {userRoles.map((roleOption, index) => (
+                    <SelectItem key={index} value={roleOption.role}>
+                      {roleOption.role}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           )}
 
-          {role === "user" && (
+          {(role !== "user" || step === "roleSelect") && (
             <div className="space-y-2">
-              <label className="text-sm text-gray-700">School ID</label>
+              <label className="text-sm text-gray-700">Password</label>
               <Input
-                type="text"
-                name="schoolId"
-                value={formData.schoolId}
+                type="password"
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your School ID"
+                placeholder="Enter your password"
                 className="w-full"
                 required
               />
@@ -146,7 +254,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
             type="submit"
             className="w-full bg-gradient-to-r from-blue-600 to-blue-400 text-white"
           >
-            Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}
+            {role === "user" && step === "initial"
+              ? "Continue"
+              : `Sign In as ${
+                  formData.role.charAt(0).toUpperCase() + formData.role.slice(1)
+                }`}
           </Button>
         </form>
       ) : (
@@ -155,6 +267,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             <label className="text-sm text-gray-700">Phone Number</label>
             <Input
               type="tel"
+              name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Enter your phone number"
@@ -162,12 +275,47 @@ const LoginForm: React.FC<LoginFormProps> = ({
               required
             />
           </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-700">School ID</label>
+            <Input
+              type="text"
+              name="schoolId"
+              value={formData.schoolId}
+              onChange={handleChange}
+              placeholder="Enter your School ID"
+              className="w-full"
+              required
+            />
+          </div>
+
+          {role === "user" && step === "roleSelect" && userRoles.length > 1 && (
+            <div className="space-y-2">
+              <label className="text-sm text-gray-700">Select Role</label>
+              <Select onValueChange={handleRoleChange} value={formData.role}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select your role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {userRoles.map((roleOption, index) => (
+                    <SelectItem key={index} value={roleOption.role}>
+                      {roleOption.role}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
           <div className="flex justify-between items-center pt-2">
             <Button
               type="button"
               variant="link"
               className="text-blue-600 text-sm"
-              onClick={() => setShowForgotPassword(false)}
+              onClick={() => {
+                setShowForgotPassword(false);
+                setStep("initial");
+              }}
             >
               Back to Login
             </Button>
@@ -184,6 +332,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   );
 };
 
+// Rest of the components (LoginHeader and LoginPage) remain the same
 const LoginHeader: React.FC<{ role: Role }> = ({ role }) => (
   <CardHeader className="space-y-6">
     <div className="flex justify-center">
@@ -204,7 +353,18 @@ const LoginPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = React.useState<Role>("school");
 
   const handleLoginSubmit = async (data: LoginFormData) => {
-    router.push("/dashboard/student");
+    const { phoneNumber, password, schoolId, role } = data;
+    try {
+      const resp = await login({
+        role,
+        phone: phoneNumber,
+        password: password,
+        schoolId,
+      }).unwrap();
+      router.push("/dashboard/student");
+    } catch (error) {
+      toast(`${JSON.stringify(error, null, 2)}`);
+    }
   };
 
   return (

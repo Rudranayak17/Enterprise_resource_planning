@@ -22,7 +22,7 @@ export const getToken = (): string | null => {
 // Base query with token preparation
 const baseQuery = fetchBaseQuery({
   baseUrl: SERVER_URL as string,
-  credentials: "include", // Ensures cookies are sent if needed
+
   prepareHeaders: (headers) => {
     const token = getToken();
     if (token) {

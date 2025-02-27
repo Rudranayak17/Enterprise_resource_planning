@@ -4,7 +4,7 @@ import "./globals.css";
 
 import { Inter } from "next/font/google";
 import { ThemesProviders } from "./providers";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
 
