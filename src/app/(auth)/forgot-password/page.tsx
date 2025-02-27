@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useReset_passwordMutation } from "@/provider/api/auth";
+import { toast } from "sonner";
 
 const ForgotPasswordPage = () => {
   const searchParams = useSearchParams();
@@ -42,6 +43,7 @@ const ForgotPasswordPage = () => {
         }).unwrap();
 
         console.log("Password reset successful:", response);
+        toast.success("password updated successfully")
        
         router.push("/login");
       } catch (error) {

@@ -20,6 +20,20 @@ export const authApiSlice = apiWithTag.injectEndpoints({
         };
       },
     }),
+    upload_File: builder.mutation({
+      query: (credentials) => {
+        console.log(credentials);
+        return {
+          url: `/api/v1/upload-multiple`,
+
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: credentials,
+        };
+      },
+    }),
     role_by_phone: builder.mutation({
       query: (credentials) => {
         const { phone, schoolId } = credentials;
@@ -35,11 +49,28 @@ export const authApiSlice = apiWithTag.injectEndpoints({
         };
       },
     }),
+
+    master_user: builder.query({
+      query: (credentials) => {
+        const { pageSize } = credentials;
+        return {
+          url: `/api/v1/get-User?limit=${pageSize}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
     send_otp: builder.mutation({
       query: (credentials) => {
         const { phone, schoolId } = credentials;
-        console.log(credentials)
-        console.log(schoolId)
+        console.log(credentials);
+        console.log(schoolId);
         return {
           url: `/api/v1/send-otp`,
 
@@ -55,8 +86,8 @@ export const authApiSlice = apiWithTag.injectEndpoints({
     reset_password: builder.mutation({
       query: (credentials) => {
         const { phone, schoolId } = credentials;
-        console.log(credentials)
-        console.log(schoolId)
+        console.log(credentials);
+        console.log(schoolId);
         return {
           url: `/api/v1/reset-password`,
 
@@ -73,4 +104,11 @@ export const authApiSlice = apiWithTag.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useLoginMutation,useRole_by_phoneMutation,useSend_otpMutation ,useReset_passwordMutation} = authApiSlice;
+export const {
+  useLoginMutation,
+  useRole_by_phoneMutation,
+  useSend_otpMutation,
+  useReset_passwordMutation,
+  useMaster_userQuery,
+  useUpload_FileMutation
+} = authApiSlice;

@@ -361,6 +361,11 @@ const LoginPage: React.FC = () => {
         password: password,
         schoolId,
       }).unwrap();
+      console.log("hello",resp)
+      
+      localStorage.setItem("userDetail",resp.data)
+      localStorage.setItem("token",resp.data.token)
+      localStorage.setItem("schoolid",schoolId!)
       router.push("/dashboard/student");
     } catch (error) {
       toast(`${JSON.stringify(error, null, 2)}`);
