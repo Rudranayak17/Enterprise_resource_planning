@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useReset_passwordMutation } from "@/provider/api/auth";
 import { toast } from "sonner";
 
-// Component that uses useSearchParams
+
 function ForgotPasswordContent() {
   const searchParams = useSearchParams();
   const phone = searchParams.get("phone") || "";
