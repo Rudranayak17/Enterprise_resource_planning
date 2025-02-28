@@ -7,7 +7,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -23,6 +23,7 @@ function ForgotPasswordContent() {
   const schoolId = searchParams.get("schoolId") || "";
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [resetPassword, { isLoading }] = useReset_passwordMutation();
 
@@ -54,6 +55,10 @@ function ForgotPasswordContent() {
   const navigateToLogin = (e: React.FormEvent) => {
     e.preventDefault();
     router.push("/login");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -100,13 +105,28 @@ function ForgotPasswordContent() {
               <label className="text-sm text-gray-700 block text-center">
                 New Password
               </label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter new password"
-                className="h-12 text-lg"
-              />
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter new password"
+                  className="h-12 text-lg pr-10"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-500" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-500" />
+                  )}
+                </Button>
+              </div>
             </div>
 
             <Button
