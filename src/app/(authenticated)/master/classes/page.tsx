@@ -35,28 +35,55 @@ import {
 } from "@/components/ui/pagination";
 import { Download, MoreVertical, Plus } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useMaster_classQuery } from "@/provider/api/auth";
 
-const classData = Array.from({ length: 15 }, (_, index) => ({
-  id: index + 1,
-  className: "LKG",
-}));
+const SkeletonRow = () => (
+  <TableRow>
+    <TableCell className="w-[80px] p-4 text-center">
+      <div className="h-4 w-8 mx-auto bg-gray-200 animate-pulse rounded"></div>
+    </TableCell>
+    <TableCell className="w-[200px] p-4">
+      <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
+    </TableCell>
+    <TableCell className="w-[120px] p-4">
+      <div className="h-4 w-16 mx-auto bg-gray-200 animate-pulse rounded"></div>
+    </TableCell>
+  </TableRow>
+);
 
 const ClassTable = () => {
   const [mounted, setMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { resolvedTheme } = useTheme();
+  const { data, isLoading, isError } = useMaster_classQuery({
+    page: currentPage,
+    pageSize: itemsPerPage,
+  });
+  const [classData, setClassData] = useState([]);
+
+  const jsonData = data || {
+    data: [],
+    page: 1,
+    totalPages: 1,
+    total: 0,
+    pageSize: 10,
+    filters: {},
+  };
+  // let isLoading=true
+  const totalItems = jsonData.total;
+  const totalPages = jsonData.totalPages;
+  const paginatedData = jsonData.data;
+
+  useEffect(() => {
+    if (data) {
+      setClassData(data.data);
+    }
+  }, [data]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const totalItems = classData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const paginatedData = classData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   if (!mounted) return null;
 
@@ -123,9 +150,15 @@ const ClassTable = () => {
                     : "text-black border-b-gray-200"
                 }
               >
-                <TableHead className="w-[80px] text-xs p-4 text-center">S.No.</TableHead>
-                <TableHead className="w-[200px] text-xs p-4 text-center">Class Name</TableHead>
-                <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
+                <TableHead className="w-[80px] text-xs p-4 text-center">
+                  S.No.
+                </TableHead>
+                <TableHead className="w-[200px] text-xs p-4 text-center">
+                  Class Name
+                </TableHead>
+                <TableHead className="w-[120px] text-xs p-4 text-center">
+                  Action
+                </TableHead>
               </TableRow>
             </TableHeader>
           </Table>
@@ -135,79 +168,115 @@ const ClassTable = () => {
         <div className="max-h-[calc(100vh-280px)] overflow-auto">
           <Table>
             <TableBody>
-              {paginatedData.map((classItem) => (
-                <TableRow
-                  key={classItem.id}
-                  className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
-                >
-                  <TableCell className="w-[80px] p-4 text-sm text-center">
-                    {classItem.id}
-                  </TableCell>
-                  <TableCell className="w-[200px] p-4 text-sm font-medium text-center">
-                    {classItem.className}
-                  </TableCell>
-                  <TableCell className="w-[120px] p-4 text-sm text-center">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="mx-auto flex">
-                          <MoreVertical className="h-4 w-4 text-gray-500" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => console.log(`View ${classItem.id}`)}>
-                          View
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => console.log(`Delete ${classItem.id}`)}
-                          className="text-red-600"
-                        >
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+              {isLoading ? (
+                // Display 5 skeleton rows while loading
+                Array.from({ length: 10 }).map((_, index) => (
+                  <SkeletonRow key={index} />
+                ))
+              ) : isError ? (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center p-4">
+                    Error loading data
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : paginatedData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center p-4">
+                    No classes found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedData.map((classItem: any, index: number) => (
+                  <TableRow
+                    key={classItem.id}
+                    className={`${
+                      isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"
+                    }`}
+                  >
+                    <TableCell className="w-[80px] p-4 text-sm text-center">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell className="w-[200px] p-4 text-sm font-medium text-center">
+                      {classItem.class_name}
+                    </TableCell>
+                    <TableCell className="w-[120px] p-4 text-sm text-center">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="mx-auto flex"
+                          >
+                            <MoreVertical className="h-4 w-4 text-gray-500" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={() => console.log(`View ${classItem.id}`)}
+                          >
+                            View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              console.log(`Delete ${classItem.id}`)
+                            }
+                            className="text-red-600"
+                          >
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex items-center justify-between">
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+      {!isLoading && !isError && paginatedData.length > 0 && (
+        <div className="mt-4 flex items-center justify-between">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+            entries
+          </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                />
+              </PaginationItem>
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const pageNum = i + 1;
+                return (
+                  <PaginationItem key={pageNum}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(pageNum)}
+                      isActive={currentPage === pageNum}
+                    >
+                      {pageNum}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              {totalPages > 5 && <PaginationEllipsis />}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              />
-            </PaginationItem>
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const pageNum = i + 1;
-              return (
-                <PaginationItem key={pageNum}>
-                  <PaginationLink
-                    onClick={() => setCurrentPage(pageNum)}
-                    isActive={currentPage === pageNum}
-                  >
-                    {pageNum}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            {totalPages > 5 && <PaginationEllipsis />}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      )}
     </div>
   );
 };

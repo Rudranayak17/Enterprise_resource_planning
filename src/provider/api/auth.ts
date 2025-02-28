@@ -52,9 +52,149 @@ export const authApiSlice = apiWithTag.injectEndpoints({
 
     master_user: builder.query({
       query: (credentials) => {
-        const { pageSize } = credentials;
+        const { pageSize, page } = credentials;
         return {
-          url: `/api/v1/get-User?limit=${pageSize}`,
+          url: `/api/v1/get-User?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+    master_class: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-class?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
+    get_user_session: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-user_session?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
+    master_get_bus: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-Bus?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
+    get_student_fee: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-student_fee?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+    master_get_session: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-session?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
+    sub_fee_type: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-Bus?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+    get_Subject: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-Subject?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+
+    get_class_session_fee: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-class_session_fee?limit=${pageSize}&page=${page}`,
+
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // "x-tenant-id": credentials.schoolId,
+          },
+          // body: credentials,
+        };
+      },
+    }),
+    get_period: builder.query({
+      query: (credentials) => {
+        const { pageSize, page } = credentials;
+        return {
+          url: `/api/v1/get-period?limit=${pageSize}&page=${page}`,
 
           method: "GET",
           headers: {
@@ -110,5 +250,14 @@ export const {
   useSend_otpMutation,
   useReset_passwordMutation,
   useMaster_userQuery,
-  useUpload_FileMutation
+  useMaster_classQuery,
+  useUpload_FileMutation,
+  useMaster_get_busQuery,
+  useSub_fee_typeQuery,
+  useMaster_get_sessionQuery,
+  useGet_class_session_feeQuery,
+  useGet_student_feeQuery,
+  useGet_SubjectQuery,
+  useGet_user_sessionQuery,
+  useGet_periodQuery
 } = authApiSlice;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input";
 import { useReset_passwordMutation } from "@/provider/api/auth";
 import { toast } from "sonner";
 
-const ForgotPasswordPage = () => {
+// Component that uses useSearchParams
+function ForgotPasswordContent() {
   const searchParams = useSearchParams();
   const phone = searchParams.get("phone") || "";
   const role = searchParams.get("role") || "";
@@ -32,9 +33,6 @@ const ForgotPasswordPage = () => {
     if (otp.length === 4 && /^\d{4}$/.test(otp) && password.length > 0) {
       try {
         const response = await resetPassword({
-
-
-          
           phone,
           otp,
           role,
@@ -43,16 +41,13 @@ const ForgotPasswordPage = () => {
         }).unwrap();
 
         console.log("Password reset successful:", response);
-        toast.success("password updated successfully")
-       
+        toast.success("Password updated successfully");
         router.push("/login");
       } catch (error) {
         console.error("Password reset failed:", error);
-       
       }
     } else {
       console.log("Please enter a valid 4-digit OTP and a password");
-
     }
   };
 
@@ -142,6 +137,15 @@ const ForgotPasswordPage = () => {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+
+const ForgotPasswordPage = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ForgotPasswordContent />
+    </Suspense>
   );
 };
 

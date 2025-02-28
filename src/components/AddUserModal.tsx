@@ -26,49 +26,77 @@ import { useUpload_FileMutation } from "@/provider/api/auth";
 
 // Define the type for form data
 interface FormData {
-    branch_id?: number; // Optional if not always required
-    name: string;
-    gender: "Male" | "Female";
-    role: string;
-    user_type: string;
-    photo: string;
-    phone: string;
-    password: string;
-    email: string;
-    driving_license?: string;
-    dl_expiry_date?: string;
-    address: string;
-    country: string;
-    state: string;
-    city: string;
-    pincode: string;
-    qualification: string;
-    aadhar_no: string;
-    is_active?: boolean;
-    is_deleted?: boolean;
-    casual_leave: number;
-    sick_leave: number;
-    paid_leave: number;
-    medical_leave: number;
-    bank_name: string;
-    bank_branch: string;
-    bank_account_no: string; 
-    ifsc_code: string;
-    bank_account_type: "SAVINGS" | "CURRENT"; 
+  branch_id?: number; // Optional if not always required
+  name: string;
+  gender: "Male" | "Female";
+  role: string;
+  user_type: string;
+  photo: string;
+  phone: string;
+  password: string;
+  email: string;
+  driving_license?: string;
+  dl_expiry_date?: string;
+  address: string;
+  country: string;
+  state: string;
+  city: string;
+  pincode: string;
+  qualification: string;
+  aadhar_no: string;
+  is_active?: boolean;
+  is_deleted?: boolean;
+  casual_leave: number;
+  sick_leave: number;
+  paid_leave: number;
+  medical_leave: number;
+  bank_name: string;
+  bank_branch: string;
+  bank_account_no: string;
+  ifsc_code: string;
+  bank_account_type: "SAVINGS" | "CURRENT";
 }
 
 // Validation schema using yup
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
-  email: yup
-    .string()
-    .required("Email is required")
-    .email("Email is invalid"),
+  email: yup.string().required("Email is required").email("Email is invalid"),
   phone: yup.string().required("Phone is required"),
   password: yup
     .string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters"),
+  branch_id: yup.number().optional(),
+  gender: yup
+    .mixed<"Male" | "Female">()
+    .oneOf(["Male", "Female"])
+    .required("Gender is required"),
+  role: yup.string().required("Role is required"),
+  user_type: yup.string().required("User type is required"),
+  photo: yup.string().required("Photo is required"),
+  driving_license: yup.string().optional(),
+  dl_expiry_date: yup.string().optional(),
+  address: yup.string().required("Address is required"),
+  country: yup.string().required("Country is required"),
+  state: yup.string().required("State is required"),
+  city: yup.string().required("City is required"),
+  pincode: yup.string().required("Pincode is required"),
+  qualification: yup.string().required("Qualification is required"),
+  aadhar_no: yup.string().required("Aadhar number is required"),
+  is_active: yup.boolean().optional(),
+  is_deleted: yup.boolean().optional(),
+  casual_leave: yup.number().required("Casual leave is required"),
+  sick_leave: yup.number().required("Sick leave is required"),
+  paid_leave: yup.number().required("Paid leave is required"),
+  medical_leave: yup.number().required("Medical leave is required"),
+  bank_name: yup.string().required("Bank name is required"),
+  bank_branch: yup.string().required("Bank branch is required"),
+  bank_account_no: yup.string().required("Bank account number is required"),
+  ifsc_code: yup.string().required("IFSC code is required"),
+  bank_account_type: yup
+    .mixed<"SAVINGS" | "CURRENT">()
+    .oneOf(["SAVINGS", "CURRENT"])
+    .required("Bank account type is required"),
 });
 
 interface AddUserModalProps {
@@ -115,9 +143,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       medical_leave: 3,
       bank_name: "",
       bank_branch: "",
-      account_no: "",
+      bank_account_no: "",
       ifsc_code: "",
-      account_type: "SAVINGS",
+      bank_account_type: "SAVINGS",
     },
   });
 
@@ -140,7 +168,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 
       const response = await uploadFile(formData).unwrap(); // Assuming this returns the API response
       const imageUrl = response.files[0].location; // Extract the URL from the response
-      console.log(imageUrl)
+      console.log(imageUrl);
       return imageUrl;
     } catch (error) {
       console.error("Image upload failed:", error);
@@ -215,10 +243,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
                 name="gender"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -416,7 +441,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             <div className="space-y-2">
               <Label htmlFor="account_no">Account No</Label>
               <Controller
-                name="account_no"
+                name="bank_account_no"
                 control={control}
                 render={({ field }) => <Input id="account_no" {...field} />}
               />
@@ -432,13 +457,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             <div className="space-y-2">
               <Label htmlFor="account_type">Account Type</Label>
               <Controller
-                name="account_type"
+                name="bank_account_type"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

@@ -34,10 +34,11 @@ import {
 } from "@/components/ui/pagination";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Download, MoreVertical, Plus } from "lucide-react";
+import { Switch } from "@/components/ui/switch"; // Add Switch import
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import AddUserModal from "@/components/AddUserModal";
-import { useMaster_userQuery } from "@/provider/api/auth";
+import { useGet_user_sessionQuery } from "@/provider/api/auth";
 
 // Skeleton Loader Component
 const SkeletonRow = () => (
@@ -45,24 +46,13 @@ const SkeletonRow = () => (
     <TableCell className="w-[80px] p-4 text-center">
       <div className="w-20 h-20 mx-auto bg-gray-200 animate-pulse rounded-full"></div>
     </TableCell>
-    <TableCell className="w-[180px] p-4">
-      <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
-    <TableCell className="w-[180px] p-4">
-      <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
-    <TableCell className="w-[180px] p-4">
-      <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
-    <TableCell className="w-[250px] p-4">
-      <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
-    <TableCell className="w-[120px] p-4">
-      <div className="h-4 w-16 mx-auto bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
-    <TableCell className="w-[120px] p-4">
-      <div className="h-4 w-8 mx-auto bg-gray-200 animate-pulse rounded"></div>
-    </TableCell>
+    {Array(7)
+      .fill(0)
+      .map((_, index) => (
+        <TableCell key={index} className="p-4">
+          <div className="h-4 bg-gray-200 animate-pulse rounded"></div>
+        </TableCell>
+      ))}
   </TableRow>
 );
 
@@ -73,7 +63,7 @@ const StaffTable = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { resolvedTheme } = useTheme();
 
-  const { data, isLoading, isError } = useMaster_userQuery({
+  const { data, isLoading, isError } = useGet_user_sessionQuery({
     page: currentPage,
     pageSize: itemsPerPage,
   });
@@ -97,6 +87,11 @@ const StaffTable = () => {
 
   const handleAddUser = (newUser: any) => {
     console.log("New user added:", newUser);
+  };
+
+  const handleStatusChange = (staffId: string, currentStatus: boolean) => {
+    console.log(`Status changed for staff ${staffId} to ${!currentStatus}`);
+    // Add your status update logic here (e.g., API call)
   };
 
   const handlePageSizeChange = (value: string) => {
@@ -170,13 +165,33 @@ const StaffTable = () => {
                   : "text-black border-b-gray-200"
               }
             >
-              <TableHead className="w-[80px] text-xs p-4 text-center">Photo</TableHead>
-              <TableHead className="w-[180px] text-xs p-4 text-center">Name</TableHead>
-              <TableHead className="w-[180px] text-xs p-4 text-center">Role/Type</TableHead>
-              <TableHead className="w-[180px] text-xs p-4 text-center">Email/Phone No.</TableHead>
-              <TableHead className="w-[250px] text-xs p-4 text-center">Address</TableHead>
-              <TableHead className="w-[120px] text-xs p-4 text-center">Status</TableHead>
-              <TableHead className="w-[120px] text-xs p-4 text-center">Action</TableHead>
+              <TableHead className="w-[80px] text-xs p-2 text-center">
+                Photo
+              </TableHead>
+              <TableHead className="w-[180px] text-xs p-4 text-center">
+                Name
+              </TableHead>
+              <TableHead className="w-[180px] text-xs p-4 text-center">
+                Role/Type
+              </TableHead>
+              <TableHead className="w-[180px] text-xs p-4 text-center">
+                Email/Phone No.
+              </TableHead>
+              <TableHead className="w-[150px] text-xs p-4 text-center">
+                Session
+              </TableHead>
+              <TableHead className="w-[150px] text-xs p-4 text-center">
+                Salary
+              </TableHead>
+              <TableHead className="w-[250px] text-xs p-4 text-center">
+                Address
+              </TableHead>
+              <TableHead className="w-[120px] text-xs p-4 text-center">
+                Status
+              </TableHead>
+              <TableHead className="w-[120px] text-xs p-4 text-center">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
         </Table>
@@ -189,13 +204,16 @@ const StaffTable = () => {
                 ))
               ) : isError ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="p-4 text-center text-red-600">
+                  <TableCell
+                    colSpan={9}
+                    className="p-4 text-center text-red-600"
+                  >
                     Error loading data
                   </TableCell>
                 </TableRow>
               ) : paginatedData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="p-4 text-center">
+                  <TableCell colSpan={9} className="p-4 text-center">
                     No staff found
                   </TableCell>
                 </TableRow>
@@ -203,46 +221,74 @@ const StaffTable = () => {
                 paginatedData.map((staff: any) => (
                   <TableRow
                     key={staff.id}
-                    className={`${isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"}`}
+                    className={`${
+                      isDarkTheme ? "hover:bg-gray-800" : "hover:bg-gray-50"
+                    }`}
                   >
                     <TableCell className="w-[80px] p-2 text-sm text-center">
-                      <div className="w-20 h-20 overflow-hidden rounded-full border mx-auto">
+                      <div className="w-15 h-15 overflow-hidden rounded-full border mx-auto">
                         <Image
                           src={"/placeholder-avatar.jpg"}
-                          alt={`${staff.name}'s photo`}
-                          width={100}
-                          height={100}
+                          alt={`${staff.id}'s photo`}
+                          width={55}
+                          height={55}
                           className="rounded-full object-cover"
                         />
                       </div>
                     </TableCell>
                     <TableCell className="w-[180px] p-4 text-sm font-medium text-center">
-                      {staff.name}
+                      {staff.User.name}
                     </TableCell>
                     <TableCell className="w-[180px] p-4 text-sm text-center">
-                      {staff.user_type === "OTHERS" ? staff.role : `${staff.user_type} ${staff.role}`}
+                      <p>{staff.user_type || "N/A"}</p>
+                      <p className="text-xs text-blue-600">
+                        {staff.role || "N/A"}
+                      </p>
                     </TableCell>
                     <TableCell className="w-[180px] p-4 text-sm text-center">
-                      <p>{staff.email}</p>
-                      <p className="text-xs text-blue-600">{staff.phone}</p>
+                      <p>{staff.User.email || "N/A"}</p>
+                      <p className="text-xs text-blue-600">
+                        {staff.User.phone}
+                      </p>
+                    </TableCell>
+                    <TableCell className="w-[150px] p-4 text-sm text-center">
+                      {staff.session || "2024-2025"}{" "}
+                      {/* Default value if not available */}
+                    </TableCell>
+                    <TableCell className="w-[150px] p-4 text-sm text-center">
+                      {staff.salery
+                        ? `Rs ${staff.salery.toLocaleString()}`
+                        : "N/A"}
                     </TableCell>
                     <TableCell className="w-[250px] p-4 text-sm text-center">
-                      {staff.address}, {staff.city}, {staff.state}, {staff.country}
+                      {staff.User.address}
                     </TableCell>
                     <TableCell className="w-[120px] p-4 text-sm text-center">
-                      <span className={staff.is_active ? "text-green-600" : "text-red-600"}>
-                        {staff.is_active ? "Active" : "Inactive"}
-                      </span>
+                      <Switch
+                        checked={staff.is_active}
+                        onCheckedChange={() =>
+                          handleStatusChange(staff.id, staff.is_active)
+                        }
+                        className={`${
+                          staff.is_active ? "bg-green-600" : "bg-gray-200"
+                        }`}
+                      />
                     </TableCell>
                     <TableCell className="w-[120px] p-4 text-sm text-center">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="mx-auto flex">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="mx-auto flex"
+                          >
                             <MoreVertical className="h-4 w-4 text-gray-500" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => console.log(`View ${staff.id}`)}>
+                          <DropdownMenuItem
+                            onClick={() => console.log(`View ${staff.id}`)}
+                          >
                             View
                           </DropdownMenuItem>
                           <DropdownMenuItem
@@ -266,7 +312,8 @@ const StaffTable = () => {
       <div className="mt-4 flex items-center justify-between">
         <div className="text-sm text-gray-500 dark:text-gray-400">
           Showing {(currentPage - 1) * itemsPerPage + 1}-
-          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+          {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}
+          entries
         </div>
         {totalPages > 1 && (
           <Pagination>
@@ -277,21 +324,25 @@ const StaffTable = () => {
                   onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 />
               </PaginationItem>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    href="#"
-                    isActive={currentPage === page}
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      isActive={currentPage === page}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
               <PaginationItem>
                 <PaginationNext
                   href="#"
-                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                  onClick={() =>
+                    handlePageChange(Math.min(totalPages, currentPage + 1))
+                  }
                 />
               </PaginationItem>
             </PaginationContent>
